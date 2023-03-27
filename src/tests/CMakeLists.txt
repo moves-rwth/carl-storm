@@ -14,11 +14,8 @@ add_subdirectory(numbers)
 add_subdirectory(core)
 add_subdirectory(formula)
 add_subdirectory(cad)
-add_subdirectory(groebner)
 add_subdirectory(interval)
 add_subdirectory(benchmarks)
-add_subdirectory(pycarl)
-#add_subdirectory(jcarl)
 # Only for debugging.
 #add_subdirectory(debug)
 
