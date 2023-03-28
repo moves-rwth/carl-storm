@@ -297,11 +297,13 @@ public:
 		return this->template add<false>(rhs);
 	}
 
+	template<typename P = Pol, DisableIf<needs_cache<P>> = dummy>
 	RationalFunction& operator+=(const Term<CoeffType>& rhs) {
 		auto tmp = Pol(rhs);
 		return this->template add<false>(tmp);
 	}
 
+	template<typename P = Pol, DisableIf<needs_cache<P>> = dummy>
 	RationalFunction& operator+=(const Monomial::Arg& rhs) {
 		auto tmp = Pol(rhs);
 		return this->template add<false>(tmp);
@@ -332,10 +334,12 @@ public:
 		return this->template add<true>(rhs);
 	}
 
+	template<typename P = Pol, DisableIf<needs_cache<P>> = dummy>
 	RationalFunction& operator-=(const Term<CoeffType>& rhs) {
 		return (*this -= Pol(rhs));
 	}
 
+	template<typename P = Pol, DisableIf<needs_cache<P>> = dummy>
 	RationalFunction& operator-=(const Monomial::Arg& rhs) {
 		return (*this -= Pol(rhs));
 	}
@@ -359,9 +363,13 @@ public:
 	 */
 	RationalFunction& operator*=(const RationalFunction& rhs);
 	RationalFunction& operator*=(const Pol& rhs);
+
+	template<typename P = Pol, DisableIf<needs_cache<P>> = dummy>
 	RationalFunction& operator*=(const Term<CoeffType>& rhs) {
 		return (*this *= Pol(rhs));
 	}
+
+	template<typename P = Pol, DisableIf<needs_cache<P>> = dummy>
 	RationalFunction& operator*=(const Monomial::Arg& rhs) {
 		return (*this *= Pol(rhs));
 	}
@@ -378,9 +386,13 @@ public:
 	 */
 	RationalFunction& operator/=(const RationalFunction& rhs);
 	RationalFunction& operator/=(const Pol& rhs);
+
+	template<typename P = Pol, DisableIf<needs_cache<P>> = dummy>
 	RationalFunction& operator/=(const Term<CoeffType>& rhs) {
 		return (*this /= Pol(rhs));
 	}
+
+	template<typename P = Pol, DisableIf<needs_cache<P>> = dummy>
 	RationalFunction& operator/=(const Monomial::Arg& rhs) {
 		return (*this /= Pol(rhs));
 	}
