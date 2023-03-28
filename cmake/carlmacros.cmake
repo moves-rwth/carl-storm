@@ -5,9 +5,9 @@
 #
 # This file contains several macros which are used in this project. Notice that several are copied straight from web ressources.
 
-function(set_version major minor)
+function(set_version major minor patch)
 	set(patch "")
-	message(STATUS "Using version default ${major}.${minor}")
+	message(STATUS "Using version ${major}.${minor}.${patch}")
 	
 	set(PROJECT_VERSION_MAJOR ${major} PARENT_SCOPE)
 	set(PROJECT_VERSION_MINOR ${minor} PARENT_SCOPE)
