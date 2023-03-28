@@ -15,12 +15,12 @@
 
 #include "config.h"
 
-#include "carlLogging.h"
-
+#include "../io/streamingOperators.h"
 namespace carl {
 namespace logging {
 
-#if defined LOGGING
+#if defined CARL_LOGGING
+#include "carlLogging.h"
 	#define CARL_LOGGING_ENABLED
 	#define CARL_LOG_FATAL(channel, msg) __CARL_LOG_FATAL(channel, msg)
 	#define CARL_LOG_ERROR(channel, msg) __CARL_LOG_ERROR(channel, msg)

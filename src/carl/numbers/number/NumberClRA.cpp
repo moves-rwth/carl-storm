@@ -7,6 +7,7 @@
 #include <boost/numeric/interval/policies.hpp>
 #include <boost/numeric/interval/arith2.hpp>
 #include <boost/numeric/interval/checking.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include <limits>
 
