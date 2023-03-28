@@ -8,7 +8,7 @@
 #pragma once
 
 #include <iostream>
-#include "../numbers/typetraits.h"
+#include "../numbers/numbers.h"
 #include "../util/Cache.h"
 #include "DivisionResult.h"
 #include "PolynomialFactorizationPair.h"
@@ -265,6 +265,11 @@ namespace carl
             return mpCache == nullptr;
         }
 
+		bool isConsistent() const
+		{
+			return polynomial().isConsistent();
+		}
+
         /**
          * @return true, if the factorized polynomial is one.
          */
@@ -280,9 +285,9 @@ namespace carl
         {
             return isConstant() && carl::isZero(mCoefficient);
         }
-        
+
         /**
-         * Calculates the number of terms. (Note, that this requires to expand the factorization and, thus, can be expensive in the case that 
+         * Calculates the number of terms. (Note, that this requires to expand the factorization and, thus, can be expensive in the case that
          * the factorization has not yet been expanded.)
          * @return the number of terms
          */
@@ -290,9 +295,9 @@ namespace carl
         {
             return polynomial().nrTerms();
         }
-        
+
         /**
-         * @return A rough estimation of the size of this factorized polynomial. If it has already been expanded, the number of terms 
+         * @return A rough estimation of the size of this factorized polynomial. If it has already been expanded, the number of terms
          *         of the expanded form are returned; otherwise the number of terms in the factors.
          */
         size_t size() const
@@ -308,7 +313,7 @@ namespace carl
             }
             return 1;
         }
-        
+
         /**
          * @return An approximation of the complexity of this polynomial.
          */
@@ -325,7 +330,7 @@ namespace carl
             }
             return 1;
         }
-        
+
         /**
          * Checks if the polynomial is linear.
          * @return If this is linear.
@@ -340,9 +345,9 @@ namespace carl
             }
             return true;
         }
-        
+
         /**
-         * @return The lcm of the denominators of the coefficients in p divided by the gcd of numerators 
+         * @return The lcm of the denominators of the coefficients in p divided by the gcd of numerators
          *		 of the coefficients in p.
          */
         template<typename C = CoeffType, EnableIf<is_subset_of_rationals<C>> = dummy>
@@ -350,9 +355,9 @@ namespace carl
         {
             return constant_one<CoeffType>::get()/mCoefficient;
         }
-        
+
         /**
-         * @return The lcm of the denominators of the coefficients (without the constant one) in p divided by the gcd of numerators 
+         * @return The lcm of the denominators of the coefficients (without the constant one) in p divided by the gcd of numerators
          *		 of the coefficients in p.
          */
         template<typename C = CoeffType, EnableIf<is_subset_of_rationals<C>> = dummy>
@@ -372,15 +377,15 @@ namespace carl
             }
             return FactorizedPolynomial<P>( constant_one<CoeffType>::get() );
         }
-        
+
         /**
          * @return true, if this factorized polynomial, has only itself as factor.
-         */ 
+         */
         bool factorizedTrivially() const
         {
             return content().factorizedTrivially();
         }
-        
+
         /**
          * Iterates through all factors and their terms to find variables occurring in this polynomial.
          * @param vars Holds the variables occurring in the polynomial at return.
@@ -391,20 +396,20 @@ namespace carl
                 return;
             content().gatherVariables( _vars );
         }
-        
+
         std::set<Variable> gatherVariables() const
         {
             std::set<Variable> vars;
             gatherVariables(vars);
             return vars;
         }
-        
+
         /**
          * Retrieves the constant term of this polynomial or zero, if there is no constant term.
          * @reiturn Constant term.
          */
         CoeffType constantPart() const;
-        
+
         /**
          * Calculates the max. degree over all monomials occurring in the polynomial.
          * As the degree of the zero polynomial is \f$-\infty\f$, we assert that this polynomial is not zero. This must be checked by the caller before calling this method.
@@ -412,64 +417,64 @@ namespace carl
          * @return Total degree.
          */
         size_t totalDegree() const;
-        
+
         /**
          * Returns the coefficient of the leading term.
-         * Notice that this is not defined for zero polynomials. 
-         * @return 
+         * Notice that this is not defined for zero polynomials.
+         * @return
          */
         CoeffType lcoeff() const;
-        
+
         /**
 	     * The leading term
-	     * @return 
+	     * @return
 	     */
 	    TermType lterm() const;
-        
+
         /**
          * Gives the last term according to Ordering. Notice that if there is a constant part, it is always trailing.
-         * @return 
+         * @return
          */
         TermType trailingTerm() const;
-        
+
         /**
          * For terms with exactly one variable, get this variable.
          * @return The only variable occuring in the term.
          */
         Variable getSingleVariable() const
-        { 
+        {
             assert( existsFactorization( *this ) );
             if( factorizedTrivially() )
                 return polynomial().getSingleVariable();
             return content().factorization().begin()->first.getSingleVariable();
         }
-        
+
         /**
          * Checks whether only one variable occurs.
-         * @return 
+         * @return
          * Notice that it might be better to use the variable information if several pieces of information are requested.
          */
         bool isUnivariate() const;
-        
+
         UnivariatePolynomial<CoeffType> toUnivariatePolynomial() const
         {
             return std::move(polynomial().toUnivariatePolynomial() *= mCoefficient); // In this case it makes sense to expand the polynomial.
         }
-        
+
         UnivariatePolynomial<FactorizedPolynomial<P>> toUnivariatePolynomial( Variable _var ) const;
-        
+
         /**
          * Checks if the polynomial has a constant term that is not zero.
          * @return If there is a constant term unequal to zero.
          */
         bool hasConstantTerm() const;
-        
+
         /**
          * @param _var The variable to check for its occurrence.
          * @return true, if the variable occurs in this term.
          */
         bool has( Variable _var ) const;
-    
+
         template<bool gatherCoeff>
         VariableInformation<gatherCoeff, FactorizedPolynomial<P>> getVarInfo( Variable _var ) const;
 
@@ -487,36 +492,6 @@ namespace carl
                     resultVarInfos.insert( resultVarInfos.end(), std::make_pair( varViPair.first, std::move( viFactorized ) ) );
                 }
                 return VariablesInformation<false, FactorizedPolynomial<P>>(std::move(resultVarInfos));
-            }
-            return VariablesInformation<false, FactorizedPolynomial<P>>();
-        }
-        
-        VariablesInformation<true, FactorizedPolynomial<P>> getVarInfo() const
-        {
-            if( existsFactorization( *this ) )
-            {
-                // TODO: Maybe we should use the factorization for collecting degrees and coefficients.
-                VariablesInformation<true, P> vi = polynomial().template getVarInfo<true>();
-                VariablesInformation<true, FactorizedPolynomial<P>> result;
-                for( const auto& varViPair : vi )
-                {
-                    const auto& varI = varViPair.second;
-                    std::map<unsigned,FactorizedPolynomial<P>> coeffs;
-                    for( const auto& expCoeffPair : varI.coeffs() )
-                    {
-                        if( expCoeffPair.second.isConstant() )
-                        {
-                            coeffs.insert( coeffs.end(), std::make_pair( expCoeffPair.first, FactorizedPolynomial<P>( expCoeffPair.second.constantPart() * mCoefficient ) ) );
-                        }
-                        else
-                        {
-                            coeffs.insert( coeffs.end(), std::make_pair( expCoeffPair.first, FactorizedPolynomial<P>( expCoeffPair.second, mpCache ) * mCoefficient ) );
-                        }
-                    }
-                    VariableInformation<true, FactorizedPolynomial<P>> viFactorized( varI.maxDegree(), varI.minDegree(), varI.occurence(), std::move( coeffs ) );
-                    result.insert( result.end(), std::make_pair( varViPair.first, std::move( viFactorized ) ) );
-                }
-                return result;
             }
             return VariablesInformation<false, FactorizedPolynomial<P>>();
         }
