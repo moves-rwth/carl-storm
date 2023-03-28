@@ -15,7 +15,6 @@ static_assert(false, "This file may only be included indirectly by numbers.h");
 
 #include "../../util/platform.h"
 #include "typetraits.h"
-#include <boost/algorithm/string.hpp>
 #include <cassert>
 #include <cmath>
 #include <limits>
