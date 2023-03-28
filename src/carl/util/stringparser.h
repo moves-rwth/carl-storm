@@ -128,7 +128,7 @@ namespace carl
 			mSumOfTermsForm = to;
 		}
 		
-		template<typename C, typename O = typename MultivariatePolynomial<C>::OrderedBy, typename P = typename MultivariatePolynomial<C>::Policy>
+		template<typename C, typename O = NotRelevant, typename P = typename MultivariatePolynomial<C>::Policy>
 		RationalFunction<MultivariatePolynomial<C,O,P>> parseRationalFunction(const std::string& inputString) const
 		{
 			std::vector<std::string> nomAndDenom;
@@ -156,7 +156,7 @@ namespace carl
 			}
 		}
 		
-		template<typename C, typename O = typename MultivariatePolynomial<C>::OrderedBy, typename P = typename MultivariatePolynomial<C>::Policy>
+		template<typename C, typename O = NotRelevant, typename P = typename MultivariatePolynomial<C>::Policy>
 		MultivariatePolynomial<C, O, P> parseMultivariatePolynomial(const std::string& inputString) const
 		{
 			MultivariatePolynomial<C, O, P> result;
