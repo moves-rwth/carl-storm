@@ -6,9 +6,12 @@
 
 #pragma once
 
+
+#include "MultivariatePolynomialPolicyForward.h"
+// TODO REMOVE FOLLOWING
 #include "MonomialOrdering.h"
-#include "MultivariatePolynomialAdaptors/PolynomialAllocator.h"
-#include "MultivariatePolynomialAdaptors/ReasonsAdaptor.h"
+
+
 
 namespace carl
 {
@@ -16,8 +19,8 @@ namespace carl
      * The default policy for polynomials. 
 	 * @ingroup multirp
      */
-	template<typename ReasonsAdaptor = NoReasons, typename Allocator = NoAllocator>
-    struct StdMultivariatePolynomialPolicies : public ReasonsAdaptor
+    template<int>
+	struct StdMultivariatePolynomialPolicies
     {
 		
 		
@@ -26,12 +29,8 @@ namespace carl
          * Although the worst-case complexity is worse, for polynomials with a small nr of terms, this should be better.
          */
         static const bool searchLinear = true;
-		
-		// Easy access.
-		static const bool has_reasons = ReasonsAdaptor::has_reasons;
-		
-		//typedef typename ReasonsAdaptor::ReasonsType ReasonsType;
-		
+		static const bool has_reasons = false;
+
 		virtual ~StdMultivariatePolynomialPolicies() = default;
     };
 	

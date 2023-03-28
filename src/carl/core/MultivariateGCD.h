@@ -9,6 +9,7 @@
 #pragma once
 
 #include "MonomialOrdering.h"
+#include "MultivariatePolynomialForward.h"
 #include "MultivariatePolynomialPolicy.h"
 #include "../converter/OldGinacConverter.h"
 
@@ -60,7 +61,7 @@ Monomial::Arg gcd(const Monomial::Arg& a, const MultivariatePolynomial<C,O,P>& b
  * @ingroup gcd
  * @ingroup multirp
  */
-template<typename GCDCalculation, typename Coeff, typename Ordering= GrLexOrdering, typename Policies = StdMultivariatePolynomialPolicies<>>
+template<typename GCDCalculation, typename Coeff, typename Ordering=NotRelevant, typename Policies = StdMultivariatePolynomialPolicies<>>
 class MultivariateGCD : GCDCalculation
 {
     public:

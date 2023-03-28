@@ -10,6 +10,7 @@
 #include <memory>
 #include <type_traits>
 #include <vector>
+#include "MultivariatePolynomialForward.h"
 
 #include "DivisionResult.h"
 #include "MultivariatePolynomialPolicy.h"
@@ -21,6 +22,8 @@
 #include "polynomialfunctions/SPolynomial.h"
 #include "polynomialfunctions/CoprimePart.h"
 #include "polynomialfunctions/SoSDecomposition.h"
+
+#include "../util/BitVector.h"
 
 
 namespace carl
@@ -38,17 +41,19 @@ class UnivariatePolynomial;
  * By that, we mean that the leading term and the constant term (if there is any) are at the correct positions.
  * For some operations, the terms may be *fully ordered*.
  * `isOrdered()` checks if the polynomial is *fully ordered* while `makeOrdered()` makes the polynomial *fully ordered*.
- * 
+ *
+ * The template parameters Ordering and Policies are outdated and no longer relevant.
+ *
  * @ingroup multirp
  */
-template<typename Coeff, typename Ordering = GrLexOrdering, typename Policies = StdMultivariatePolynomialPolicies<>>
+template<typename Coeff, typename Ordering, typename Policies>
 class MultivariatePolynomial : public Polynomial, public Policies
 {
     template<typename Polynomial, typename Order>
     friend class TermAdditionManager;
 public:
 	/// The ordering of the terms.
-	using OrderedBy = Ordering;
+	using OrderedBy = GrLexOrdering;
 	/// Type of the terms.
 	using TermType = Term<Coeff>;
 	/// Type of the monomials within the terms.
@@ -80,7 +85,7 @@ private:
 	mutable bool mOrdered;
 public:
     ///
-    static TermAdditionManager<MultivariatePolynomial,Ordering> mTermAdditionManager;
+    static TermAdditionManager<MultivariatePolynomial,OrderedBy> mTermAdditionManager;
     
 	enum class ConstructorOperation { ADD, SUB, MUL, DIV };
     friend std::ostream& operator<<(std::ostream& os, ConstructorOperation op) {
@@ -151,7 +156,7 @@ public:
      */
 	void makeOrdered() const {
 		if (isOrdered()) return;
-		std::sort(mTerms.begin(), mTerms.end(), (bool (&)(Term<Coeff> const&, Term<Coeff> const&))Ordering::less);
+		std::sort(mTerms.begin(), mTerms.end(), (bool (&)(Term<Coeff> const&, Term<Coeff> const&))OrderedBy::less);
 		mOrdered = true;
         assert(this->isConsistent());
 	}
@@ -188,6 +193,9 @@ public:
 	 * @return Total degree.
 	 */
 	std::size_t totalDegree() const;
+
+	void setReasons(BitVector) const { assert(false); }
+	BitVector getReasons() const {assert(false); return BitVector();}
 
 	/**
 	 * Calculates the degree of this polynomial with respect to the given variable.
@@ -706,7 +714,7 @@ public:
 
 	static bool compareByLeadingTerm(const MultivariatePolynomial& p1, const MultivariatePolynomial& p2)
 	{
-		return Ordering::less(p1.lterm(), p2.lterm());
+		return OrderedBy::less(p1.lterm(), p2.lterm());
 	}
 
 	static bool compareByNrTerms(const MultivariatePolynomial& p1, const MultivariatePolynomial& p2)
@@ -744,7 +752,7 @@ public:
 	friend bool operator==(const MultivariatePolynomial<C,O,P>& lhs, const MultivariatePolynomial<C,O,P>& rhs);
 };
 
-#define MPOpTemplate typename C, typename O = GrLexOrdering, typename P = StdMultivariatePolynomialPolicies<>
+#define MPOpTemplate typename C, typename O = NotRelevant, typename P = StdMultivariatePolynomialPolicies<>
 
 	template<typename C, typename O, typename P>
 	MultivariatePolynomial<C,O,P> quotient(const MultivariatePolynomial<C,O,P>& p, const MultivariatePolynomial<C,O,P>& q)

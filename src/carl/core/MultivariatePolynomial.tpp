@@ -25,7 +25,7 @@ namespace carl
 {
 
 template<typename Coeff, typename Ordering, typename Policies>
-TermAdditionManager<MultivariatePolynomial<Coeff,Ordering,Policies>,Ordering> MultivariatePolynomial<Coeff,Ordering,Policies>::mTermAdditionManager;
+TermAdditionManager<MultivariatePolynomial<Coeff,Ordering,Policies>,GrLexOrdering> MultivariatePolynomial<Coeff,Ordering,Policies>::mTermAdditionManager;
 
 template<typename Coeff, typename Ordering, typename Policies>
 MultivariatePolynomial<Coeff,Ordering,Policies>::MultivariatePolynomial():
@@ -324,7 +324,7 @@ std::size_t MultivariatePolynomial<Coeff,Ordering,Policies>::totalDegree() const
 {
 	if (isZero()) return 0;
 	assert(!mTerms.empty());
-	if (Ordering::degreeOrder) {
+	if (OrderedBy::degreeOrder) {
 		return this->lterm().tdeg();
 	} else {
 		CARL_LOG_NOTIMPLEMENTED();
@@ -364,7 +364,7 @@ template<typename Coeff, typename Ordering, typename Policies>
 bool MultivariatePolynomial<Coeff,Ordering,Policies>::isLinear() const
 {
 	if(mTerms.empty()) return true;
-	if(Ordering::degreeOrder)
+	if(OrderedBy::degreeOrder)
 	{
 		return this->lterm().isLinear();
 	}
@@ -590,7 +590,7 @@ void MultivariatePolynomial<Coeff,Ordering,Policies>::addTerm(const Term<Coeff>&
 	if (mOrdered) {
 		auto it = mTerms.begin();
 		for (; it != mTerms.end(); it++) {
-			CompareResult res = Ordering::compare(term, *it);
+			CompareResult res = OrderedBy::compare(term, *it);
 			switch (res) {
 			case CompareResult::LESS: break;
 			case CompareResult::EQUAL: {
@@ -605,7 +605,7 @@ void MultivariatePolynomial<Coeff,Ordering,Policies>::addTerm(const Term<Coeff>&
 		}
 		mTerms.insert(it, term);
 	} else {
-		switch (Ordering::compare(lterm(), term)) {
+		switch (OrderedBy::compare(lterm(), term)) {
 		case CompareResult::LESS: {
 			mTerms.push_back(term);
 			break;
@@ -620,7 +620,7 @@ void MultivariatePolynomial<Coeff,Ordering,Policies>::addTerm(const Term<Coeff>&
 		}
 		case CompareResult::GREATER: {
 			for (auto it = mTerms.begin(); it != mTerms.end(); it++) {
-				if (Ordering::equal(*it, term)) {
+				if (OrderedBy::equal(*it, term)) {
 					it->coeff() += term.coeff();
 					if (carl::isZero(it->coeff())) {
 						mTerms.erase(it);
@@ -775,7 +775,7 @@ MultivariatePolynomial<C,O,P> MultivariatePolynomial<C,O,P>::remainder(const Mul
 		if(p.lterm().tdeg() < divisor.lterm().tdeg())
 		{
 			assert(!p.lterm().divisible(divisor.lterm()));
-			if( O::degreeOrder )
+			if( OrderedBy::degreeOrder )
 			{
 				remainder += p;
                 assert(remainder.isConsistent());
@@ -1182,11 +1182,7 @@ template<typename Coeff, typename Ordering, typename Policies>
 MultivariatePolynomial<Coeff,Ordering,Policies> MultivariatePolynomial<Coeff,Ordering,Policies>::normalize() const
 {
 	MultivariatePolynomial result(*this);
-	if(Policies::has_reasons)
-	{
-		result.setReasons(this->getReasons());
-	}
-    if (isZero()) return result;
+	if (isZero()) return result;
 	auto lc = lcoeff();
 	for (auto& it: result.mTerms)
 	{
@@ -1575,7 +1571,7 @@ MultivariatePolynomial<Coeff, Ordering, Policies>& MultivariatePolynomial<Coeff,
 		return *this += c;
 	}
 	TermType newlterm;
-	CompareResult res = Ordering::compare(lterm().monomial(), rhs.lterm().monomial());
+	CompareResult res = OrderedBy::compare(lterm().monomial(), rhs.lterm().monomial());
     auto rhsEnd = rhs.mTerms.end();
 	if (res == CompareResult::GREATER) {
 		newlterm = std::move( mTerms.back() );
@@ -1648,7 +1644,7 @@ MultivariatePolynomial<Coeff, Ordering, Policies>& MultivariatePolynomial<Coeff,
 			mTerms.pop_back();
 			makeMinimallyOrdered<false, true>();
 		} else mTerms.back() = Term<Coeff>(lcoeff() + rhs.coeff(), rhs.monomial());
-	} else if (Ordering::less(lterm(), rhs)) {
+	} else if (OrderedBy::less(lterm(), rhs)) {
 		// New leading term.
 		mTerms.push_back(rhs);
 	} else {
@@ -1683,7 +1679,7 @@ MultivariatePolynomial<Coeff, Ordering, Policies>& MultivariatePolynomial<Coeff,
 		} else {
 			mTerms.back() = Term<Coeff>(lcoeff() + constant_one<Coeff>::get(), lmon());
 		}
-	} else if (Ordering::less(lmon(),rhs)) {
+	} else if (OrderedBy::less(lmon(),rhs)) {
 		// New leading term.
 		mTerms.emplace_back(rhs);
 	} else {
@@ -1815,7 +1811,7 @@ MultivariatePolynomial<Coeff, Ordering, Policies>& MultivariatePolynomial<Coeff,
 		{
 			// TODO consider comparing the shared pointers.
 			if ((*it).monomial() != nullptr) {
-				CompareResult cmpres(Ordering::compare((*it), rhs));
+				CompareResult cmpres(OrderedBy::compare((*it), rhs));
 				if( mOrdered && cmpres == CompareResult::GREATER ) break;
 				if( cmpres == CompareResult::EQUAL )
 				{
@@ -1869,7 +1865,7 @@ MultivariatePolynomial<Coeff, Ordering, Policies>& MultivariatePolynomial<Coeff,
 		while(it != mTerms.end())
 		{
 			if ((*it).monomial() != nullptr) {
-				CompareResult cmpres(Ordering::compare((*it).monomial(), rhs));
+				CompareResult cmpres(OrderedBy::compare((*it).monomial(), rhs));
 				if( mOrdered && cmpres == CompareResult::GREATER ) break;
 				if( cmpres == CompareResult::EQUAL )
 				{
@@ -2108,7 +2104,7 @@ void MultivariatePolynomial<Coeff, Ordering, Policies>::makeMinimallyOrdered() c
 			if ((*it).isConstant()) {
 				assert(constTerm == mTerms.end());
 				constTerm = it;
-			} else if (Ordering::less(*lTerm, *it)) {
+			} else if (OrderedBy::less(*lTerm, *it)) {
 				lTerm = it;
 			} else {
 				assert(!Term<Coeff>::monomialEqual(*lTerm, *it));
@@ -2125,7 +2121,7 @@ void MultivariatePolynomial<Coeff, Ordering, Policies>::makeMinimallyOrdered() c
 		auto lTerm = it;
 
 		for (it++; it != itToLast; ++it) {
-			if (Ordering::less(*lTerm, *it)) {
+			if (OrderedBy::less(*lTerm, *it)) {
 				lTerm = it;
 			} else {
 				assert(!Term<Coeff>::monomialEqual(*lTerm, *it));
@@ -2133,7 +2129,7 @@ void MultivariatePolynomial<Coeff, Ordering, Policies>::makeMinimallyOrdered() c
 		}
 
 		assert(!Term<Coeff>::monomialEqual(*lTerm, *itToLast));
-		if (!Ordering::less(*lTerm, *itToLast)) {
+		if (!OrderedBy::less(*lTerm, *itToLast)) {
 			std::swap(*lTerm, mTerms.back());
 		}
 	}
@@ -2164,10 +2160,10 @@ bool MultivariatePolynomial<Coeff, Ordering, Policies>::isConsistent() const {
 	}
 	if (mOrdered) {
 		for (unsigned i = 1; i < this->mTerms.size(); i++) {
-			if (!Ordering::less(mTerms[i-1], mTerms[i])) {
+			if (!OrderedBy::less(mTerms[i-1], mTerms[i])) {
 				CARL_LOG_ERROR("carl.core", "Ordering error for " << *this << ": " << mTerms[i-1] << " < " << mTerms[i]);
 			}
-			assert(Ordering::less(mTerms[i-1], mTerms[i]));
+			assert(OrderedBy::less(mTerms[i-1], mTerms[i]));
 		}
 	}
 	else
@@ -2175,10 +2171,10 @@ bool MultivariatePolynomial<Coeff, Ordering, Policies>::isConsistent() const {
 		if(nrTerms()> 1)
 		{
 			for (unsigned i = 0; i < this->mTerms.size() - 1; i++) {
-				if (!Ordering::less(mTerms[i], lterm())) {
+				if (!OrderedBy::less(mTerms[i], lterm())) {
 					CARL_LOG_ERROR("carl.core", "Ordering error for " << *this << ": " << mTerms[i] << " < " << lterm());
 				}
-				assert(Ordering::less(mTerms[i], lterm()));
+				assert(OrderedBy::less(mTerms[i], lterm()));
 			}
 		}
 	}
