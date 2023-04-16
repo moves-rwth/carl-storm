@@ -8,7 +8,7 @@
 #pragma once
 
 #include "logging.h"
-
+#include <cassert>
 #include <functional>
 #include <iostream>
 
