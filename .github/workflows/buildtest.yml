@@ -12,14 +12,8 @@ on:
   pull_request:
 
 env:
-  GIT_URL: "${{ github.server_url }}/${{ github.repository }}.git"
-  BRANCH: "${{ github.ref }}"
-  # github runners currently have two cores
+  # GitHub runners currently have two cores
   NR_JOBS: "2"
-
-  # cmake arguments
-  CMAKE_DEBUG: "-DCMAKE_BUILD_TYPE=Debug -DUSE_CLN_NUMBERS=ON -DUSE_GINAC=ON -DTHREAD_SAFE=ON"
-  CMAKE_RELEASE: "-DCMAKE_BUILD_TYPE=Release -DUSE_CLN_NUMBERS=ON -DUSE_GINAC=ON -DTHREAD_SAFE=ON"
 
 jobs:
   indepthTests:
@@ -27,36 +21,33 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        distro: ["debian-10", "debian-11", "ubuntu-20.04"]
+        distro: ["debian-10", "debian-11", "ubuntu-20.04", "ubuntu-22.04"]
         debugOrRelease: ["debug", "release"]
     steps:
-      - name: Setup cmake arguments
+      - name: Setup configuration
         # this is strangely the best way to implement environment variables based on the value of another
         # GITHUB_ENV is a magic variable pointing to a file; if a line with format {NAME}={VALUE}
         # then the env variable with name NAME will be created/updated with VALUE
         run: |
-          ([[ ${{ matrix.debugOrRelease }} == "debug" ]] && echo "CMAKE_ARGS=${CMAKE_DEBUG}" || echo "CMAKE_ARGS=${CMAKE_RELEASE}") >> $GITHUB_ENV
-
-      - name: Init Docker
-        run: sudo docker run -d -it --name ci --privileged movesrwth/storm-basesystem:${{ matrix.distro }}
+          ([[ ${{ matrix.debugOrRelease }} == "debug" ]] && echo "BUILD_TYPE=Debug" || echo "BUILD_TYPE=Release") >> $GITHUB_ENV
       - name: Git clone
-        # git clone cannot clone individual commits based on a sha and some other refs
-        # this workaround fixes this and fetches only one commit
-        run: |
-          sudo docker exec ci bash -c "mkdir /opt/carl-storm; cd /opt/carl-storm; git init && git remote add origin ${GIT_URL} && git fetch --depth 1 origin ${BRANCH} && git checkout FETCH_HEAD"
-      - name: Run cmake
-        run: sudo docker exec ci bash -c "mkdir /opt/carl-storm/build; cd /opt/carl-storm/build; cmake .. ${CMAKE_ARGS}"
-      - name: Build carl-storm
-        run: sudo docker exec ci bash -c "cd /opt/carl-storm/build; make -j ${NR_JOBS}"
+        uses: actions/checkout@v3
+
+      - name: Build Carl-storm
+        run: docker build -t movesrwth/carl-storm:ci-${{ matrix.debugOrRelease }} . --build-arg BASE_IMAGE=movesrwth/storm-basesystem:${{ matrix.distro }} --build-arg build_type=${BUILD_TYPE} --build-arg no_threads=${NR_JOBS}
+      - name: Run Docker
+        run: docker run -d -it --name ci --privileged movesrwth/carl-storm:ci-${{ matrix.debugOrRelease }}
+      - name: Build tests
+        run: docker exec ci bash -c "cd /opt/carl/build; make -j ${NR_JOBS}"
       - name: Run unit tests
-        run: sudo docker exec ci bash -c "cd /opt/carl-storm/build; ctest test --output-on-failure"
+        run: docker exec ci bash -c "cd /opt/carl/build; ctest test --output-on-failure"
 
   deploy:
     name: Build, Test and Deploy
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        distro: ["ubuntu-22.04"]
+        distro: ["latest"]
         debugOrRelease: ["debug", "release"]
     steps:
       - name: Setup cmake arguments
@@ -64,32 +55,29 @@ jobs:
         # GITHUB_ENV is a magic variable pointing to a file; if a line with format {NAME}={VALUE}
         # then the env variable with name NAME will be created/updated with VALUE
         run: |
-          ([[ ${{ matrix.debugOrRelease }} == "debug" ]] && echo "CMAKE_ARGS=${CMAKE_DEBUG}" || echo "CMAKE_ARGS=${CMAKE_RELEASE}") >> $GITHUB_ENV
+          ([[ ${{ matrix.debugOrRelease }} == "debug" ]] && echo "BUILD_TYPE=Debug" || echo "BUILD_TYPE=Release") >> $GITHUB_ENV
 
       - name: Login into docker
         # Only login if using master on original repo (and not for pull requests or forks)
         if: github.repository_owner == 'moves-rwth' && github.ref == 'refs/heads/master'
-        run: echo "${{ secrets.STORM_CI_DOCKER_PASSWORD }}" | sudo docker login -u "${{ secrets.STORM_CI_DOCKER_USERNAME }}" --password-stdin
-      - name: Init Docker
-        run: sudo docker run -d -it --name ci --privileged movesrwth/storm-basesystem:${{ matrix.distro }}
-
+        run: echo "${{ secrets.STORM_CI_DOCKER_PASSWORD }}" | docker login -u "${{ secrets.STORM_CI_DOCKER_USERNAME }}" --password-stdin
       - name: Git clone
-        # git clone cannot clone individual commits based on a sha and some other refs
-        # this workaround fixes this and fetches only one commit
-        run: |
-          sudo docker exec ci bash -c "mkdir /opt/carl-storm; cd /opt/carl-storm; git init && git remote add origin ${GIT_URL} && git fetch --depth 1 origin ${BRANCH} && git checkout FETCH_HEAD"
-      - name: Run cmake
-        run: sudo docker exec ci bash -c "mkdir /opt/carl-storm/build; cd /opt/carl-storm/build; cmake .. ${CMAKE_ARGS}"
-      - name: Build carl-storm
-        run: sudo docker exec ci bash -c "cd /opt/carl-storm/build; make -j ${NR_JOBS}"
+        uses: actions/checkout@v3
+
+      - name: Build Carl-storm
+        run: docker build -t movesrwth/carl-storm:ci-${{ matrix.debugOrRelease }} . --build-arg BASE_IMAGE=movesrwth/storm-basesystem:${{ matrix.distro }} --build-arg build_type=${BUILD_TYPE} --build-arg no_threads=${NR_JOBS}
+      - name: Run Docker
+        run: docker run -d -it --name ci movesrwth/carl-storm:ci-${{ matrix.debugOrRelease }}
+      - name: Build tests
+        run: docker exec ci bash -c "cd /opt/carl/build; make -j ${NR_JOBS}"
       - name: Run unit tests
-        run: sudo docker exec ci bash -c "cd /opt/carl-storm/build; ctest test --output-on-failure"
+        run: docker exec ci bash -c "cd /opt/carl/build; ctest test --output-on-failure"
       - name: Deploy carl
         # Only deploy if using master on original repo (and not for pull requests or forks)
         if: github.repository_owner == 'moves-rwth' && github.ref == 'refs/heads/master'
         run: |
-          sudo docker commit ci movesrwth/carl-storm:ci-${{ matrix.debugOrRelease }}
-          sudo docker push movesrwth/carl-storm:ci-${{ matrix.debugOrRelease }}
+          docker commit ci movesrwth/carl-storm:ci-${{ matrix.debugOrRelease }}
+          docker push movesrwth/carl-storm:ci-${{ matrix.debugOrRelease }}
 
 
   notify:
