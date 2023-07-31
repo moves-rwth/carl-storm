@@ -182,9 +182,5 @@ add_subdirectory(src)
 
 include(export)
 
-if (BINDINGS_PYTHON)
-	add_subdirectory(bindings/pycarl)
-endif()
-
 include(resources/addons/addons.cmake)
 include(packaging)
