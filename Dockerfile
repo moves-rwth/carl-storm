@@ -42,7 +42,7 @@ RUN make lib_carl -j $no_threads
 
 
 # Additional commands
-# (This can be skipped or adapted dependending on custom needs)
+# (This can be skipped or adapted depending on custom needs)
 # Build and execute tests
 #RUN make -j $no_threads
 #RUN ctest test --output-on-failure
