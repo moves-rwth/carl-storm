@@ -1088,6 +1088,10 @@ namespace carl
             return this->isPointInterval() && (mContent.lower() == carl::constant_one<Number>().get());
         }
 
+		inline bool isNan() const {
+			return (std::isnan(mContent.lower()) || std::isnan(mContent.upper()));
+		}
+
 		/**
          * @return true, if it this interval contains only positive values.
          */
@@ -1941,6 +1945,11 @@ namespace carl
     template<typename Number>
     inline Interval<Number> operator/(const Interval<Number>& lhs, const Number& rhs);
 
+	template<typename Number>
+	inline Interval<Number> operator/(const Interval<Number>& lhs, size_t rhs) {
+		return lhs / Interval<Number>(rhs);
+	}
+
     /**
      * Operator for the division of an interval and a number with assignment.
      * @param lhs Lefthand side.
@@ -1949,6 +1958,24 @@ namespace carl
      */
     template<typename Number>
     inline Interval<Number>& operator/=(Interval<Number>& lhs, const Number& rhs);
+
+	template<typename Number>
+	inline Interval<Number>& operator/=(Interval<Number>& lhs, size_t rhs) {
+		return lhs /= fromInt<Number>(rhs);
+	}
+
+	template<typename Number>
+	inline Interval<Number> operator/(const Interval<Number>& lhs, const Interval<Number>& rhs)
+	{
+		return lhs.div(rhs);
+	}
+
+	template<typename Number>
+	inline Interval<Number>& operator/=(Interval<Number>& lhs, const Interval<Number>& rhs)
+	{
+		lhs.div_assign(rhs);
+		return lhs;
+	}
 
     /*
      * Comparison operators

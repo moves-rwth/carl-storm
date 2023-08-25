@@ -92,6 +92,12 @@ inline double toDouble(sint n) {
 inline double toDouble(double n) {
 	return n;
 }
+inline double toDouble(unsigned n) {
+	return double(n);
+}
+inline double toDouble(unsigned long n) {
+	return double(n);
+}
 
 template<typename Integer>
 inline Integer toInt(double n);
