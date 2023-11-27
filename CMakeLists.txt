@@ -9,7 +9,7 @@
 # G. CPack
 # # # # # # # # # # # # # # # # # # # # # #
 
-cmake_minimum_required (VERSION 3.2 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.15)
 
 # # # # # # # # # # # # # # # # # # # # # #
 # A. Project properties
@@ -181,10 +181,6 @@ endif()
 add_subdirectory(src)
 
 include(export)
-
-if (BINDINGS_PYTHON)
-	add_subdirectory(bindings/pycarl)
-endif()
 
 include(resources/addons/addons.cmake)
 include(packaging)
