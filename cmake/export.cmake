@@ -8,6 +8,7 @@ export(TARGETS ${CARL_TARGETS} FILE "${PROJECT_BINARY_DIR}/carlTargets.cmake")
 # (this registers the build-tree with a global CMake-registry)
 if(EXPORT_TO_CMAKE)
 	message(STATUS "Registered with cmake")
+	set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
 	export(PACKAGE carl)
 endif()
 
