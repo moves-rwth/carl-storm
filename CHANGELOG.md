@@ -2,6 +2,10 @@
 Changelog
 ==============
 
+## Version 14.26 (2023/12)
+- Interval API extended
+- Some code cleanup
+- Towards support for C++20
 
 ## Version  14.25 (2023/05)
 - CI support.
