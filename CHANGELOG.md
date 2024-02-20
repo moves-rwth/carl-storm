@@ -2,6 +2,9 @@
 Changelog
 ==============
 
+## Version 14.27 (2024/02)
+- Fixed CMake support for CLN
+
 ## Version 14.26 (2023/12)
 - Interval API extended
 - Some code cleanup
