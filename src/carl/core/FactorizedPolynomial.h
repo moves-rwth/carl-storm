@@ -13,6 +13,7 @@
 #include "DivisionResult.h"
 #include "PolynomialFactorizationPair.h"
 #include "VariablesInformation.h"
+#include "carl/util/hash.h"
 
 namespace carl
 {
@@ -193,10 +194,13 @@ namespace carl
         {
             if( existsFactorization( *this ) )
             {
+                std::size_t seed = 0;
                 // Getting the hash of mCacheRef does not work because rehashing might occur.
                 // To have a consistent hash we need to compute the hash of the expanded polynomial.
                 // Note that building the polynomial can greatly increase the hashing time.
-                return std::hash<P>()(this->polynomialWithCoefficient());
+                carl::hash_combine( seed, std::hash<P>()( this->polynomial() ) );
+                carl::hash_combine( seed, std::hash<CoeffType>()( mCoefficient ) );
+                return seed;
             }
             return std::hash<CoeffType>()( mCoefficient );
         }
