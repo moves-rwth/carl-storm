@@ -4,6 +4,8 @@ name: Build Test
 
 on:
   push:
+    branches:
+      - master
   schedule:
     # run weekly
     - cron: '0 10 * * 2'
