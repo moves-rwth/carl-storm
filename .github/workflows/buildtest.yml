@@ -4,6 +4,8 @@ name: Build Test
 
 on:
   push:
+    branches:
+      - master
   schedule:
     # run weekly
     - cron: '0 10 * * 2'
@@ -21,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        distro: ["debian-11", "debian-12", "ubuntu-20.04", "ubuntu-22.04"]
+        distro: ["debian-11", "debian-12", "ubuntu-20.04", "ubuntu-22.04", "ubuntu-24.04"]
         debugOrRelease: ["debug", "release"]
     steps:
       - name: Setup configuration
@@ -31,7 +33,7 @@ jobs:
         run: |
           ([[ ${{ matrix.debugOrRelease }} == "debug" ]] && echo "BUILD_TYPE=Debug" || echo "BUILD_TYPE=Release") >> $GITHUB_ENV
       - name: Git clone
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build Carl-storm
         run: docker build -t movesrwth/carl-storm:ci-${{ matrix.debugOrRelease }} . --build-arg BASE_IMAGE=movesrwth/storm-basesystem:${{ matrix.distro }} --build-arg build_type=${BUILD_TYPE} --build-arg no_threads=${NR_JOBS}
@@ -62,7 +64,7 @@ jobs:
         if: github.repository_owner == 'moves-rwth' && github.ref == 'refs/heads/master'
         run: echo "${{ secrets.STORM_CI_DOCKER_PASSWORD }}" | docker login -u "${{ secrets.STORM_CI_DOCKER_USERNAME }}" --password-stdin
       - name: Git clone
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build Carl-storm
         run: docker build -t movesrwth/carl-storm:ci-${{ matrix.debugOrRelease }} . --build-arg BASE_IMAGE=movesrwth/storm-basesystem:${{ matrix.distro }} --build-arg build_type=${BUILD_TYPE} --build-arg no_threads=${NR_JOBS}
@@ -87,8 +89,8 @@ jobs:
     # Only run in main repo and even if previous step failed
     if: github.repository_owner == 'moves-rwth' && always()
     steps:
-      - uses: technote-space/workflow-conclusion-action@v2
-      - uses: dawidd6/action-send-mail@v2
+      - uses: technote-space/workflow-conclusion-action@v3
+      - uses: dawidd6/action-send-mail@v3
         with:
           server_address: ${{ secrets.STORM_CI_MAIL_SERVER }}
           server_port: 587
