@@ -1,5 +1,6 @@
 #pragma once
 
+#ifdef USE_COCOA
 #include "../core/MonomialPool.h"
 #include "../core/Term.h"
 #include "../core/Variable.h"
@@ -10,8 +11,6 @@
 #include <cstdlib>
 #include <iterator>
 #include <map>
-
-#ifdef USE_COCOA
 
 //#include "CoCoA/library.H"
 #include <CoCoA/BigInt.H>

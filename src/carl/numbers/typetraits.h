@@ -234,7 +234,7 @@ struct is_subset_of_integers: std::integral_constant<bool, is_integer<Type>::val
 template<typename T>
 struct is_number {
 	/// Default value of this trait.
-	static const bool value = is_subset_of_rationals<T>::value || is_subset_of_integers<T>::value || is_float<T>::value;
+	static constexpr bool value = is_subset_of_rationals<T>::value || is_subset_of_integers<T>::value || is_float<T>::value;
 };
 template<typename T>
 constexpr bool is_number<T>::value;
