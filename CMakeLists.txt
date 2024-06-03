@@ -11,7 +11,9 @@
 
 cmake_minimum_required (VERSION 3.15)
 
-cmake_policy(SET CMP0135 NEW) # Use timestamps from time of extraction
+if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.24")
+	cmake_policy(SET CMP0135 NEW) # Use timestamps from time of extraction
+endif()
 
 # # # # # # # # # # # # # # # # # # # # # #
 # A. Project properties
