@@ -2,6 +2,10 @@
 Changelog
 ==============
 
+## Version 14.28 (2024/06)
+- Improved performance for getHash() of FactorizedPolynomial.
+- Build and CI improvements.
+
 ## Version 14.27 (2024/02)
 - Fixed CMake support for CLN
 
