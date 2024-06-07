@@ -6,12 +6,15 @@ endif()
 string(REPLACE "." "-" CLN_TAG ${CLN_VERSION})
 
 ExternalProject_Add(
-    CLN-EP
-    GIT_REPOSITORY "git://www.ginac.de/cln.git"
+	CLN-EP
+	#URL https://www.ginac.de/CLN/cln-${CLN_VERSION}.tar.bz2
+	GIT_REPOSITORY "git://www.ginac.de/cln.git"
 	GIT_TAG "cln_${CLN_TAG}"
+	DOWNLOAD_NO_PROGRESS 1
 	UPDATE_COMMAND ""
 	CONFIGURE_COMMAND cd <SOURCE_DIR> && autoreconf -iv
-	COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+	COMMAND <SOURCE_DIR>/configure --quiet --prefix=<INSTALL_DIR>
+	LOG_INSTALL 1
 )
 
 ExternalProject_Get_Property(CLN-EP INSTALL_DIR)

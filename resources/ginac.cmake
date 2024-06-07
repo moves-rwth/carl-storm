@@ -3,21 +3,22 @@ if(NOT AUTORECONF)
 	message(SEND_ERROR "Can not build GiNaC, missing binary for autoreconf")
 endif()
 
-find_program(PYTHON2 python2)
-if(NOT PYTHON2)
-	message(SEND_ERROR "Can not build GiNaC, missing binary for python2")
+find_program(PYTHON3 python3)
+if(NOT PYTHON3)
+	message(SEND_ERROR "Can not build GiNaC, missing binary for Python")
 endif()
 
 string(REPLACE "." "-" GINAC_TAG ${GINAC_VERSION})
 
 ExternalProject_Add(
-    GiNaC-EP
-    GIT_REPOSITORY "git://www.ginac.de/ginac.git"
+	GiNaC-EP
+	#URL https://www.ginac.de/ginac-${GINAC_VERSION}.tar.bz2
+	GIT_REPOSITORY "git://www.ginac.de/ginac.git"
 	GIT_TAG "release_${GINAC_TAG}"
 	DOWNLOAD_NO_PROGRESS 1
 	UPDATE_COMMAND ""
-	CONFIGURE_COMMAND ${AUTORECONF} -iv <SOURCE_DIR> 
-		COMMAND <SOURCE_DIR>/configure --quiet --prefix=<INSTALL_DIR> PYTHON=${PYTHON2} PKG_CONFIG_PATH=<INSTALL_DIR>/lib/pkgconfig/
+	CONFIGURE_COMMAND ${AUTORECONF} -iv <SOURCE_DIR>
+	COMMAND <SOURCE_DIR>/configure --quiet --prefix=<INSTALL_DIR> PYTHON=${PYTHON3} PKG_CONFIG_PATH=<INSTALL_DIR>/lib/pkgconfig/
 	BUILD_COMMAND ${CMAKE_MAKE_PROGRAM} -C ginac
 	INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} -C ginac install
 	LOG_INSTALL 1
