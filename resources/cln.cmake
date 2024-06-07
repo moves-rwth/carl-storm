@@ -1,8 +1,3 @@
-find_program(AUTORECONF autoreconf)
-if(NOT AUTORECONF)
-	message(SEND_ERROR "Can not build cln, missing binary for autoreconf")
-endif()
-
 string(REPLACE "." "-" CLN_TAG ${CLN_VERSION})
 
 ExternalProject_Add(
@@ -11,10 +6,10 @@ ExternalProject_Add(
 	GIT_REPOSITORY "git://www.ginac.de/cln.git"
 	GIT_TAG "cln_${CLN_TAG}"
 	DOWNLOAD_NO_PROGRESS 1
-	UPDATE_COMMAND ""
-	CONFIGURE_COMMAND cd <SOURCE_DIR> && autoreconf -iv
-	COMMAND <SOURCE_DIR>/configure --quiet --prefix=<INSTALL_DIR>
+	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+	BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --config ${CMAKE_BUILD_TYPE} --target cln
 	LOG_INSTALL 1
+	BUILD_BYPRODUCTS ${INSTALL_DIR}/lib/libcln${DYNAMIC_EXT} ${INSTALL_DIR}/lib/libcln${STATIC_EXT}
 )
 
 ExternalProject_Get_Property(CLN-EP INSTALL_DIR)
@@ -25,5 +20,3 @@ add_imported_library(CLN STATIC "${INSTALL_DIR}/lib/libcln${STATIC_EXT}" "${INST
 add_dependencies(CLN_SHARED CLN-EP)
 add_dependencies(CLN_STATIC CLN-EP)
 add_dependencies(resources CLN_SHARED CLN_STATIC)
-
-mark_as_advanced(AUTORECONF)
