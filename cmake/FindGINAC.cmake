@@ -1,17 +1,20 @@
 # Include dir
 find_path(GINAC_INCLUDE_DIR
 	NAMES ginac.h
+	HINTS ${GINAC_PKGCONF_INCLUDE_DIRS}
 	PATHS
-		/usr/include/ginac
-		/usr/local/include/ginac
+		/usr/include
+		/usr/local/include
+	PATH_SUFFIXES ginac
 	DOC "Include directory for GiNaC"
 )
 
 find_library(GINAC_LIBRARY
 	NAMES ginac
+	HINTS ${GINAC_PKGCONF_LIBRARY_DIRS}
 	PATHS
-		/usr/lib 
-		/usr/local/lib 
+		/usr/lib
+		/usr/local/lib
 )
 
 if(GINAC_INCLUDE_DIR AND GINAC_LIBRARY)
