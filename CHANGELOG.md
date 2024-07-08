@@ -2,6 +2,12 @@
 Changelog
 ==============
 
+## Version 14.28 (2024/07)
+- Support for Apple Silicon
+- Improved performance for getHash() of FactorizedPolynomial.
+- Updated 3rdparty dependencies.
+- Improved CI.
+
 ## Version 14.27 (2024/02)
 - Fixed CMake support for CLN
 
