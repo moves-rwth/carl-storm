@@ -15,7 +15,7 @@ env:
 
 jobs:
   deploy:
-    name: Deploy (${{ matrix.buildtType.name }})
+    name: Deploy (${{ matrix.buildType.name }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
