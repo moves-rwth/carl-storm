@@ -14,6 +14,6 @@ endif()
 target_link_libraries(runBenchmarks TestCommon)
 
 # Write config.h 
-configure_file( ${CMAKE_SOURCE_DIR}/src/tests/benchmarks/config.h.in 
-				${CMAKE_SOURCE_DIR}/src/tests/benchmarks/config.h
+configure_file( ${PROJECT_SOURCE_DIR}/src/tests/benchmarks/config.h.in
+				${PROJECT_SOURCE_DIR}/src/tests/benchmarks/config.h
 )  

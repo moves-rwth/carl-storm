@@ -15,7 +15,7 @@ ExternalProject_Add(
 	COMMAND ${CMAKE_COMMAND} -E make_directory <INSTALL_DIR>/include
 	COMMAND ${CMAKE_COMMAND} -E make_directory <INSTALL_DIR>/lib
 	COMMAND ${CMAKE_MAKE_PROGRAM} install
-	BUILD_BYPRODUCTS ${CMAKE_BINARY_DIR}/resources/src/CoCoALib-EP/lib/libcocoa${STATIC_EXT}
+	BUILD_BYPRODUCTS ${PROJECT_BINARY_DIR}/resources/src/CoCoALib-EP/lib/libcocoa${STATIC_EXT}
 )
 
 ExternalProject_Get_Property(CoCoALib-EP INSTALL_DIR)
