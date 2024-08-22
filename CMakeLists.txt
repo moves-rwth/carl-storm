@@ -11,6 +11,10 @@
 
 cmake_minimum_required (VERSION 3.15)
 
+if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.24")
+	cmake_policy(SET CMP0135 NEW) # Use timestamps from time of extraction
+endif()
+
 # # # # # # # # # # # # # # # # # # # # # #
 # A. Project properties
 # # # # # # # # # # # # # # # # # # # # # #
@@ -21,7 +25,7 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 # Include own macros.
 include( carlmacros )
 
-set_version(14 27 0)
+set_version(14 28 0)
 
 set( PROJECT_FULLNAME "carl")
 set( PROJECT_DESCRIPTION "Computer ARithmetic Library")
@@ -59,6 +63,8 @@ export_option(USE_BLISS)
 OPTION( USE_MPFR_FLOAT "Use the mpfr implementation of floating point numbers." OFF )
 export_option(USE_MPFR_FLOAT)
 option( USE_COTIRE "Use cotire to generate and use precompiled headers" OFF )
+option( PORTABLE "Enable portable build without hardware-specific compiler flags." OFF)
+export_option(PORTABLE)
 option( BUILD_STATIC "Build the static library as well" OFF )
 export_option(BUILD_STATIC)
 option( BUILD_DOXYGEN "Build doxygen if not found" OFF )
@@ -99,9 +105,6 @@ if(APPLE AND ${CMAKE_SYSTEM_PROCESSOR} MATCHES arm64)
     message(STATUS "Detected that target system uses Apple Silicon.")
 	message(WARNING "Compiling natively on Apple Silicon is experimental. Please report issues to support@stormchecker.org. For more information visit https://www.stormchecker.org/documentation/obtain-storm/apple-silicon.html")
 	set(APPLE_SILICON 1)
-    message(WARNING "CLN and GiNaC are currently not supported on Apple Silicon-based architectures. Disabling usage of the libraries.")
-    set(USE_CLN_NUMBERS OFF)
-    set(USE_GINAC OFF)
 endif()
 
 foreach(p LIB BIN INCLUDE CMAKE)

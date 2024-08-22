@@ -35,7 +35,7 @@ RUN mkdir -p /opt/carl/build
 WORKDIR /opt/carl/build
 
 # Configure Carl
-RUN cmake .. -DCMAKE_BUILD_TYPE=$build_type
+RUN cmake .. -DCMAKE_BUILD_TYPE=$build_type -DPORTABLE=ON
 
 # Build Carl library
 RUN make lib_carl -j $no_threads

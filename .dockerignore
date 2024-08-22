@@ -1,3 +1,10 @@
+Dockerfile
+#Git files
+.git
+.git-blame-ignore-revs
+.github
+.gitignore
+#The remainder is based on .gitignore
 **/config.h
 **/CompileInfo.cpp
 **/CMakeOptions.cpp
