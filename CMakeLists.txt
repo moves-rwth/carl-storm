@@ -9,11 +9,13 @@
 # G. CPack
 # # # # # # # # # # # # # # # # # # # # # #
 
-cmake_minimum_required (VERSION 3.15)
+cmake_minimum_required (VERSION 3.22)
 
 if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.24")
 	cmake_policy(SET CMP0135 NEW) # Use timestamps from time of extraction
 endif()
+
+set(CMAKE_CXX_STANDARD 20)
 
 # # # # # # # # # # # # # # # # # # # # # #
 # A. Project properties
