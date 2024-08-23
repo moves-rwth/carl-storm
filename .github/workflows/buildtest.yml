@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        distro: ["debian-12", "ubuntu-22.04", "ubuntu-24.04", "minimal_dependencies"]
+        distro: ["debian-12", "ubuntu-22.04", "ubuntu-24.04"]
         buildType: ["Debug", "Release"]
     steps:
       - name: Git clone
@@ -40,6 +40,30 @@ jobs:
         run: docker exec ci bash -c "cd /opt/carl/build; make -j ${NR_JOBS}"
       - name: Run tests
         run: docker exec ci bash -c "cd /opt/carl/build; ctest test --output-on-failure"
+
+  minimalTests:
+    name: Minimal dependencies Tests ${{ matrix.buildType }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        distro: ["minimal_dependencies"]
+        buildType: ["Debug", "Release"]
+    steps:
+      - name: Git clone
+        uses: actions/checkout@v4
+      - name: Build Carl-storm from Dockerfile
+        run: |
+          docker build -t movesrwth/carl-storm:ci . \
+            --build-arg BASE_IMAGE=movesrwth/storm-basesystem:${{ matrix.distro }} \
+            --build-arg build_type="${{ matrix.buildType }}" \
+            --build-arg no_threads=${NR_JOBS}
+      - name: Run Docker
+        run: docker run -d -it --name ci movesrwth/carl-storm:ci
+      - name: Build tests
+        run: docker exec ci bash -c "cd /opt/carl/build; make -j ${NR_JOBS}"
+      - name: Run tests
+        run: docker exec ci bash -c "cd /opt/carl/build; ctest test --output-on-failure"
+
 
   deploy:
     name: Test and Deploy (${{ matrix.buildType.name }})
@@ -87,7 +111,7 @@ jobs:
   notify:
     name: Email notification
     runs-on: ubuntu-latest
-    needs: [distroTests, deploy]
+    needs: [distroTests, minimalTests, deploy]
     # Only run in main repo and even if previous step failed
     if: github.repository_owner == 'moves-rwth' && always()
     steps:
