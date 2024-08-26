@@ -42,7 +42,7 @@ jobs:
         run: docker exec ci bash -c "cd /opt/carl/build; ctest test --output-on-failure"
 
   minimalTests:
-    name: Minimal dependencies Tests ${{ matrix.buildType }})
+    name: Minimal dependencies Tests (${{ matrix.buildType }})
     runs-on: ubuntu-latest
     strategy:
       matrix:

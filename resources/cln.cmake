@@ -2,12 +2,14 @@ string(REPLACE "." "-" CLN_TAG ${CLN_VERSION})
 
 ExternalProject_Add(
 	CLN-EP
-	#URL https://www.ginac.de/CLN/cln-${CLN_VERSION}.tar.bz2
-	GIT_REPOSITORY "git://www.ginac.de/cln.git"
-	GIT_TAG "cln_${CLN_TAG}"
+	URL https://www.ginac.de/CLN/cln-${CLN_VERSION}.tar.bz2
+	#GIT_REPOSITORY "git://www.ginac.de/cln.git"
+	#GIT_TAG "cln_${CLN_TAG}"
 	DOWNLOAD_NO_PROGRESS 1
-	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-	BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --config ${CMAKE_BUILD_TYPE} --target cln
+	CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+	#CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+	#BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --config ${CMAKE_BUILD_TYPE} --target cln
+	BUILD_COMMAND ${CMAKE_MAKE_PROGRAM}
 	LOG_INSTALL 1
 	BUILD_BYPRODUCTS ${INSTALL_DIR}/lib/libcln${DYNAMIC_EXT} ${INSTALL_DIR}/lib/libcln${STATIC_EXT}
 )
