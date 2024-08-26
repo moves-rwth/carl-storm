@@ -14,4 +14,4 @@ add_imported_library(BLISS STATIC "${INSTALL_DIR}/lib/libbliss${STATIC_EXT}" "${
 
 add_dependencies(BLISS_SHARED BLISS-EP)
 add_dependencies(BLISS_STATIC BLISS-EP)
-add_dependencies(resources BLISS_SHARED BLISS_STATIC)
+add_dependencies(carl_resources BLISS_SHARED BLISS_STATIC)

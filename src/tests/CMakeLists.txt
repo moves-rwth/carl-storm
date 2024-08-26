@@ -3,7 +3,7 @@ add_custom_target(all-tests)
 
 add_library(TestCommon STATIC Common.cpp)
 target_link_libraries(TestCommon lib_carl ${GTEST_LIBRARIES})
-add_dependencies(TestCommon resources lib_carl GTESTCORE_STATIC GTESTMAIN_STATIC)
+add_dependencies(TestCommon carl_resources lib_carl GTESTCORE_STATIC GTESTMAIN_STATIC)
 
 ################################
 # Unit Tests
@@ -14,7 +14,6 @@ add_subdirectory(numbers)
 add_subdirectory(core)
 add_subdirectory(formula)
 add_subdirectory(interval)
-add_subdirectory(benchmarks)
 # Only for debugging.
 #add_subdirectory(debug)
 

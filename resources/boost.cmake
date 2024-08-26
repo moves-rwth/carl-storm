@@ -40,4 +40,4 @@ unset(static_libs)
 
 add_dependencies(Boost_SHARED Boost-EP)
 add_dependencies(Boost_STATIC Boost-EP)
-add_dependencies(resources Boost_SHARED Boost_STATIC)
+add_dependencies(carl_resources Boost_SHARED Boost_STATIC)

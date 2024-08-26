@@ -20,7 +20,7 @@ endforeach()
 file(GLOB_RECURSE carl_lib_sources "*.cpp")
 
 add_library(lib_carl SHARED ${carl_lib_sources})
-add_dependencies(lib_carl resources)
+add_dependencies(lib_carl carl_resources)
 set_target_properties( lib_carl PROPERTIES
 	VERSION "${LIB_VERSION}"
 	SOVERSION "${LIB_VERSION}"
@@ -53,7 +53,7 @@ endif()
 
 if(BUILD_STATIC)
 	add_library(lib_carl_static STATIC ${carl_lib_sources})
-	add_dependencies(lib_carl_static resources)
+	add_dependencies(lib_carl_static carl_resources)
 	set_target_properties( lib_carl_static PROPERTIES
 		VERSION "${LIB_VERSION}"
 		SOVERSION "${LIB_VERSION}"
@@ -88,7 +88,6 @@ else()
 	set(CARL_TARGETS lib_carl CACHE STRING INTERNAL FORCE)
 endif()
 
-cotire(carl)
 include(install)
 
 if (CLANG_TIDY)

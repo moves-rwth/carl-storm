@@ -17,4 +17,4 @@ endif()
 set_target_properties(Doxygen::doxygen PROPERTIES IMPORTED_LOCATION "${INSTALL_DIR}/bin/doxygen")
 
 add_dependencies(Doxygen::doxygen Doxygen-EP)
-add_dependencies(resources Doxygen-EP)
+add_dependencies(carl_resources Doxygen-EP)

@@ -26,4 +26,4 @@ add_imported_library(COCOA STATIC "${INSTALL_DIR}/lib/libcocoa${STATIC_EXT}" "${
 add_dependencies(CoCoALib-EP GMP_STATIC)
 add_dependencies(COCOA_SHARED CoCoALib-EP GMPXX_SHARED)
 add_dependencies(COCOA_STATIC CoCoALib-EP GMP_STATIC)
-add_dependencies(resources COCOA_SHARED COCOA_STATIC)
+add_dependencies(carl_resources COCOA_SHARED COCOA_STATIC)
