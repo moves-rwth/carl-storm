@@ -6,7 +6,7 @@ ExternalProject_Add(
 	#GIT_REPOSITORY "git://www.ginac.de/cln.git"
 	#GIT_TAG "cln_${CLN_TAG}"
 	DOWNLOAD_NO_PROGRESS 1
-	CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+	CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --disable-static
 	#CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
 	#BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --config ${CMAKE_BUILD_TYPE} --target cln
 	BUILD_COMMAND ${CMAKE_MAKE_PROGRAM}
