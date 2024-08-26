@@ -10,13 +10,9 @@ add_dependencies(TestCommon resources lib_carl GTESTCORE_STATIC GTESTMAIN_STATIC
 ################################
 add_subdirectory(util)
 add_subdirectory(numbers)
-#add_subdirectory(numbers_boost)
 add_subdirectory(core)
 add_subdirectory(formula)
 add_subdirectory(interval)
-add_subdirectory(benchmarks)
-# Only for debugging.
-#add_subdirectory(debug)
 
 if (CLANG_TIDY)
 	add_custom_target(tidy-tests

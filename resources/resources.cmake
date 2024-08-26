@@ -166,11 +166,6 @@ IF(USE_MPFR_FLOAT)
 	load_library(carl MPFR 0.0 REQUIRED)
 endif()
 
-##### Z3
-if(COMPARE_WITH_Z3)
-    load_library(carl Z3 4.0)
-endif()
-
 ##### Doxygen
 find_package(Doxygen 1.8.9 QUIET)
 if(DOXYGEN_FOUND AND ${CMAKE_VERSION} VERSION_LESS "3.9.0")

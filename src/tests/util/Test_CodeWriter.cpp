@@ -50,11 +50,6 @@ struct TestAdditionExecutor {\n\
 	\tcarl::GMP operator()(const std::tuple<carl::GMP,carl::GMP>& args) {\n\
 		\t\treturn GiNaC::expand(std::get<0>(args) + std::get<1>(args));\n\
 	\t}\n\
-	\t#ifdef COMPARE_WITH_Z3 \n\
-	\tcarl::ZMP operator()(const std::tuple<carl::ZMP,carl::ZMP>& args) {\n\
-		\t\treturn std::get<0>(args) + std::get<1>(args);\n\
-	\t}\n\
-	\t#endif\n\
 };" << std::endl<<std::endl;
 	out << "using carl::BenchmarkTest;\n\
 TEST_F(BenchmarkTest, Addition)\n\
@@ -63,9 +58,6 @@ TEST_F(BenchmarkTest, Addition)\n\
 	\tbi.n = TestAdditionGenerator<Coeff>::size;\n\
 	\tcarl::Benchmark<TestAdditionGenerator<Coeff>, TestAdditionExecutor, carl::CMP<Coeff>> bench(bi, \"CArL\");\n\
 	\tbench.compare<carl::GMP, carl::TupleConverter<carl::GMP,carl::GMP>>(\"GiNaC\");\n\
-	\t#ifdef COMPARE_WITH_Z3\n\
-	\tbench.compare<carl::ZMP, carl::TupleConverter<carl::ZMP,carl::ZMP>>(\"Z3\");\n\
-	\t#endif\n\
 }\
 " << std::endl;
 }
