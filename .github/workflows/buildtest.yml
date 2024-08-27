@@ -14,8 +14,8 @@ on:
   pull_request:
 
 env:
-  # GitHub runners currently have two cores
-  NR_JOBS: "2"
+  # GitHub runners currently have 4 cores
+  NR_JOBS: "4"
 
 jobs:
   distroTests:
@@ -42,7 +42,7 @@ jobs:
         run: docker exec ci bash -c "cd /opt/carl/build; ctest test --output-on-failure"
 
   minimalTests:
-    name: Minimal dependencies Tests ${{ matrix.buildType }})
+    name: Minimal dependencies Tests (${{ matrix.buildType }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
