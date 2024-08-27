@@ -7,6 +7,7 @@ string(REPLACE "." "-" GINAC_TAG ${GINAC_VERSION})
 
 ExternalProject_Add(
 	GiNaC-EP
+	# Use archive instead of Git repository because availability of Git repo was not stable enough
 	URL https://www.ginac.de/ginac-${GINAC_VERSION}.tar.bz2
 	#GIT_REPOSITORY "git://www.ginac.de/ginac.git"
 	#GIT_TAG "release_${GINAC_TAG}"
