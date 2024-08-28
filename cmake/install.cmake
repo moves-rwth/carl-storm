@@ -27,5 +27,5 @@
 
 	install(FILES ${PROJECT_BINARY_DIR}/carlConfig.install.cmake DESTINATION ${CARL_CMAKE_INSTALL_DIR} RENAME carlConfig.cmake)
 	install(FILES ${PROJECT_BINARY_DIR}/carlConfigVersion.cmake DESTINATION ${CARL_CMAKE_INSTALL_DIR})
-	install(EXPORT carl_Targets FILE carlTargets.cmake DESTINATION ${CMAKE_INSTALL_DIR})
+	install(EXPORT carl_Targets FILE carlTargets.cmake DESTINATION ${CARL_CMAKE_INSTALL_DIR})
 
