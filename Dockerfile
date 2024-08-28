@@ -8,7 +8,7 @@
 # Set base image
 ARG BASE_IMAGE=movesrwth/storm-basesystem:latest
 FROM $BASE_IMAGE
-MAINTAINER Matthias Volk <m.volk@tue.nl>
+LABEL org.opencontainers.image.authors="dev@stormchecker.org"
 
 
 # Configuration arguments
@@ -35,7 +35,7 @@ RUN mkdir -p /opt/carl/build
 WORKDIR /opt/carl/build
 
 # Configure Carl
-RUN cmake .. -DCMAKE_BUILD_TYPE=$build_type
+RUN cmake .. -DCMAKE_BUILD_TYPE=$build_type -DPORTABLE=ON
 
 # Build Carl library
 RUN make lib_carl -j $no_threads
