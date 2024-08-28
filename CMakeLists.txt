@@ -9,11 +9,13 @@
 # G. CPack
 # # # # # # # # # # # # # # # # # # # # # #
 
-cmake_minimum_required (VERSION 3.15)
+cmake_minimum_required (VERSION 3.22)
 
 if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.24")
 	cmake_policy(SET CMP0135 NEW) # Use timestamps from time of extraction
 endif()
+
+set(CMAKE_CXX_STANDARD 20)
 
 # # # # # # # # # # # # # # # # # # # # # #
 # A. Project properties
@@ -52,7 +54,6 @@ option( FORCE_SHIPPED_GMP "Do not look in system for lib gmp" OFF )
 export_option(FORCE_SHIPPED_GMP)
 option( USE_GINAC "Compile with testing with the runtime and result comparisons of carl to ginac" ON )
 export_option(USE_GINAC)
-option( COMPARE_WITH_Z3 "Compile benchmarks that compare to z3" OFF )
 option( USE_Z3_NUMBERS "Make z3 rationals available in carl" OFF )
 option( USE_CLN_NUMBERS "Make cln rationals and integers available in carl" ON )
 export_option(USE_CLN_NUMBERS)
