@@ -82,11 +82,11 @@ set(CLANG_SANITIZER "none" CACHE STRING "Compile with the respective sanitizer")
 set_property(CACHE CLANG_SANITIZER PROPERTY STRINGS none address memory thread)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-if (NOT CMAKE_BUILD_TYPE OR CARL_COMPILE_RELEASE)
+if (PROJECT_IS_TOP_LEVEL)
 	set(CMAKE_BUILD_TYPE "RELEASE" CACHE STRING "Build type." FORCE)
+	set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "DEBUG" "RELEASE")
 endif()
 
-set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "DEBUG" "RELEASE")
 
 set(CARL_LIBRARIES_DIR "${PROJECT_BINARY_DIR}/lib")
 
@@ -174,6 +174,7 @@ include(resources/resources.cmake)
 # we only search for this libraries in the system, if we do not force using the shipped resources.
 if(PROJECT_IS_TOP_LEVEL)
 	enable_testing()
+	include(coverage)
 endif()
 
 #dl must be linked LAST as this is required for the stacktrace in util/platform.h
@@ -181,10 +182,9 @@ if (NOT WIN32)
 	list(APPEND carl_LIBRARIES_DYNAMIC pthread dl)
 endif()
 
-include(clang-tidy)
-include(coverage)
-
 if (TARGET Doxygen::doxygen AND PROJECT_IS_TOP_LEVEL)
+	include(clang-tidy)
+	include(resources/doc-resources.cmake)
 	add_subdirectory(doxygen-conf)
 endif()
 add_subdirectory(src)
