@@ -104,7 +104,6 @@ else()
   set(DEF_INSTALL_CMAKE_DIR lib/cmake/carl)
 endif()
 if (PROJECT_IS_TOP_LEVEL)
-	message("Project is top level")
 	set(CMAKE_INSTALL_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH  "Installation directory for CMake files")
 endif()
 
