@@ -1,12 +1,12 @@
-include_directories(${CMAKE_SOURCE_DIR}/src ${include_dirs})
+include_directories(${PROJECT_SOURCE_DIR}/src ${include_dirs})
 
-configure_file( ${CMAKE_SOURCE_DIR}/src/examples/config.h.in
-			   ${CMAKE_SOURCE_DIR}/src/examples/config.h
+configure_file( ${PROJECT_SOURCE_DIR}/src/examples/config.h.in
+			   ${PROJECT_SOURCE_DIR}/src/examples/config.h
 )
 
 add_custom_target(all-examples)
 
-file(GLOB_RECURSE example_sources LIST_DIRECTORIES false RELATIVE ${CMAKE_SOURCE_DIR}/src/examples/ "*.cpp")
+file(GLOB_RECURSE example_sources LIST_DIRECTORIES false RELATIVE ${PROJECT_SOURCE_DIR}/src/examples/ "*.cpp")
 
 foreach(src ${example_sources})
 	string(REGEX REPLACE ".cpp$" "" name ${src})

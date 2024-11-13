@@ -15,7 +15,7 @@ ExternalProject_Add(
 	COMMAND ${CMAKE_COMMAND} -E make_directory <INSTALL_DIR>/include
 	COMMAND ${CMAKE_COMMAND} -E make_directory <INSTALL_DIR>/lib
 	COMMAND ${CMAKE_MAKE_PROGRAM} install
-	BUILD_BYPRODUCTS ${CMAKE_BINARY_DIR}/resources/src/CoCoALib-EP/lib/libcocoa${STATIC_EXT}
+	BUILD_BYPRODUCTS ${PROJECT_BINARY_DIR}/resources/src/CoCoALib-EP/lib/libcocoa${STATIC_EXT}
 )
 
 ExternalProject_Get_Property(CoCoALib-EP INSTALL_DIR)
@@ -26,4 +26,4 @@ add_imported_library(COCOA STATIC "${INSTALL_DIR}/lib/libcocoa${STATIC_EXT}" "${
 add_dependencies(CoCoALib-EP GMP_STATIC)
 add_dependencies(COCOA_SHARED CoCoALib-EP GMPXX_SHARED)
 add_dependencies(COCOA_STATIC CoCoALib-EP GMP_STATIC)
-add_dependencies(resources COCOA_SHARED COCOA_STATIC)
+add_dependencies(carl_resources COCOA_SHARED COCOA_STATIC)
