@@ -1,9 +1,3 @@
-# include directories.
-#message(STATUS "Including ${include_dirs}")
-#include_directories(
-#	${include_dirs}
-#)
-
 set(LIB_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
 
 # include util in library.
