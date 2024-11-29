@@ -15,10 +15,15 @@ function(set_version major minor patch)
 	if(patch)
 		set(PROJECT_VERSION_FULL "${major}.${minor}.${patch_full}" PARENT_SCOPE)
 		set(PROJECT_VERSION "${major}.${minor}.${patch}" PARENT_SCOPE)
+
 	else()
 		set(PROJECT_VERSION_FULL "${major}.${minor}" PARENT_SCOPE)
 		set(PROJECT_VERSION "${major}.${minor}" PARENT_SCOPE)
 	endif()
+	set(${PROJECT_NAME}_VERSION_MAJOR ${PROJECT_VERSION_MAJOR} PARENT_SCOPE)
+	set(${PROJECT_NAME}_VERSION_MINOR ${PROJECT_VERSION_MINOR} PARENT_SCOPE)
+	set(${PROJECT_NAME}_VERSION_PATCH ${PROJECT_VERSION_PATCH} PARENT_SCOPE)
+
 endfunction(set_version)
 
 function(add_imported_library_interface name include)

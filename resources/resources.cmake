@@ -1,7 +1,12 @@
 include(ExternalProject)
-set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/resources)
+set_directory_properties(PROPERTIES EP_PREFIX ${PROJECT_BINARY_DIR}/resources)
 
+
+add_custom_target(carl_resources)
+if(PROJECT_TOP_LEVEL)
 add_custom_target(resources)
+add_dependencies(resources carl_resources)
+endif()
 
 ###############
 ##### Generic resource configuration
@@ -29,12 +34,12 @@ function(print_resource_info name target version)
 			get_target_property(PATH2 ${target} INTERFACE_LINK_LIBRARIES)
 		endif()
 		if(PATH1 AND PATH2)
-			message(STATUS "${name} ${version} was found at ${PATH1} and ${PATH2}")
+			message(STATUS "carl - ${name} ${version} was found at ${PATH1} and ${PATH2}")
 		else()
-			message(STATUS "${name} ${version} was found at ${PATH1}")
+			message(STATUS "carl - ${name} ${version} was found at ${PATH1}")
 		endif()
 	else()
-		message(STATUS "${name} was not found.")
+		message(STATUS "carl - ${name} was not found.")
 	endif()
 endfunction(print_resource_info)
 
@@ -98,7 +103,7 @@ if(USE_BLISS)
 	endif()
 	print_resource_info("Bliss" BLISS_SHARED ${BLISS_VERSION})
 else()
-	message(STATUS "Bliss is disabled")
+	message(STATUS "carl - Bliss is disabled")
 endif()
 
 ##### CLN
@@ -117,7 +122,7 @@ if(USE_CLN_NUMBERS)
 	set_target_properties(CLN_STATIC PROPERTIES LINK_INTERFACE_LIBRARIES "GMP_STATIC")
 	print_resource_info("CLN" CLN_SHARED ${CLN_VERSION})
 else()
-	message(STATUS "CLN is disabled")
+	message(STATUS "carl - CLN is disabled")
 endif()
 
 
@@ -134,7 +139,7 @@ if(USE_COCOA)
 	endif()
 	print_resource_info("CoCoA" COCOA_SHARED ${COCOA_VERSION})
 else()
-	message(STATUS "CoCoA is disabled")
+	message(STATUS "carl - CoCoA is disabled")
 endif()
 
 ##### GiNaC
@@ -148,7 +153,7 @@ if(USE_GINAC)
 	endif()
 	print_resource_info("GiNaC" GINAC_SHARED ${GINAC_VERSION})
 else()
-	message(STATUS "GiNaC is disabled")
+	message(STATUS "carl - GiNaC is disabled")
 endif()
 
 
@@ -165,18 +170,3 @@ print_resource_info("GTest" GTESTMAIN_STATIC ${GTEST_VERSION})
 IF(USE_MPFR_FLOAT)
 	load_library(carl MPFR 0.0 REQUIRED)
 endif()
-
-##### Doxygen
-find_package(Doxygen 1.8.9 QUIET)
-if(DOXYGEN_FOUND AND ${CMAKE_VERSION} VERSION_LESS "3.9.0")
-	add_executable(Doxygen::doxygen IMPORTED GLOBAL)
-	set_target_properties(Doxygen::doxygen PROPERTIES IMPORTED_LOCATION "${DOXYGEN_EXECUTABLE}")
-endif()
-if(NOT DOXYGEN_FOUND AND BUILD_DOXYGEN)
-	set(DOXYGEN_VERSION "1.8.14")
-	include(resources/doxygen.cmake)
-	add_custom_target(doxygen-build DEPENDS Doxygen::doxygen Doxygen-EP)
-else()
-	add_custom_target(doxygen-build DEPENDS Doxygen::doxygen)
-endif()
-print_resource_info("Doxygen" Doxygen::doxygen "${DOXYGEN_VERSION}")
