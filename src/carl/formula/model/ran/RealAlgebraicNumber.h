@@ -4,7 +4,6 @@
  * @file
  * Represent a real algebraic number (RAN) in one of several ways:
  * - Implicitly by a univariate polynomial and an interval.
- * - Implicitly by a polynomial and a sequence of signs (called Thom encoding).
  * - Explicitly by a rational number.
  * Rationale:
  * - A real number cannot always be adequately represented in finite memory, since
@@ -19,10 +18,6 @@
  *   to do relatively fast arithmetic with this representation without rounding errors.
  * - When the algebraic real is only finitely long prefer the rational number
  *   representation because it's faster.
- * - The idea of the Thom-Encoding is as follows: Take a square-free univariate polynomial p
- *   with degree n that has the algebraic real as its root, compute the first n-1 derivates of p,
- *   plug in this algebraic real into each derivate and only keep the sign.
- *   Then polynomial p with this sequence of signs uniquely represents this algebraic real.
  */
 
 #include <iostream>
@@ -36,7 +31,6 @@
 
 #include "RealAlgebraicNumberSettings.h"
 
-#include "../../../thom/ThomEncoding.h"
 #include "RealAlgebraicNumber_Interval.h"
 
 namespace carl {
@@ -62,8 +56,6 @@ private:
 	bool mIsRoot = true;
   // Interval representation
 	mutable std::shared_ptr<IntervalContent> mIR;
-  // ThomEncoding
-	std::shared_ptr<ThomEncoding<Number>> mTE;
 
 	void checkForSimplification() const {
 	  //make numeric if possible
@@ -123,10 +115,7 @@ public:
 		}
 	}
 
-	explicit RealAlgebraicNumber(const ThomEncoding<Number>& te, bool isRoot = true):
-		mIsRoot(isRoot),
-		mTE(std::make_shared<ThomEncoding<Number>>(te))
-	{}
+
 
 	RealAlgebraicNumber(const RealAlgebraicNumber& ran) = default;
 	RealAlgebraicNumber(RealAlgebraicNumber&& ran) = default;
@@ -160,7 +149,6 @@ public:
 	bool isZero() const {
 		if (isNumeric()) return carl::isZero(mValue);
 		else if (isInterval()) return mIR->interval.isZero();
-		else if (isThom()) return mTE->isZero();
 		else return false;
 	}
 
@@ -169,7 +157,7 @@ public:
 	 */
 	bool isNumeric() const {
 		checkForSimplification();
-		return !mIR && !mTE;
+		return !mIR;
 	}
 	/**
 	 * Check if the underlying representation is an implict number
@@ -180,17 +168,6 @@ public:
 		return bool(mIR);
 	}
 
-	/**
-	 * Check if the underlying representation is an implicit number
-	 * that uses the Thom encoding.
-	 */
-	bool isThom() const noexcept {
-		return bool(mTE);
-	}
-	const ThomEncoding<Number>& getThomEncoding() const {
-		assert(isThom());
-		return *mTE;
-	}
 
 
 	bool isIntegral() const {
@@ -219,7 +196,7 @@ public:
 	}
 
 	std::size_t getRefinementCount() const {
-		assert(!isNumeric() && !isThom());
+		assert(!isNumeric());
 		assert(isInterval());
 		return mIR->refinementCount;
 	}
@@ -257,9 +234,7 @@ public:
 		else if (isInterval()) {
 			return mIR->interval.sgn();
 		}
-		else if(isThom()) {
-			return mTE->sgnReprNum();
-		}
+
 		else return Sign::ZERO;
 	}
 
@@ -268,16 +243,14 @@ public:
 			return carl::sgn(p.evaluate(mValue));
 		} else if (isInterval()){
 			return mIR->sgn(p);
-		} else {
-			assert(isThom());
-			return mTE->signOnPolynomial(MultivariatePolynomial<Number>(p));
 		}
+		assert(false);
+
 	}
 
 	bool isRootOf(const UnivariatePolynomial<Number>& p) const {
 		if (isNumeric()) return p.countRealRoots(value()) == 1;
 		else if (isInterval()) return p.countRealRoots(mIR->interval) == 1;
-		else if (isThom()) return this->sgn(p) == Sign::ZERO;
 		else return false;
 	}
 
@@ -297,16 +270,6 @@ public:
 				if (isNumeric()) return i.contains(mValue);
 			}
 			return i.contains(mIR->interval);
-		} else if (isThom()) {
-			if(i.lowerBoundType() != BoundType::INFTY) {
-				if(i.lowerBoundType() == BoundType::STRICT && *mTE <= i.lower()) return false;
-				if(i.lowerBoundType() == BoundType::WEAK && *mTE < i.lower()) return false;
-			}
-			if(i.upperBoundType() != BoundType::INFTY) {
-				if(i.upperBoundType() == BoundType::STRICT && *mTE >= i.upper()) return false;
-				if(i.upperBoundType() == BoundType::WEAK && *mTE > i.upper()) return false;
-			}
-			return true;
 		}
 		else return false;
 	}
@@ -368,7 +331,6 @@ template<typename Num>
 std::ostream& operator<<(std::ostream& os, const RealAlgebraicNumber<Num>& ran) {
 	if (ran.isNumeric()) return os << "(NR " << ran.value() << (ran.isRoot() ? " R" : "") << ")";
 	else if (ran.isInterval()) return os << "(IR " << ran.getInterval() << ", " << ran.getIRPolynomial() << (ran.isRoot() ? " R" : "") << ")";
-	else if (ran.isThom()) return os << "(TE " << ran.getThomEncoding() << (ran.isRoot() ? " R" : "") << ")";
 	else return os << "(RAN)"; // should never be the case
 }
 

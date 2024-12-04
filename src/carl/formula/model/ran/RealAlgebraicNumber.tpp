@@ -9,18 +9,7 @@ namespace carl {
 		CARL_LOG_FUNC("carl.ran", *this << ", " << n);
 		if (this == &n) return true;
 
-		if(this->isThom() || n.isThom()) {
-			assert(!this->isInterval() && !n.isInterval());
-			if(this->isThom() && n.isThom()) {
-				return *(this->mTE) == *(n.mTE);
-			} else if(this->isThom() && n.isNumeric()) {
-				return *(this->mTE) == n.value();
-			} else {
-				assert(this->isNumeric() && n.isThom());
-				return this->value() == *(n.mTE);
-			}
-		}
-		assert(!isThom() && !n.isThom());
+
 
 		if (isNumeric()) {
 			if (n.isNumeric()) {
@@ -74,11 +63,6 @@ namespace carl {
 				} else {
 					return value() <= n.lower();
 				}
-			} else {
-				assert(n.isThom());
-				bool res = this->value() < *(n.mTE);
-				CARL_LOG_TRACE("carl.ran", "result is " << res);
-				return res;
 			}
 		} else if(isInterval()) {
 			if (n.isNumeric()) {
@@ -90,17 +74,8 @@ namespace carl {
 				}
 			}
 		} else {
-			assert(isThom());
-			if(n.isNumeric()) {
-				bool res = *mTE < n.value();
-				CARL_LOG_TRACE("carl.ran", "result is " << res);
-				return res;
-			} else {
-				assert(n.isThom());
-				bool res =  *mTE < *(n.mTE);
-				CARL_LOG_TRACE("carl.ran", "result is " << res);
-				return res;
-			}
+			assert(false);
+
 		}
 
 		if (mIR == n.mIR) return false;
