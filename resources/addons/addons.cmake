@@ -11,7 +11,7 @@ if(BUILD_ADDONS)
 
 	if(BUILD_ADDON_PARSER)
 		if(NOT USE_GINAC)
-			message(WARNING "Parser addon requires ginac!")
+			message(WARNING "carl - Parser addon requires ginac!")
 		endif()
 		include(resources/addons/carl-parser.cmake)
 	endif()

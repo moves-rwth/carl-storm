@@ -107,8 +107,8 @@ if (PROJECT_IS_TOP_LEVEL)
 endif()
 
 if(APPLE AND ${CMAKE_SYSTEM_PROCESSOR} MATCHES arm64)
-    message(STATUS "Detected that target system uses Apple Silicon.")
-	message(WARNING "Compiling natively on Apple Silicon is experimental. Please report issues to support@stormchecker.org. For more information visit https://www.stormchecker.org/documentation/obtain-storm/apple-silicon.html")
+    message(STATUS "carl - Detected that target system uses Apple Silicon.")
+	message(WARNING "carl - Compiling natively on Apple Silicon is experimental. Please report issues to support@stormchecker.org. For more information visit https://www.stormchecker.org/documentation/obtain-storm/apple-silicon.html")
 	set(APPLE_SILICON 1)
 endif()
 
