@@ -34,7 +34,7 @@ set( PROJECT_DESCRIPTION "Computer ARithmetic Library")
 set( carl_NAME "CArL" )
 set( carl_DESCRIPTION ${PROJECT_DESCRIPTION} )
 
-message(STATUS "Version: ${PROJECT_FULLNAME} ${PROJECT_VERSION_FULL}")
+message(STATUS "carl - Version: ${PROJECT_FULLNAME} ${PROJECT_VERSION_FULL}")
 
 # # # # # # # # # # # # # # # # # # # # # #
 # B. Options
@@ -63,7 +63,6 @@ option( USE_BLISS "Use bliss" OFF )
 export_option(USE_BLISS)
 OPTION( USE_MPFR_FLOAT "Use the mpfr implementation of floating point numbers." OFF )
 export_option(USE_MPFR_FLOAT)
-option( USE_COTIRE "Use cotire to generate and use precompiled headers" OFF )
 option( PORTABLE "Enable portable build without hardware-specific compiler flags." OFF)
 export_option(PORTABLE)
 option( BUILD_STATIC "Build the static library as well" OFF )
@@ -76,23 +75,26 @@ option( PRUNE_MONOMIAL_POOL "Prune monomial pool" ON )
 option( EXCLUDE_TESTS_FROM_ALL "If set, tests will not be compiled by default" OFF )
 export_option(EXCLUDE_TESTS_FROM_ALL)
 
+option (CARL_COMPILE_BENCHMARKS "Compile Benchmarks" OFF)
+
 set(CLANG_SANITIZER "none" CACHE STRING "Compile with the respective sanitizer")
 set_property(CACHE CLANG_SANITIZER PROPERTY STRINGS none address memory thread)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-if (NOT CMAKE_BUILD_TYPE)
+if (PROJECT_IS_TOP_LEVEL)
 	set(CMAKE_BUILD_TYPE "RELEASE" CACHE STRING "Build type." FORCE)
+	set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "DEBUG" "RELEASE")
 endif()
 
-set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "DEBUG" "RELEASE")
 
 set(CARL_LIBRARIES_DIR "${PROJECT_BINARY_DIR}/lib")
 
 # Offer the user the choice of overriding the installation directories
-set(INCLUDE_INSTALL_DIR include/ CACHE PATH "Installation directory for header files" )
-set(LIB_INSTALL_DIR lib/ CACHE PATH "Installation directory for libraries")
-#set(SYSCONFIG_INSTALL_DIR etc/carl/  CACHE PATH "Installation for system configuration files)
-set(BIN_INSTALL_DIR lib/ CACHE PATH "Installation directory for executables")
+set(CARL_INCLUDE_INSTALL_DIR include/ CACHE PATH "Installation directory for header files" )
+set(CARL_LIB_INSTALL_DIR lib/ CACHE PATH "Installation directory for libraries")
+set(CARL_BIN_INSTALL_DIR bin/ CACHE PATH "Installation directory for executables")
+set(CARL_CMAKE_INSTALL_DIR lib/cmake/ CACHE PATH "Installation directory for executables")
+
 
 
 if(WIN32 AND NOT CYGWIN)
@@ -100,16 +102,18 @@ if(WIN32 AND NOT CYGWIN)
 else()
   set(DEF_INSTALL_CMAKE_DIR lib/cmake/carl)
 endif()
-set(CMAKE_INSTALL_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH  "Installation directory for CMake files")
+if (PROJECT_IS_TOP_LEVEL)
+	set(CMAKE_INSTALL_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH  "Installation directory for CMake files")
+endif()
 
 if(APPLE AND ${CMAKE_SYSTEM_PROCESSOR} MATCHES arm64)
-    message(STATUS "Detected that target system uses Apple Silicon.")
-	message(WARNING "Compiling natively on Apple Silicon is experimental. Please report issues to support@stormchecker.org. For more information visit https://www.stormchecker.org/documentation/obtain-storm/apple-silicon.html")
+    message(STATUS "carl - Detected that target system uses Apple Silicon.")
+	message(WARNING "carl - Compiling natively on Apple Silicon is experimental. Please report issues to support@stormchecker.org. For more information visit https://www.stormchecker.org/documentation/obtain-storm/apple-silicon.html")
 	set(APPLE_SILICON 1)
 endif()
 
 foreach(p LIB BIN INCLUDE CMAKE)
-  set(var ${p}_INSTALL_DIR)
+  set(var CARL_${p}_INSTALL_DIR)
   if(NOT IS_ABSOLUTE "${${var}}")
     set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
   endif()
@@ -131,15 +135,13 @@ elseif (WIN32)
 endif()
 
 if(BUILD_STATIC)
-	message(STATUS "Building static: yes")
+	message(STATUS "carl - Building static: yes")
 	if (LOGGING)
-	message(WARNING "A static build with logging enabled will probably trigger a segfault!")
+	message(WARNING "carl - A static build with logging enabled will probably trigger a segfault!")
 	endif()
 else()
-	message(STATUS "Building static: no")
+	message(STATUS "carl - Building static: no")
 endif()
-
-include(cotire)
 
 # RPATH settings
 # don't skip the full RPATH for the build tree
@@ -168,18 +170,19 @@ SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 include(resources/resources.cmake)
 
 # we only search for this libraries in the system, if we do not force using the shipped resources.
-
-enable_testing()
+if(PROJECT_IS_TOP_LEVEL)
+	enable_testing()
+	include(coverage)
+endif()
 
 #dl must be linked LAST as this is required for the stacktrace in util/platform.h
 if (NOT WIN32)
 	list(APPEND carl_LIBRARIES_DYNAMIC pthread dl)
 endif()
 
-include(clang-tidy)
-include(coverage)
-
-if (TARGET Doxygen::doxygen)
+if (TARGET Doxygen::doxygen AND PROJECT_IS_TOP_LEVEL)
+	include(clang-tidy)
+	include(resources/doc-resources.cmake)
 	add_subdirectory(doxygen-conf)
 endif()
 add_subdirectory(src)

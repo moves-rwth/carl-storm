@@ -23,4 +23,4 @@ add_imported_library(CLN STATIC "${INSTALL_DIR}/lib/libcln${STATIC_EXT}" "${INST
 
 add_dependencies(CLN_SHARED CLN-EP)
 add_dependencies(CLN_STATIC CLN-EP)
-add_dependencies(resources CLN_SHARED CLN_STATIC)
+add_dependencies(carl_resources CLN_SHARED CLN_STATIC)

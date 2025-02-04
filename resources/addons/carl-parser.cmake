@@ -2,7 +2,7 @@
 ExternalProject_Add(
     carl-parser
 	GIT_REPOSITORY https://github.com/moves-rwth/carl-parser.git
-	CMAKE_ARGS -Dcarl_DIR=${CMAKE_BINARY_DIR}
+	CMAKE_ARGS -Dcarl_DIR=${PROJECT_BINARY_DIR}
 	INSTALL_COMMAND ""
 )
 
