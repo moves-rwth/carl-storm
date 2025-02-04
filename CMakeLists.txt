@@ -75,7 +75,6 @@ option( PRUNE_MONOMIAL_POOL "Prune monomial pool" ON )
 option( EXCLUDE_TESTS_FROM_ALL "If set, tests will not be compiled by default" OFF )
 export_option(EXCLUDE_TESTS_FROM_ALL)
 
-option( CARL_COMPILE_RELEASE "Compile in Release mode irrespectively of CMAKE_BUILD_TYPE" OFF)
 option (CARL_COMPILE_BENCHMARKS "Compile Benchmarks" OFF)
 
 set(CLANG_SANITIZER "none" CACHE STRING "Compile with the respective sanitizer")
