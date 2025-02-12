@@ -108,16 +108,14 @@ set(CARL_CMAKE_INSTALL_DIR lib/cmake/ CACHE PATH "Installation directory for exe
 
 
 
-if(PROJECT_IS_TOP_LEVEL)
-	set(DEF_INSTALL_CMAKE_DIR lib/cmake/carl)
-	if (PROJECT_IS_TOP_LEVEL)
-		set(CMAKE_INSTALL_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH  "Installation directory for CMake files")
-	endif()
-endif ()
+
+set(DEF_INSTALL_CMAKE_DIR lib/cmake/carl)
+if (PROJECT_IS_TOP_LEVEL)
+	set(CMAKE_INSTALL_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH  "Installation directory for CMake files")
+endif()
 
 if(APPLE AND ${CMAKE_SYSTEM_PROCESSOR} MATCHES arm64)
-	message(STATUS "carl - Detected that target system uses Apple Silicon.")
-	message(WARNING "carl - Compiling natively on Apple Silicon is experimental. Please report issues to support@stormchecker.org. For more information visit https://www.stormchecker.org/documentation/obtain-storm/apple-silicon.html")
+    message(STATUS "carl - Detected that target system uses Apple Silicon.")
 	set(APPLE_SILICON 1)
 endif()
 
@@ -263,6 +261,7 @@ endif()
 list(APPEND carl_LIBRARIES_DYNAMIC pthread dl)
 
 
+#dl must be linked LAST as this is required for the stacktrace in util/platform.h
 if (TARGET Doxygen::doxygen AND PROJECT_IS_TOP_LEVEL)
 	include(clang-tidy)
 	include(resources/doc-resources.cmake)
