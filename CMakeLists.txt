@@ -106,10 +106,6 @@ set(CARL_LIB_INSTALL_DIR lib/ CACHE PATH "Installation directory for libraries")
 set(CARL_BIN_INSTALL_DIR bin/ CACHE PATH "Installation directory for executables")
 set(CARL_CMAKE_INSTALL_DIR lib/cmake/ CACHE PATH "Installation directory for executables")
 
-
-
-
-set(DEF_INSTALL_CMAKE_DIR lib/cmake/carl)
 if (PROJECT_IS_TOP_LEVEL)
 	set(CMAKE_INSTALL_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH  "Installation directory for CMake files")
 endif()
@@ -118,7 +114,6 @@ if(APPLE AND ${CMAKE_SYSTEM_PROCESSOR} MATCHES arm64)
     message(STATUS "carl - Detected that target system uses Apple Silicon.")
 	set(APPLE_SILICON 1)
 endif()
-
 
 ##
 add_compile_options($<$<CONFIG:Release>:-O3>)
