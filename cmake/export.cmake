@@ -1,4 +1,3 @@
-option(CARL_EXPORT_TO_CMAKE "Export the project to CMake for easy inclusion" ON)
 
 # Add all targets to the build-tree export set
 export(TARGETS ${CARL_TARGETS} FILE "${PROJECT_BINARY_DIR}/carlTargets.cmake")

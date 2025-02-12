@@ -11,7 +11,7 @@
 #include <sstream>
 #include <vector>
 
-#include "ginac.h"
+#include "ginacAdapter.h"
 
 #include "../core/Monomial.h"
 #include "../core/MultivariatePolynomial.h"

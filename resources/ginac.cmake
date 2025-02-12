@@ -14,18 +14,20 @@ ExternalProject_Add(
 	DOWNLOAD_NO_PROGRESS 1
 	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
 	BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --config ${CMAKE_BUILD_TYPE} --target ginac
-	LOG_INSTALL 1
-	BUILD_BYPRODUCTS ${INSTALL_DIR}/lib/libginac${DYNAMIC_EXT} ${INSTALL_DIR}/lib/libginac${STATIC_EXT}
+
+	BUILD_BYPRODUCTS ${BINARY_DIR}/lib/libginac${DYNAMIC_EXT} ${BINARY_DIR}/lib/libginac${STATIC_EXT}
+	#	STEP_TARGETS install build
 )
+
 
 ExternalProject_Get_Property(GiNaC-EP INSTALL_DIR)
 
-add_imported_library(GINAC SHARED "${INSTALL_DIR}/lib/libginac${DYNAMIC_EXT}" "${INSTALL_DIR}/include")
-#add_imported_library(GINAC STATIC "${INSTALL_DIR}/lib/libginac${STATIC_EXT}" "${INSTALL_DIR}/include")
+add_imported_library(GINAC SHARED "${INSTALL_DIR}/lib/libginac${DYNAMIC_EXT}" "${INSTALL_DIR}/include/ginac/")
+#add_imported_library(GINAC STATIC "${INSTALL_DIR}/lib/libginac${STATIC_EXT}" "${INSTALL_DIR}/include/ginac/")
 
 add_dependencies(GiNaC-EP CLN_SHARED CLN_STATIC)
 add_dependencies(GINAC_SHARED GiNaC-EP)
 #add_dependencies(GINAC_STATIC GiNaC-EP)
-#add_dependencies(carl_resources GINAC_SHARED GINAC_STATIC)
-add_dependencies(carl_resources GINAC_SHARED)
-install(FILES ${INSTALL_DIR}/lib/libginac${DYNAMIC_EXT} DESTINATION ${CARL_LIB_INSTALL_DIR})
+add_dependencies(carl_resources GINAC_SHARED GINAC_STATIC)
+#add_dependencies(carl_resources CLN_STATIC GINAC_STATIC)
+install(IMPORTED_RUNTIME_ARTIFACTS GINAC_SHARED DESTINATION ${CARL_LIB_INSTALL_DIR})

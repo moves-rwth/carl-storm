@@ -7,8 +7,7 @@
 
 function(set_version major minor patch)
 	set(patch "")
-	message(STATUS "Using version ${major}.${minor}.${patch}")
-	
+
 	set(PROJECT_VERSION_MAJOR ${major} PARENT_SCOPE)
 	set(PROJECT_VERSION_MINOR ${minor} PARENT_SCOPE)
 	set(PROJECT_VERSION_PATCH ${patch} PARENT_SCOPE)

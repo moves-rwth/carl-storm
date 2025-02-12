@@ -9,6 +9,6 @@ ExternalProject_Add(
 
 ExternalProject_Get_Property(Eigen3-EP INSTALL_DIR)
 
-add_imported_library(EIGEN3 SHARED "" "${INSTALL_DIR}/include")
+add_imported_library(EIGEN3 SHARED "" "${INSTALL_DIR}/include/eigen3")
 
 add_dependencies(carl_resources Eigen3-EP)
