@@ -14,11 +14,11 @@ ExternalProject_Add(
 	DOWNLOAD_NO_PROGRESS 1
 	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_INSTALL_LIBDIR=lib
 	BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --config ${CMAKE_BUILD_TYPE} --target ginac
-
-	BUILD_BYPRODUCTS ${BINARY_DIR}/lib/libginac${DYNAMIC_EXT} ${BINARY_DIR}/lib/libginac${STATIC_EXT}
+	BUILD_BYPRODUCTS ${INSTALL_DIR}/lib/libginac${DYNAMIC_EXT} ${INSTALL_DIR}/lib/libginac${STATIC_EXT}
 	#	STEP_TARGETS install build
 )
-
+# We currently build ginac dynamically. However, I see good reasons to change to a static build in the near future.
+# The macros here are a bit nonstandard and I want to leave this for ease-of-testing.
 
 ExternalProject_Get_Property(GiNaC-EP INSTALL_DIR)
 
