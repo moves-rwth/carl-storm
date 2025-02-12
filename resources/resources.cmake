@@ -78,21 +78,14 @@ endif()
 print_resource_info("Boost" Boost_SHARED ${Boost_VERSION})
 
 ##### Eigen3
-set(CARL_IMPORT_EIGEN "")
-if (FALSE) #NOT(${CARL_IMPORT_EIGEN} STREQUAL ""))
-	add_imported_library(EIGEN3 SHARED "" "${CARL_IMPORT_EIGEN}/include")
-	message(STATUS "carl - Eigen Imported from .")
-else()
-
-	if(NOT FORCE_SHIPPED_RESOURCES)
-		load_library(carl EIGEN3 3.3)
-	endif()
-	if(NOT EIGEN3_FOUND)
-		set(EIGEN3_VERSION "3.4.0")
-		include(resources/eigen3.cmake)
-	endif()
-	print_resource_info("Eigen3" EIGEN3 ${EIGEN3_VERSION})
+if(NOT FORCE_SHIPPED_RESOURCES)
+	load_library(carl EIGEN3 3.3)
 endif()
+if(NOT EIGEN3_FOUND)
+	set(EIGEN3_VERSION "3.4.0")
+	include(resources/eigen3.cmake)
+endif()
+print_resource_info("Eigen3" EIGEN3 ${EIGEN3_VERSION})
 
 ##### bliss
 if(USE_BLISS)
