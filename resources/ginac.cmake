@@ -28,7 +28,7 @@ add_imported_library(GINAC SHARED "${INSTALL_DIR}/lib/libginac${DYNAMIC_EXT}" "$
 add_dependencies(GiNaC-EP CLN_SHARED CLN_STATIC)
 add_dependencies(GINAC_SHARED GiNaC-EP)
 #add_dependencies(GINAC_STATIC GiNaC-EP)
-add_dependencies(carl_resources GINAC_SHARED GINAC_STATIC)
 #add_dependencies(carl_resources CLN_STATIC GINAC_STATIC)
+add_dependencies(carl_resources GINAC_SHARED)
 install(IMPORTED_RUNTIME_ARTIFACTS GINAC_SHARED DESTINATION ${CARL_LIB_INSTALL_DIR})
 
