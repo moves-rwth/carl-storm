@@ -125,10 +125,10 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") # Matches "Clang" and "AppleClan
 	if (APPLE)
 		message(STATUS "carl - Using clang ${CMAKE_CXX_COMPILER_VERSION} on Apple")
 		set(CMAKE_MACOSX_RPATH 1)
-		add_compile_options(-stdlib=libc++ -pthread)
+		add_compile_options(-stdlib=libc++)
 	else()
 		message(STATUS "carl - Using clang ${CMAKE_CXX_COMPILER_VERSION}")
-		add_compile_options(-pthread)
+		add_compile_options()
 	endif()
 	add_compile_options($<$<CONFIG:Release>:-fomit-frame-pointer>)
 	add_compile_options($<$<CONFIG:Release>:-funroll-loops>)
@@ -141,7 +141,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 	endif()
 	message(STATUS "carl - Using g++ ${CMAKE_CXX_COMPILER_VERSION}")
 	add_compile_options(-Wunknown-pragmas)
-	add_compile_options(-pthread -fmax-errors=5 -fdiagnostics-color=auto)
+	add_compile_options(-fmax-errors=5 -fdiagnostics-color=auto)
 else()
 	message(WARNING "carl - Possibly unsupported compiler ${CMAKE_CXX_COMPILER_ID}")
 endif()
@@ -253,10 +253,9 @@ endif()
 
 #dl must be linked LAST as this is required for the stacktrace in util/platform.h
 
-list(APPEND carl_LIBRARIES_DYNAMIC pthread dl)
+list(APPEND carl_LIBRARIES_DYNAMIC dl)
 
 
-#dl must be linked LAST as this is required for the stacktrace in util/platform.h
 if (TARGET Doxygen::doxygen AND PROJECT_IS_TOP_LEVEL)
 	include(clang-tidy)
 	include(resources/doc-resources.cmake)

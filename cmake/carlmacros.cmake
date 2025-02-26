@@ -163,7 +163,7 @@ macro(load_library group name version)
         unset(${LIBNAME}_LIBRARY CACHE)
 
         set(CMAKE_FIND_LIBRARY_SUFFIXES "${STATIC_EXT};${DYNAMIC_EXT}")
-        set(Boost_USE_STATIC_LIBS ON)
+
         if (ARGN)
             list(REMOVE_ITEM ARGN "REQUIRED")
         endif()

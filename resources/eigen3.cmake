@@ -1,14 +1,25 @@
 ExternalProject_Add(
-    Eigen3-EP
-	GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
-	GIT_TAG ${EIGEN3_VERSION}
-	DOWNLOAD_NO_PROGRESS 1
-	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPKGCONFIG_INSTALL_DIR=<INSTALL_DIR>/lib/pkgconfig
-	LOG_INSTALL 1
+		eigen_carl_src
+		GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+		GIT_TAG bae907b8f6078b1df290729eef946360315bd312
+		SOURCE_DIR ${PROJECT_BINARY_DIR}/resources/Eigen
+		# First check whether patch was already applied (--reverse --check), otherwise apply patch
+		PATCH_COMMAND "" #$git apply ${STORM_3RDPARTY_SOURCE_DIR}/patches/eigen341alpha.patch --reverse --check || git apply ${STORM_3RDPARTY_SOURCE_DIR}/patches/eigen341alpha.patch
+		UPDATE_COMMAND ""
+		CONFIGURE_COMMAND ""
+		BUILD_COMMAND ""
+		INSTALL_COMMAND ""
+		LOG_INSTALL ON
 )
-
-ExternalProject_Get_Property(Eigen3-EP INSTALL_DIR)
-
-add_imported_library(EIGEN3 SHARED "" "${INSTALL_DIR}/include/eigen3")
-
-add_dependencies(carl_resources Eigen3-EP)
+add_library(eigen3carl INTERFACE) # Not imported, we are in control of the sources.
+add_dependencies(eigen3carl eigen_carl_src)
+# note that we include without Eigen
+target_include_directories(eigen3carl INTERFACE
+		$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/resources/Eigen>
+		$<INSTALL_INTERFACE:${CARL_INCLUDE_INSTALL_DIR}/carl/resources/>
+)
+install(TARGETS eigen3carl EXPORT carl_Targets)
+install(DIRECTORY ${PROJECT_BINARY_DIR}/resources/Eigen
+		DESTINATION ${CARL_INCLUDE_INSTALL_DIR}/carl/resources/Eigen
+		FILES_MATCHING PATTERN "*.h" PATTERN ".git" EXCLUDE)
+list(APPEND CARL_TARGETS eigen3carl)

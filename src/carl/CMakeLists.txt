@@ -28,7 +28,7 @@ target_include_directories( lib_carl PUBLIC
 	$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
 )
-target_link_libraries(lib_carl PUBLIC EIGEN3 GMPXX_SHARED GMP_SHARED Boost_SHARED ${CMAKE_DL_LIBS} pthread)
+target_link_libraries(lib_carl PUBLIC GMPXX_SHARED GMP_SHARED eigen3carl Boost::headers ${CMAKE_DL_LIBS} pthread)
 if(USE_BLISS)
 	target_link_libraries(lib_carl PUBLIC BLISS_SHARED)
 endif()
@@ -36,7 +36,7 @@ if(USE_CLN_NUMBERS)
 	target_link_libraries(lib_carl PUBLIC CLN_SHARED)
 endif()
 if(USE_COCOA)
-	target_link_libraries(lib_carl PUBLIC COCOA_STATIC Boost_system_SHARED)
+	target_link_libraries(lib_carl PUBLIC COCOA_STATIC)
 endif()
 if(USE_GINAC)
 	target_link_libraries(lib_carl PUBLIC GINAC_SHARED)
