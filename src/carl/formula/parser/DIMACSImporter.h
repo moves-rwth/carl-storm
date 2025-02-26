@@ -9,15 +9,7 @@
 #include "../../core/logging.h"
 
 
-#ifdef USE_BOOST_REGEX
-#include <boost/regex.hpp>
-namespace benchmax {
-	using boost::regex;
-	using boost::regex_match;
-	using boost::smatch;
-	using boost::regex_iterator;
-}
-#else
+
 #include <stdexcept>
 #include <regex>
 namespace benchmax {
@@ -26,7 +18,6 @@ namespace benchmax {
 	using std::smatch;
 	using std::sregex_iterator;
 }
-#endif
 
 namespace carl {
 

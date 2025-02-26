@@ -107,8 +107,9 @@ Term<C> gcd(const MultivariatePolynomial<C,O,P>& a, const Term<C>& b)
 template<typename C, typename O, typename P>
 Monomial::Arg gcd(const MultivariatePolynomial<C,O,P>& a, const Monomial::Arg& b)
 {
-    if( !b )
-        return nullptr;
+    if( !b ) {
+		return nullptr;
+	}
 	assert(!a.isZero());
 	VariablesInformation<false, MultivariatePolynomial<C,O,P>> varinfo = a.getVarInfo();
 	std::vector<std::pair<Variable, exponent>> vepairs;

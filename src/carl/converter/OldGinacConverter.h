@@ -15,7 +15,7 @@
 #include "../util/Common.h"
 #include "../util/SFINAE.h"
 #include "../util/Singleton.h"
-#include "ginac.h"
+#include "ginacAdapter.h"
 
 #include <cln/cln.h>
 #include <mutex>

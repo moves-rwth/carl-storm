@@ -11,8 +11,8 @@
 #include "../TarskiQuery/TarskiQueryManager.h"
 #include "SignCondition.h"
 
-#include <eigen3/Eigen/Core>
-#include <eigen3/Eigen/LU>
+#include <Eigen/Core>
+#include <Eigen/LU>
 #include <cmath>
 #include <iterator>
 #include <list>
