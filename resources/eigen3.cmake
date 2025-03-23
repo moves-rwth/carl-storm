@@ -16,10 +16,10 @@ add_dependencies(eigen3carl eigen_carl_src)
 # note that we include without Eigen
 target_include_directories(eigen3carl INTERFACE
 		$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/resources/Eigen>
-		$<INSTALL_INTERFACE:${CARL_INCLUDE_INSTALL_DIR}/carl/resources/>
+		$<INSTALL_INTERFACE:${CARL_INCLUDE_INSTALL_DIR}/carl/resources/Eigen>
 )
 install(TARGETS eigen3carl EXPORT carl_Targets)
-install(DIRECTORY ${PROJECT_BINARY_DIR}/resources/Eigen
+install(DIRECTORY ${PROJECT_BINARY_DIR}/resources/Eigen/Eigen
 		DESTINATION ${CARL_INCLUDE_INSTALL_DIR}/carl/resources/Eigen
-		FILES_MATCHING PATTERN "*.h" PATTERN ".git" EXCLUDE)
+)
 list(APPEND CARL_TARGETS eigen3carl)

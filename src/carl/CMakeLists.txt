@@ -25,7 +25,7 @@ set_target_properties( lib_carl PROPERTIES
 #	INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/src"
 )
 target_include_directories( lib_carl PUBLIC
-	$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+	$<INSTALL_INTERFACE:${CARL_INCLUDE_INSTALL_DIR}>
 	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
 )
 target_link_libraries(lib_carl PUBLIC GMPXX_SHARED GMP_SHARED eigen3carl Boost::headers ${CMAKE_DL_LIBS} pthread)
