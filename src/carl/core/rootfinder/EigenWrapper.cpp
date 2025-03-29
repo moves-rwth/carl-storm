@@ -1,7 +1,7 @@
 #include "EigenWrapper.h"
 
-#include <eigen3/Eigen/Dense>
-#include <eigen3/Eigen/Eigenvalues>
+#include <Eigen/Dense>
+#include <Eigen/Eigenvalues>
 
 #include <vector>
 

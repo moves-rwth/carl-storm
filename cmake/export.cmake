@@ -1,7 +1,5 @@
-option(CARL_EXPORT_TO_CMAKE "Export the project to CMake for easy inclusion" ON)
-
 # Add all targets to the build-tree export set
-export(TARGETS ${CARL_TARGETS} FILE "${PROJECT_BINARY_DIR}/carlTargets.cmake")
+export(EXPORT carl_Targets FILE "${PROJECT_BINARY_DIR}/carlTargets.cmake")
 
 
 # Export the package for use from the build-tree
@@ -34,9 +32,7 @@ export_target(DEP_TARGETS GMP_STATIC)
 export_target(DEP_TARGETS GMPXX_SHARED)
 export_target(DEP_TARGETS GMPXX_STATIC GMP_STATIC)
 export_target(DEP_TARGETS EIGEN3)
-
-export_target_recursive(DEP_TARGETS Boost_SHARED INTERFACE_LINK_LIBRARIES)
-export_target_recursive(DEP_TARGETS Boost_STATIC INTERFACE_LINK_LIBRARIES)
+export_target(DEP_TARGETS Boost::headers)
 
 export_target(DEP_TARGETS Doxygen::doxygen)
 
