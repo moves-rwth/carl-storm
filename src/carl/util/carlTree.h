@@ -844,9 +844,9 @@ public:
 	 */
 	template<typename Iterator>
 	Iterator append(Iterator position, tree&& data) {
-		Node* r = data.root;
+		Node* r = data[0];
 		r->depth = position.depth() + 1;
-		data.root = nullptr;
+		data[0] = nullptr;
 		r->parent = position.current;
 		std::size_t id = position.current->children.size();
 		if (id > 0) r->previousSibling = &(position.current->children.back());
