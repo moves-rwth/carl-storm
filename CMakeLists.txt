@@ -74,6 +74,17 @@ export_option(THREAD_SAFE)
 option( PRUNE_MONOMIAL_POOL "Prune monomial pool" ON )
 option( EXCLUDE_TESTS_FROM_ALL "If set, tests will not be compiled by default" OFF )
 export_option(EXCLUDE_TESTS_FROM_ALL)
+if (PROJECT_IS_TOP_LEVEL)
+	set(CARL_EXPORT_TO_CMAKE_DEFAULT ON)
+else()
+	set(CARL_EXPORT_TO_CMAKE_DEFAULT OFF)
+	# Note that this is actually discouraged to do, but we keep this for some time.
+endif()
+option(CARL_EXPORT_TO_CMAKE "Export the project to CMake for easy inclusion" ${CARL_EXPORT_TO_CMAKE_DEFAULT})
+
+if (CARL_EXPORT_TO_CMAKE)
+	message(WARNING "carl - Exporting carl to the cmake registry is a discouraged practice, which we will discontinue as default in the future..")
+endif()
 
 option (CARL_COMPILE_BENCHMARKS "Compile Benchmarks" OFF)
 
@@ -97,22 +108,83 @@ set(CARL_LIB_INSTALL_DIR lib/ CACHE PATH "Installation directory for libraries")
 set(CARL_BIN_INSTALL_DIR bin/ CACHE PATH "Installation directory for executables")
 set(CARL_CMAKE_INSTALL_DIR lib/cmake/ CACHE PATH "Installation directory for executables")
 
-
-
-if(WIN32 AND NOT CYGWIN)
-  set(DEF_INSTALL_CMAKE_DIR CMake)
-else()
-  set(DEF_INSTALL_CMAKE_DIR lib/cmake/carl)
-endif()
 if (PROJECT_IS_TOP_LEVEL)
 	set(CMAKE_INSTALL_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH  "Installation directory for CMake files")
 endif()
 
 if(APPLE AND ${CMAKE_SYSTEM_PROCESSOR} MATCHES arm64)
     message(STATUS "carl - Detected that target system uses Apple Silicon.")
-	message(WARNING "carl - Compiling natively on Apple Silicon is experimental. Please report issues to support@stormchecker.org. For more information visit https://www.stormchecker.org/documentation/obtain-storm/apple-silicon.html")
 	set(APPLE_SILICON 1)
 endif()
+
+##
+add_compile_options($<$<CONFIG:Release>:-O3>)
+add_compile_options($<$<CONFIG:Debug>:-O1>)
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") # Matches "Clang" and "AppleClang"
+	if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.5)
+		message(FATAL_ERROR "carl - Clang version must be at least 3.5!")
+	endif()
+	if (APPLE)
+		message(STATUS "carl - Using clang ${CMAKE_CXX_COMPILER_VERSION} on Apple")
+		set(CMAKE_MACOSX_RPATH 1)
+		add_compile_options(-stdlib=libc++)
+	else()
+		message(STATUS "carl - Using clang ${CMAKE_CXX_COMPILER_VERSION}")
+		add_compile_options()
+	endif()
+	add_compile_options($<$<CONFIG:Release>:-fomit-frame-pointer>)
+	add_compile_options($<$<CONFIG:Release>:-funroll-loops>)
+	if (NOT "${CLANG_SANITIZER}" STREQUAL "none")
+		add_compile_options(-fsanitize=${CLANG_SANITIZER})
+	endif()
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+	if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
+		message(FATAL_ERROR "carl - g++ version must be at least 4.9!")
+	endif()
+	message(STATUS "carl - Using g++ ${CMAKE_CXX_COMPILER_VERSION}")
+	add_compile_options(-Wunknown-pragmas)
+	add_compile_options(-fmax-errors=5 -fdiagnostics-color=auto)
+else()
+	message(WARNING "carl - Possibly unsupported compiler ${CMAKE_CXX_COMPILER_ID}")
+endif()
+
+
+# In release mode, we turn on even more optimizations if we do not have to provide a portable binary.
+if (NOT PORTABLE AND (NOT APPLE_SILICON OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 15.0)))
+	add_compile_options($<$<CONFIG:Release>:-march=native>)
+endif()
+
+if(DEVELOPER)
+	add_compile_options(-Wall -Wextra -Wconversion -Wno-deprecated-declarations)
+	add_compile_options(-DDEBUG -ftemplate-backtrace-limit=0)
+
+	if (ALLWARNINGS)
+		if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+			add_compile_options(-Weverything)
+			add_compile_options(-Wno-c++98-compat -Wno-c++98-compat-pedantic)
+			add_compile_options(-Wno-old-style-cast)
+			add_compile_options(-Wno-reserved-id-macro)
+			add_compile_options(-Wno-newline-eof)
+			add_compile_options(-Wno-documentation)
+			add_compile_options(-Wno-weak-vtables)
+			add_compile_options(-Wno-global-constructors)
+			add_compile_options(-Wno-exit-time-destructors)
+			add_compile_options(-Wno-switch-enum)
+			add_compile_options(-Wno-covered-switch-default)
+			add_compile_options(-Wno-padded)
+			add_compile_options(-Wno-float-equal)
+			add_compile_options(-Wno-unused-local-typedef)
+			add_compile_options(-Wno-missing-variable-declarations)
+			add_compile_options(-fsanitize=memory)
+		endif()
+		if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+			add_compile_options(-Weffc++)
+		endif()
+	endif()
+
+endif()
+message(STATUS "carl - Build type: ${CMAKE_BUILD_TYPE}")
+
 
 foreach(p LIB BIN INCLUDE CMAKE)
   set(var CARL_${p}_INSTALL_DIR)
@@ -124,16 +196,13 @@ endforeach()
 # path to put in the executables after building.
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin CACHE PATH "Directory for built executables")
 
-include(compiler-options)
 
-set(DYNAMIC_EXT ".so")
-set(STATIC_EXT ".a")
 if(APPLE)
 	set(DYNAMIC_EXT ".dylib")
 	set(STATIC_EXT ".a")
-elseif (WIN32)
-	set(DYNAMIC_EXT ".dll")
-	set(STATIC_EXT ".lib")
+else()
+	set(DYNAMIC_EXT ".so")
+	set(STATIC_EXT ".a")
 endif()
 
 if(BUILD_STATIC)
@@ -157,6 +226,13 @@ SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 
+# the RPATH to be used when installing, but only if it's not a system directory
+list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/lib" isSystemDir)
+if("${isSystemDir}" STREQUAL "-1")
+	set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+endif("${isSystemDir}" STREQUAL "-1")
+
+
 # # # # # # # # # # # # # # # # # # # # # #
 # C. Find system tools and libraries.
 #
@@ -174,13 +250,13 @@ include(resources/resources.cmake)
 # we only search for this libraries in the system, if we do not force using the shipped resources.
 if(PROJECT_IS_TOP_LEVEL)
 	enable_testing()
-	include(coverage)
+	#include(coverage)
 endif()
 
 #dl must be linked LAST as this is required for the stacktrace in util/platform.h
-if (NOT WIN32)
-	list(APPEND carl_LIBRARIES_DYNAMIC pthread dl)
-endif()
+
+list(APPEND carl_LIBRARIES_DYNAMIC dl)
+
 
 if (TARGET Doxygen::doxygen AND PROJECT_IS_TOP_LEVEL)
 	include(clang-tidy)
@@ -190,6 +266,4 @@ endif()
 add_subdirectory(src)
 
 include(export)
-
-include(resources/addons/addons.cmake)
 include(packaging)

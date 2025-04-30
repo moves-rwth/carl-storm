@@ -4,8 +4,8 @@ set_directory_properties(PROPERTIES EP_PREFIX ${PROJECT_BINARY_DIR}/resources)
 
 add_custom_target(carl_resources)
 if(PROJECT_TOP_LEVEL)
-add_custom_target(resources)
-add_dependencies(resources carl_resources)
+	add_custom_target(resources)
+	add_dependencies(resources carl_resources)
 endif()
 
 ###############
@@ -61,30 +61,16 @@ if((NOT FORCE_SHIPPED_RESOURCES) AND (NOT FORCE_SHIPPED_GMP))
 	load_library(carl GMP 6.1)
 	load_library(carl GMPXX 6.1)
 endif()
-if(NOT GMP_FOUND)
-	set(GMP_VERSION "6.1.2")
-	include(resources/gmp.cmake)
-endif()
 print_resource_info("GMP / GMPXX" GMP_SHARED ${GMP_VERSION})
 
 ##### Boost
-set(BOOST_COMPONENTS "regex")
-set(Boost_USE_DEBUG_RUNTIME OFF)
-set(Boost_NO_BOOST_CMAKE ON)
-load_library(carl Boost 1.58 COMPONENTS ${BOOST_COMPONENTS})
-if(NOT Boost_FOUND)
-	message(STATUS "carl - BOOST required but not found.")
-endif()
-print_resource_info("Boost" Boost_SHARED ${Boost_VERSION})
+
+find_package(Boost 1.70 REQUIRED)
+print_resource_info("Boost" Boost::headers ${Boost_VERSION})
 
 ##### Eigen3
-if(NOT FORCE_SHIPPED_RESOURCES)
-	load_library(carl EIGEN3 3.3)
-endif()
-if(NOT EIGEN3_FOUND)
-	set(EIGEN3_VERSION "3.4.0")
-	include(resources/eigen3.cmake)
-endif()
+set(EIGEN3_VERSION "3.4.1-alpha")
+include(resources/eigen3.cmake)
 print_resource_info("Eigen3" EIGEN3 ${EIGEN3_VERSION})
 
 ##### bliss
@@ -151,17 +137,23 @@ else()
 	message(STATUS "carl - GiNaC is disabled")
 endif()
 
-
-##### GTest
-if(NOT GTEST_FOUND)
-	set(GTEST_VERSION "1.8.0")
-	set(GTEST_ZIPHASH "adfafc8512ab65fd3cf7955ef0100ff5")
-	include(resources/gtest.cmake)
-	unset(GTEST_ZIPHASH)
+if(PROJECT_IS_TOP_LEVEL)
+	##### GTest
+	if(NOT GTEST_FOUND)
+		set(GTEST_VERSION "1.8.0")
+		set(GTEST_ZIPHASH "adfafc8512ab65fd3cf7955ef0100ff5")
+		include(resources/gtest.cmake)
+		unset(GTEST_ZIPHASH)
+	endif()
+	print_resource_info("GTest" GTESTMAIN_STATIC ${GTEST_VERSION})
 endif()
-print_resource_info("GTest" GTESTMAIN_STATIC ${GTEST_VERSION})
 
 ##### MPFR
 IF(USE_MPFR_FLOAT)
 	load_library(carl MPFR 0.0 REQUIRED)
 endif()
+
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+
