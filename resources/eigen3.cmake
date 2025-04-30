@@ -1,6 +1,8 @@
 ExternalProject_Add(
 		eigen_carl_src
 		GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+		# This tag is picked by inspecting the eigen repo and which is not as old as the last release
+		# It coincides with the branch that storm picked, but this is not a strict requirement.
 		GIT_TAG bae907b8f6078b1df290729eef946360315bd312
 		SOURCE_DIR ${PROJECT_BINARY_DIR}/resources/Eigen
 		# First check whether patch was already applied (--reverse --check), otherwise apply patch
