@@ -18,7 +18,7 @@ LABEL org.opencontainers.image.authors="dev@stormchecker.org"
 
 # CMake build type
 ARG build_type=Release
-# Number of threads to use for parallel compilation
+# Specify number of threads to use for parallel compilation
 ARG no_threads=2
 
 
