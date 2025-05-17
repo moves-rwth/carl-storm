@@ -2,6 +2,13 @@
 Changelog
 ==============
 
+## Version 14.29 (2025/05)
+- Use C++20 and require CMake >= 3.22.
+- Significant improvement of CMake build process.
+- Support for building carl as a subproject (not a toplevel project).
+- Removed unused tests and CMake option `COMPARE_WITH_Z3`.
+- Improved CI.
+
 ## Version 14.28 (2024/07)
 - Support for Apple Silicon
 - Improved performance for getHash() of FactorizedPolynomial.
