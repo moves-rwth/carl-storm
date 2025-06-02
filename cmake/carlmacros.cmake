@@ -7,18 +7,22 @@
 
 function(set_version major minor patch)
 	set(patch "")
-	message(STATUS "Using version ${major}.${minor}.${patch}")
-	
+
 	set(PROJECT_VERSION_MAJOR ${major} PARENT_SCOPE)
 	set(PROJECT_VERSION_MINOR ${minor} PARENT_SCOPE)
 	set(PROJECT_VERSION_PATCH ${patch} PARENT_SCOPE)
 	if(patch)
 		set(PROJECT_VERSION_FULL "${major}.${minor}.${patch_full}" PARENT_SCOPE)
 		set(PROJECT_VERSION "${major}.${minor}.${patch}" PARENT_SCOPE)
+
 	else()
 		set(PROJECT_VERSION_FULL "${major}.${minor}" PARENT_SCOPE)
 		set(PROJECT_VERSION "${major}.${minor}" PARENT_SCOPE)
 	endif()
+	set(${PROJECT_NAME}_VERSION_MAJOR ${PROJECT_VERSION_MAJOR} PARENT_SCOPE)
+	set(${PROJECT_NAME}_VERSION_MINOR ${PROJECT_VERSION_MINOR} PARENT_SCOPE)
+	set(${PROJECT_NAME}_VERSION_PATCH ${PROJECT_VERSION_PATCH} PARENT_SCOPE)
+
 endfunction(set_version)
 
 function(add_imported_library_interface name include)
@@ -56,10 +60,6 @@ function(add_imported_library name type lib include)
 			add_library(${name}_${type} ${type} IMPORTED GLOBAL)
 			set_target_properties(${name}_${type} PROPERTIES IMPORTED_LOCATION "${lib}")
 			set_target_properties(${name}_${type} PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${include}")
-			if(WIN32)
-				string(REPLACE "dll" "lib" IMPLIB ${lib})
-				set_target_properties(${name}_${type} PROPERTIES IMPORTED_IMPLIB "${IMPLIB}")
-			endif()
 		endif()
 	endif()
 endfunction(add_imported_library)
@@ -163,7 +163,7 @@ macro(load_library group name version)
         unset(${LIBNAME}_LIBRARY CACHE)
 
         set(CMAKE_FIND_LIBRARY_SUFFIXES "${STATIC_EXT};${DYNAMIC_EXT}")
-        set(Boost_USE_STATIC_LIBS ON)
+
         if (ARGN)
             list(REMOVE_ITEM ARGN "REQUIRED")
         endif()

@@ -1,0 +1,15 @@
+
+##### Doxygen
+find_package(Doxygen 1.8.9 QUIET)
+if(DOXYGEN_FOUND AND ${CMAKE_VERSION} VERSION_LESS "3.9.0")
+    add_executable(Doxygen::doxygen IMPORTED GLOBAL)
+    set_target_properties(Doxygen::doxygen PROPERTIES IMPORTED_LOCATION "${DOXYGEN_EXECUTABLE}")
+endif()
+if(NOT DOXYGEN_FOUND AND BUILD_DOXYGEN)
+    set(DOXYGEN_VERSION "1.8.14")
+    include(resources/doxygen.cmake)
+    add_custom_target(doxygen-build DEPENDS Doxygen::doxygen Doxygen-EP)
+else()
+    add_custom_target(doxygen-build DEPENDS Doxygen::doxygen)
+endif()
+print_resource_info("Doxygen" Doxygen::doxygen "${DOXYGEN_VERSION}")

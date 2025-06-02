@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        distro: ["debian-12", "ubuntu-22.04", "ubuntu-24.04"]
+        distro: ["debian-12", "ubuntu-22.04", "ubuntu-24.04", "minimal_dependencies"]
         buildType: ["Debug", "Release"]
     steps:
       - name: Git clone
@@ -41,28 +41,53 @@ jobs:
       - name: Run tests
         run: docker exec ci bash -c "cd /opt/carl/build; ctest test --output-on-failure"
 
-  minimalTests:
-    name: Minimal dependencies Tests (${{ matrix.buildType }})
-    runs-on: ubuntu-latest
+
+  macTests:
+    name: macOS Tests (${{ matrix.config.name }}, ${{ matrix.config.buildType }})
     strategy:
       matrix:
-        distro: ["minimal_dependencies"]
-        buildType: ["Debug", "Release"]
+        config:
+          - {name: "XCode 14.3, Intel",
+             distro: "macos-13",
+             xcode: "14.3",
+             buildType: "Debug"
+            }
+          - {name: "XCode 15.4, ARM",
+             distro: "macos-14",
+             xcode: "15.4",
+             buildType: "Debug"
+            }
+          - {name: "XCode 16.3, ARM",
+             distro: "macos-15",
+             xcode: "16.3",
+             buildType: "Debug"
+            }
+    runs-on: ${{ matrix.config.distro }}
     steps:
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: ${{ matrix.config.xcode }}
       - name: Git clone
         uses: actions/checkout@v4
-      - name: Build Carl-storm from Dockerfile
+      - name: Install dependencies
+        # cmake and gmp are already installed
         run: |
-          docker build -t movesrwth/carl-storm:ci . \
-            --build-arg BASE_IMAGE=movesrwth/storm-basesystem:${{ matrix.distro }} \
-            --build-arg build_type="${{ matrix.buildType }}" \
-            --build-arg no_threads=${NR_JOBS}
-      - name: Run Docker
-        run: docker run -d -it --name ci movesrwth/carl-storm:ci
+          brew update
+          brew install boost cln ginac
+      - name: Configure Carl-storm
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE="${{ matrix.config.buildType }}"
+      - name: Build Carl-storm
+        working-directory: ./build
+        run: make lib_carl -j ${NR_JOBS}
       - name: Build tests
-        run: docker exec ci bash -c "cd /opt/carl/build; make -j ${NR_JOBS}"
+        working-directory: ./build
+        run: make -j ${NR_JOBS}
       - name: Run tests
-        run: docker exec ci bash -c "cd /opt/carl/build; ctest test --output-on-failure"
+        working-directory: ./build
+        run: ctest test--output-on-failure
 
 
   deploy:
@@ -73,11 +98,11 @@ jobs:
         buildType:
           - {name: "Debug",
              dockerTag: "ci-debug",
-             distro: "storm-basesystem:latest"
+             baseImg: "storm-basesystem:latest"
             }
           - {name: "Release",
              dockerTag: "ci",
-             distro: "storm-basesystem:latest"
+             baseImg: "storm-basesystem:latest"
             }
     steps:
       - name: Git clone
@@ -85,7 +110,7 @@ jobs:
       - name: Build Carl-storm from Dockerfile
         run: |
           docker build -t movesrwth/carl-storm:${{ matrix.buildType.dockerTag }} . \
-            --build-arg BASE_IMAGE=movesrwth/${{ matrix.buildType.distro }} \
+            --build-arg BASE_IMAGE=movesrwth/${{ matrix.buildType.baseImg }} \
             --build-arg build_type="${{ matrix.buildType.name }}" \
             --build-arg no_threads=${NR_JOBS}
       - name: Run Docker
@@ -111,12 +136,12 @@ jobs:
   notify:
     name: Email notification
     runs-on: ubuntu-latest
-    needs: [distroTests, minimalTests, deploy]
+    needs: [distroTests, macTests, deploy]
     # Only run in main repo and even if previous step failed
     if: github.repository_owner == 'moves-rwth' && always()
     steps:
       - uses: technote-space/workflow-conclusion-action@v3
-      - uses: dawidd6/action-send-mail@v3
+      - uses: dawidd6/action-send-mail@v5
         with:
           server_address: ${{ secrets.STORM_CI_MAIL_SERVER }}
           server_port: 587
