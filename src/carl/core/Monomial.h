@@ -565,6 +565,7 @@ namespace carl
 			Monomial::Arg res;
 			bool works = lcm(lhs, rhs)->divide(rhs, res);
 			assert(works);
+			(void) works;
 			return res;
 		}
 		

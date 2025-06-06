@@ -118,11 +118,11 @@ RationalFunction<Pol, AS>& RationalFunction<Pol, AS>::add(const RationalFunction
 				mPolynomialQuotient->first += rhs.nominatorAsPolynomial() * denominatorAsPolynomial();
 			mPolynomialQuotient->second *= rhs.denominatorAsPolynomial().constantPart();
 		} else {
-			Pol leastCommonMultiple(std::move(carl::lcm(this->denominatorAsPolynomial(), rhs.denominatorAsPolynomial())));
+			Pol leastCommonMultiple(carl::lcm(this->denominatorAsPolynomial(), rhs.denominatorAsPolynomial()));
 			if (byInverse) {
-				mPolynomialQuotient->first = std::move(this->nominatorAsPolynomial() * quotient(leastCommonMultiple, this->denominatorAsPolynomial()) - rhs.nominatorAsPolynomial() * quotient(leastCommonMultiple, rhs.denominatorAsPolynomial()));
+				mPolynomialQuotient->first = this->nominatorAsPolynomial() * quotient(leastCommonMultiple, this->denominatorAsPolynomial()) - rhs.nominatorAsPolynomial() * quotient(leastCommonMultiple, rhs.denominatorAsPolynomial());
 			} else {
-				mPolynomialQuotient->first = std::move(this->nominatorAsPolynomial() * quotient(leastCommonMultiple, this->denominatorAsPolynomial()) + rhs.nominatorAsPolynomial() * quotient(leastCommonMultiple, rhs.denominatorAsPolynomial()));
+				mPolynomialQuotient->first = this->nominatorAsPolynomial() * quotient(leastCommonMultiple, this->denominatorAsPolynomial()) + rhs.nominatorAsPolynomial() * quotient(leastCommonMultiple, rhs.denominatorAsPolynomial());
 			}
 			mPolynomialQuotient->second = std::move(leastCommonMultiple);
 		}
