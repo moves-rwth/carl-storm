@@ -248,7 +248,9 @@ namespace carl
 			
 			std::sort(varExpPairs.begin(), varExpPairs.end(), [](const std::pair<Variable, exponent>& p1, const std::pair<Variable, exponent>& p2){ return p1.first < p2.first; });
 			size_t nrVariables = varExpPairs.size();
-			std::unique(varExpPairs.begin(), varExpPairs.end());
+			auto last = std::unique(varExpPairs.begin(), varExpPairs.end());
+			// Now remove the duplicates.
+			varExpPairs.erase(last, varExpPairs.end());
 			if(nrVariables != varExpPairs.size())
 			{
 				throw InvalidInputStringException("Variable occurs twice", inputStr);
