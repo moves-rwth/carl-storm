@@ -449,11 +449,11 @@ namespace carl
         if( existsFactorization( *this ) )
         {
             if( factorizedTrivially() )
-                return polynomial().definiteness();
+                return polynomial().definiteness( _fullEffort );
             Definiteness result = Definiteness::POSITIVE;
             for( const auto& factor : content().factorization() )
             {
-                Definiteness factorDefiniteness = factor.first.definiteness();
+                Definiteness factorDefiniteness = factor.first.definiteness( _fullEffort );
                 if( factorDefiniteness == Definiteness::NON )
                     return Definiteness::NON;
                 if( factor.second % 2 == 0 )

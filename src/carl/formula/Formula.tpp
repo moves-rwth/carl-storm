@@ -104,7 +104,7 @@ namespace carl
                 break;
 			case FormulaType::PBCONSTRAINT:
 				if (_booleanVars) {
-					for (auto var: pbConstraint().gatherVariables()) {
+					for (auto var: constraint().variables()) {
 						_vars.insert(var);
 					}
 				}
