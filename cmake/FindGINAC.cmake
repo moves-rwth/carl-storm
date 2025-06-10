@@ -1,4 +1,4 @@
-# Include dir
+# Include dir. We want to include ginac as ginac/ginac.h, such that we avoid clashes, e.g., with LibArchive which also has an archive.h like there is an (ginac/)archive.h.
 find_path(GINAC_INCLUDE_DIR
 	NAMES ginac/ginac.h
 	HINTS ${GINAC_PKGCONF_INCLUDE_DIRS}
