@@ -65,7 +65,7 @@ print_resource_info("GMP / GMPXX" GMP_SHARED ${GMP_VERSION})
 
 ##### Boost
 
-find_package(Boost 1.70 REQUIRED)
+find_package(Boost 1.70 REQUIRED CONFIG)
 print_resource_info("Boost" Boost::headers ${Boost_VERSION})
 
 ##### Eigen3
