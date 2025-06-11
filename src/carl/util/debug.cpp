@@ -34,7 +34,8 @@ namespace carl {
 		std::stringstream cmd;
 		cmd << "gdb --pid=" << getpid() << " -ex bt";
 		if (!interaction) cmd << " --batch --quiet";
-		system(cmd.str().c_str()); // NOLINT
+		int res = system(cmd.str().c_str()); // NOLINT
+		(void) res; // ignore.
 	}
 
 	std::string demangle(const char* name) {
