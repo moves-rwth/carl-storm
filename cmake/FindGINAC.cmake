@@ -1,6 +1,6 @@
-# Include dir
+# Include dir. We want to include ginac as ginac/ginac.h, such that we avoid clashes, e.g., with LibArchive which also has an archive.h like there is an (ginac/)archive.h.
 find_path(GINAC_INCLUDE_DIR
-	NAMES ginac.h
+	NAMES ginac/ginac.h
 	HINTS ${GINAC_PKGCONF_INCLUDE_DIRS}
 	PATHS
 		/usr/include
@@ -26,9 +26,9 @@ if(GINAC_INCLUDE_DIR AND GINAC_LIBRARY)
 		string(REGEX MATCH "[0-9]+" RES "${RES}")
 		set(${OUTPUT} "${RES}" PARENT_SCOPE)
 	endfunction()
-	GetVersionPart(MAJOR "${GINAC_INCLUDE_DIR}/version.h" "MAJOR")
-	GetVersionPart(MINOR "${GINAC_INCLUDE_DIR}/version.h" "MINOR")
-	GetVersionPart(MICRO "${GINAC_INCLUDE_DIR}/version.h" "MICRO")
+	GetVersionPart(MAJOR "${GINAC_INCLUDE_DIR}/ginac/version.h" "MAJOR")
+	GetVersionPart(MINOR "${GINAC_INCLUDE_DIR}/ginac/version.h" "MINOR")
+	GetVersionPart(MICRO "${GINAC_INCLUDE_DIR}/ginac/version.h" "MICRO")
 	set(GINAC_VERSION "${MAJOR}.${MINOR}.${MICRO}")
 
 	if(GINAC_FIND_VERSION VERSION_GREATER GINAC_VERSION)
