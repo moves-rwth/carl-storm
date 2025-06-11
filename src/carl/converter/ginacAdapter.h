@@ -3,6 +3,6 @@
 #include "config.h"
 
 #ifdef USE_GINAC
-#include "ginac.h"
+#include "ginac/ginac.h"
 #undef deprecated
 #endif

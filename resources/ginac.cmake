@@ -22,7 +22,7 @@ ExternalProject_Add(
 
 ExternalProject_Get_Property(GiNaC-EP INSTALL_DIR)
 
-add_imported_library(GINAC SHARED "${INSTALL_DIR}/lib/libginac${DYNAMIC_EXT}" "${INSTALL_DIR}/include/ginac/")
+add_imported_library(GINAC SHARED "${INSTALL_DIR}/lib/libginac${DYNAMIC_EXT}" "${INSTALL_DIR}/include/")
 #add_imported_library(GINAC STATIC "${INSTALL_DIR}/lib/libginac${STATIC_EXT}" "${INSTALL_DIR}/include/ginac/")
 
 add_dependencies(GiNaC-EP CLN_SHARED CLN_STATIC)
