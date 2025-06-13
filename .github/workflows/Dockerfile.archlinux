@@ -1,12 +1,12 @@
-# Dockerfile for Carl-storm library
-###################################
+# Dockerfile for Carl-storm on Archlinux
+########################################
 # The Docker image can be built by executing:
 # docker build -t yourusername/carl-storm .
 # A different base image can be set from the commandline with:
 # --build-arg BASE_IMAGE=<new_base_image>
 
 # Set base image
-ARG BASE_IMAGE=movesrwth/storm-basesystem:latest
+ARG BASE_IMAGE=archlinux:latest
 FROM $BASE_IMAGE
 LABEL org.opencontainers.image.authors="dev@stormchecker.org"
 
@@ -20,6 +20,18 @@ LABEL org.opencontainers.image.authors="dev@stormchecker.org"
 ARG build_type=Release
 # Specify number of threads to use for parallel compilation
 ARG no_threads=2
+
+# Specify additional CMake arguments for Carl-storm
+ARG cmake_args=""
+
+# Additional Archlinux packages
+ARG packages=""
+
+
+# Install dependencies
+######################
+RUN pacman -Syu --noconfirm  # Updates needed as Archlinux is rolling release
+RUN pacman -S --noconfirm base-devel git cmake boost cln gmp ginac $packages
 
 
 # Build Carl-storm
@@ -37,14 +49,7 @@ WORKDIR /opt/carl/build
 # Configure Carl-storm
 RUN cmake -DCMAKE_BUILD_TYPE=$build_type \
           -DPORTABLE=ON \
-          ..
+          $cmake_args ..
 
 # Build Carl library
 RUN make lib_carl -j $no_threads
-
-
-# Additional commands
-# (This can be skipped or adapted depending on custom needs)
-# Build and execute tests
-#RUN make -j $no_threads
-#RUN ctest test --output-on-failure
