@@ -1,6 +1,10 @@
-
 Changelog
 ==============
+
+## Version 14.30 (2025/06)
+- Added CMake options `ALLOW_SHIPPED_CLN` and `ALLOW_SHIPPED_GINAC` and CMake flag `HAVE_CLN`.
+- Improved Ginac CMake support.
+- Fixed various compiler warnings.
 
 ## Version 14.29 (2025/05)
 - Use C++20 and require CMake >= 3.22.
@@ -28,13 +32,10 @@ Changelog
 - Set default CMake options used by Storm.
 - Added Dockerfile.
 
-
 ## Version  14.24 (2023/04)
 - Extended README.
 - Stripping and support for forward declarations.
 - Removed unnecessary code parts.
 
-
 ## Version  14.23 (2023/03)
 - Forked the original master14 branch of ths-rwth/carl into a separate project.
-
