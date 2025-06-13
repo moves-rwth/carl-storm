@@ -1,7 +1,7 @@
 include(FetchContent)
 FetchContent_Declare(
 	googletest
-	URL https://github.com/google/googletest/archive/refs/tags/release-${GTEST_VERSION}.zip
+	URL https://github.com/google/googletest/archive/refs/tags/v${GTEST_VERSION}.zip
 )
 FetchContent_MakeAvailable(googletest)
 
