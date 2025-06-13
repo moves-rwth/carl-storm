@@ -16,7 +16,7 @@ The following steps should be performed before releasing a new carl-storm versio
 4. Set new tag in Git (assuming that the new version is X.Y.Z and that the remote "origin" is the github repo).
    Use the flag `-s` to sign the tag.
    ```console
-   git tag -a X.Y.Z -m "Storm version X.Y.Z"
+   git tag -a X.Y.Z -m "Carl version X.Y.Z" -s
    git push origin X.Y.Z
    ```
    The new tag should now be visible on [GitHub](https://github.com/moves-rwth/carl-storm/tags).
