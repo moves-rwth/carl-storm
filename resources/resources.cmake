@@ -156,12 +156,10 @@ endif()
 if(PROJECT_IS_TOP_LEVEL)
 	##### GTest
 	if(NOT GTEST_FOUND)
-		set(GTEST_VERSION "1.8.0")
-		set(GTEST_ZIPHASH "adfafc8512ab65fd3cf7955ef0100ff5")
+		set(GTEST_VERSION "1.12.0")
 		include(resources/gtest.cmake)
-		unset(GTEST_ZIPHASH)
 	endif()
-	print_resource_info("GTest" GTESTMAIN_STATIC ${GTEST_VERSION})
+	print_resource_info("GTest" GTest::gtest_main ${GTEST_VERSION})
 endif()
 
 ##### MPFR
