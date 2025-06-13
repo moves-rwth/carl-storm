@@ -156,7 +156,7 @@ endif()
 if(PROJECT_IS_TOP_LEVEL)
 	##### GTest
 	if(NOT GTEST_FOUND)
-		set(GTEST_VERSION "1.12.0")
+		set(GTEST_VERSION "1.17.0")
 		include(resources/gtest.cmake)
 	endif()
 	print_resource_info("GTest" GTest::gtest_main ${GTEST_VERSION})
