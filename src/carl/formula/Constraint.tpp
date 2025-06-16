@@ -14,7 +14,6 @@
 #include "ConstraintPool.h"
 #include "../core/polynomialfunctions/Factorization.h"
 
-using namespace std;
 
 namespace carl
 {
@@ -116,7 +115,7 @@ namespace carl
                 }
                 default:
                 {
-                    cout << "Error in isConsistent: unexpected relation symbol." << endl;
+                    std::cout << "Error in isConsistent: unexpected relation symbol." << std::endl;
                     return false;
                 }
             }
@@ -242,9 +241,9 @@ namespace carl
     }
 
     template<typename Pol>
-    string ConstraintContent<Pol>::toString( unsigned _unequalSwitch, bool _infix, bool _friendlyVarNames ) const
+    std::string ConstraintContent<Pol>::toString( unsigned _unequalSwitch, bool _infix, bool _friendlyVarNames ) const
     {
-        string result = "";
+        std::string result = "";
         if( _infix )
             result = mLhs.toString( true, _friendlyVarNames );
         else
@@ -270,12 +269,12 @@ namespace carl
                         result += "!=";
                     else if( _unequalSwitch == 1 )
                     {
-                        string lhsString = mLhs.toString( false, _friendlyVarNames );
+                        std::string lhsString = mLhs.toString( false, _friendlyVarNames );
                         return "(or (< " + lhsString + " 0) (> " + lhsString + " 0))";
                     }
                     else
                     {
-                        string lhsString = mLhs.toString( false, _friendlyVarNames );
+                        std::string lhsString = mLhs.toString( false, _friendlyVarNames );
                         return "(not (= " + lhsString + " 0))";
                     }
                 }
@@ -490,7 +489,7 @@ namespace carl
                 }
                 default:
                 {
-                    cout << "Error in isConsistent: unexpected relation symbol." << endl;
+                    std::cout << "Error in isConsistent: unexpected relation symbol." << std::endl;
                     return 0;
                 }
             }
@@ -631,7 +630,7 @@ namespace carl
                 }
                 default:
                 {
-                    cout << "Error in isConsistent: unexpected relation symbol." << endl;
+                    std::cout << "Error in isConsistent: unexpected relation symbol." << std::endl;
                     return 0;
                 }
             }
@@ -715,7 +714,7 @@ namespace carl
         if( (!_negated && relation() != Relation::EQ) || (_negated && relation() != Relation::NEQ) )
             return false;
         VARINFOMAP_LOCK_GUARD
-        for( typename map<Variable, VarInfo<Pol>>::iterator varInfoPair = mpContent->mVarInfoMap.begin(); varInfoPair != mpContent->mVarInfoMap.end(); ++varInfoPair )
+        for( typename std::map<Variable, VarInfo<Pol>>::iterator varInfoPair = mpContent->mVarInfoMap.begin(); varInfoPair != mpContent->mVarInfoMap.end(); ++varInfoPair )
         {
 			if (varInfoPair->first == _exclude) continue;
             if( varInfoPair->second.maxDegree() == 1 )
@@ -761,46 +760,46 @@ namespace carl
 	}
     
     template<typename Pol>
-    ostream& operator<<( ostream& _out, const Constraint<Pol>& _constraint )
+    std::ostream& operator<<( std::ostream& _out, const Constraint<Pol>& _constraint )
     {
         return (_out << _constraint.toString());
     }
 
     template<typename Pol>
-    void Constraint<Pol>::printProperties( ostream& _out ) const
+    void Constraint<Pol>::printProperties( std::ostream& _out ) const
     {
-        _out << "Properties:" << endl;
+        _out << "Properties:" << std::endl;
         _out << "   Definitess:              ";
         switch( mpContent->mLhsDefinitess )
         {
             case Definiteness::NON:
-                _out << "NON" << endl;
+                _out << "NON" << std::endl;
                 break;
             case Definiteness::POSITIVE:
-                _out << "POSITIVE" << endl;
+                _out << "POSITIVE" << std::endl;
                 break;
             case Definiteness::POSITIVE_SEMI:
-                _out << "POSITIVE_SEMI" << endl;
+                _out << "POSITIVE_SEMI" << std::endl;
                 break;
             case Definiteness::NEGATIVE:
-                _out << "NEGATIVE" << endl;
+                _out << "NEGATIVE" << std::endl;
                 break;
             case Definiteness::NEGATIVE_SEMI:
-                _out << "NEGATIVE_SEMI" << endl;
+                _out << "NEGATIVE_SEMI" << std::endl;
                 break;
             default:
-                _out << "UNDEFINED" << endl;
+                _out << "UNDEFINED" << std::endl;
                 break;
         }
-        _out << "   The number of monomials: " << lhs().nrTerms() << endl;
-        _out << "   The maximal degree:      " << (lhs().isZero() ? 0 : lhs().totalDegree()) << endl;
-        _out << "   The constant part:       " << constantPart() << endl;
-        _out << "   Variables:" << endl;
+        _out << "   The number of monomials: " << lhs().nrTerms() << std::endl;
+        _out << "   The maximal degree:      " << (lhs().isZero() ? 0 : lhs().totalDegree()) << std::endl;
+        _out << "   The constant part:       " << constantPart() << std::endl;
+        _out << "   Variables:" << std::endl;
         for( auto vi = mpContent->mVarInfoMap.begin(); vi != mpContent->mVarInfoMap.end(); ++vi )
         {
-            _out << "        " << vi->first << " has " << vi->second.occurence() << " occurences." << endl;
-            _out << "        " << vi->first << " has the maximal degree of " << vi->second.maxDegree() << "." << endl;
-            _out << "        " << vi->first << " has the minimal degree of " << vi->second.minDegree() << "." << endl;
+            _out << "        " << vi->first << " has " << vi->second.occurence() << " occurences." << std::endl;
+            _out << "        " << vi->first << " has the maximal degree of " << vi->second.maxDegree() << "." << std::endl;
+            _out << "        " << vi->first << " has the minimal degree of " << vi->second.minDegree() << "." << std::endl;
         }
     }
 }    // namespace carl
