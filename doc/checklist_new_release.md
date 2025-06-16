@@ -41,4 +41,4 @@ The following steps should be performed before releasing a new carl-storm versio
 
 8. Use the [CI](https://github.com/moves-rwth/carl-storm/actions/workflows/release_docker.yml) on the `stable` branch, provide the tag 'stable' and automatically create the [Docker containers](https://hub.docker.com/r/movesrwth/carl-storm).
 
-9. Update [Homebrew formula](https://github.com/moves-rwth/homebrew-misc).
+9. Use the [CI of docker-storm](https://github.com/moves-rwth/docker-storm/actions/workflows/dependencies.yml) to update the Docker images for [storm-dependencies](https://hub.docker.com/r/movesrwth/storm-dependencies).
