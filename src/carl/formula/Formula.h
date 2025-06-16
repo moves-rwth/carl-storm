@@ -13,7 +13,6 @@
 #include <functional>
 #include <string>
 #include <set>
-#include <boost/dynamic_bitset.hpp>
 #include "Condition.h"
 #include "Constraint.h"
 #include "uninterpreted/UEquality.h"
