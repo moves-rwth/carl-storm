@@ -20,7 +20,8 @@ LABEL org.opencontainers.image.authors="dev@stormchecker.org"
 ARG build_type=Release
 # Specify number of threads to use for parallel compilation
 ARG no_threads=2
-
+# Specify additional CMake arguments
+ARG cmake_args=""
 
 # Build Carl-storm
 ##################
@@ -37,7 +38,7 @@ WORKDIR /opt/carl/build
 # Configure Carl-storm
 RUN cmake -DCMAKE_BUILD_TYPE=$build_type \
           -DPORTABLE=ON \
-          ..
+          $cmake_args ..
 
 # Build Carl library
 RUN make lib_carl -j $no_threads

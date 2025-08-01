@@ -43,6 +43,7 @@ message(STATUS "carl - Version: ${PROJECT_FULLNAME} ${PROJECT_VERSION_FULL}")
 # options
 option( DEVELOPER "Compile with extra warnings" OFF )
 option( ALLWARNINGS "Compile with even more warnings" OFF )
+option( CARL_WARNING_AS_ERROR "Sets whether compile warnings are treated as errors." OFF)
 option( CARL_LOGGING "Enable logging within the carl library" OFF )
 export_option(CARL_LOGGING)
 option( LOGGING_DISABLE_INEFFICIENT "Disable log messages about inefficient methods" OFF )
@@ -149,6 +150,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 else()
 	message(WARNING "carl - Possibly unsupported compiler ${CMAKE_CXX_COMPILER_ID}")
 endif()
+set(CMAKE_COMPILE_WARNING_AS_ERROR ${CARL_WARNING_AS_ERROR})
 
 
 # In release mode, we turn on even more optimizations if we do not have to provide a portable binary.
