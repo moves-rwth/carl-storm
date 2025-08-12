@@ -38,7 +38,7 @@ jobs:
             }
     steps:
       - name: Git clone
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Build Carl-storm from Dockerfile
         run: |
           docker build -t movesrwth/carl-storm:ci . -f .github/workflows/Dockerfile.archlinux \
@@ -63,7 +63,7 @@ jobs:
         build_type: ["Debug", "Release"]
     steps:
       - name: Git clone
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Build Carl-storm from Dockerfile
         run: |
           docker build -t movesrwth/carl-storm:ci . \
@@ -104,7 +104,7 @@ jobs:
         with:
           xcode-version: ${{ matrix.config.xcode }}
       - name: Git clone
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install dependencies
         # cmake and gmp are already installed
         run: |
@@ -142,7 +142,7 @@ jobs:
             }
     steps:
       - name: Git clone
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Build Carl-storm from Dockerfile
         run: |
           docker build -t movesrwth/carl-storm:${{ matrix.build_type.dockerTag }} . \
