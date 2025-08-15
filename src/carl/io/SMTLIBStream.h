@@ -93,7 +93,7 @@ private:
 				*this << f.uequality();
 				break;
 			case FormulaType::PBCONSTRAINT:
-				*this << f.pbConstraint();
+				CARL_LOG_ERROR("carl.smtlibstream", "Formula type PBCONSTRAINT is not supported anymore.");
 				break;
 			case FormulaType::EXISTS:
 			case FormulaType::FORALL:

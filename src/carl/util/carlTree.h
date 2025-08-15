@@ -15,6 +15,9 @@
 
 #include "../io/streamingOperators.h"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 namespace carl {
 
 template<typename T>
@@ -993,3 +996,5 @@ template<typename T>
 const std::size_t tree<T>::MAXINT;
 
 }
+
+#pragma GCC diagnostic pop

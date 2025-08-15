@@ -192,8 +192,7 @@ namespace model {
 				break;
 			}
 			case FormulaType::PBCONSTRAINT: {
-				/// TODO: We should store the substitution.
-				PBConstraint<Poly> pbc = substitute(f.pbConstraint(), m);
+				CARL_LOG_ERROR("carl.model.evaluation", "Formula type PBCONSTRAINT is not supported anymore.");
 				break;
 			}
 		}
