@@ -125,7 +125,7 @@ inline Interval<Numeric> IntervalEvaluation::evaluate(const FactorizedPolynomial
                 return factorEvaluated;
             result *= factorEvaluated.pow( factor.second );
         }
-        return std::move( result );
+        return result;
     }
 }
 

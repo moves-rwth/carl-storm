@@ -41,7 +41,7 @@ private:
 			if (id > 0) vars.emplace_back(v);
 			else vars.emplace_back(NOT, v);
 		}
-		return std::move(Formula<Pol>(OR, std::move(vars)));
+		return Formula<Pol>(OR, std::move(vars));
 	}
 	
 	Formula<Pol> parseFormula() {

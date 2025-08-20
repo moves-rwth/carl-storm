@@ -462,7 +462,7 @@ namespace carl
 
         UnivariatePolynomial<CoeffType> toUnivariatePolynomial() const
         {
-            return std::move(polynomial().toUnivariatePolynomial() *= mCoefficient); // In this case it makes sense to expand the polynomial.
+            return polynomial().toUnivariatePolynomial() *= mCoefficient; // In this case it makes sense to expand the polynomial.
         }
 
         UnivariatePolynomial<FactorizedPolynomial<P>> toUnivariatePolynomial( Variable _var ) const;
@@ -953,7 +953,7 @@ namespace carl
 	template <typename P>
 	inline FactorizedPolynomial<P> operator+(const typename FactorizedPolynomial<P>::CoeffType& _lhs, const FactorizedPolynomial<P>& _rhs)
     {
-		return std::move(_rhs + _lhs);
+		return _rhs + _lhs;
 	}
 	/// @}
 	
@@ -974,7 +974,7 @@ namespace carl
 	template <typename P>
 	inline FactorizedPolynomial<P> operator-(const typename FactorizedPolynomial<P>::CoeffType& _lhs, const FactorizedPolynomial<P>& _rhs)
     {
-		return std::move( -_rhs + _lhs );
+		return -_rhs + _lhs;
 	}
 	/// @}
 	
@@ -995,7 +995,7 @@ namespace carl
 	template <typename P>
 	inline FactorizedPolynomial<P> operator*(const typename FactorizedPolynomial<P>::CoeffType& _lhs, const FactorizedPolynomial<P>& _rhs)
     {
-		return std::move(_rhs * _lhs);
+		return _rhs * _lhs;
 	}
     
 	template <typename P>
