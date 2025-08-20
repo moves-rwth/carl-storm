@@ -28,12 +28,12 @@ jobs:
         config:
           - {name: "GCC",
              build_type: "Debug",
-             cmake_args: "-DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++",
+             cmake_args: "-DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCARL_WARNING_AS_ERROR=ON",
              packages: ""
             }
           - {name: "Clang",
              build_type: "Debug",
-             cmake_args: "-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++",
+             cmake_args: "-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCARL_WARNING_AS_ERROR=ON",
              packages: "clang"
             }
     steps:
@@ -69,6 +69,7 @@ jobs:
           docker build -t movesrwth/carl-storm:ci . \
             --build-arg BASE_IMAGE=movesrwth/storm-basesystem:${{ matrix.distro }} \
             --build-arg build_type="${{ matrix.build_type }}" \
+            --build-arg cmake_args="-DCARL_WARNING_AS_ERROR=ON" \
             --build-arg no_threads=${NR_JOBS}
       - name: Run Docker
         run: docker run -d -it --name ci movesrwth/carl-storm:ci
@@ -114,7 +115,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE="${{ matrix.config.build_type }}"
+          cmake .. -DCMAKE_BUILD_TYPE="${{ matrix.config.build_type }}" -DCARL_WARNING_AS_ERROR=ON
       - name: Build Carl-storm
         working-directory: ./build
         run: make lib_carl -j ${NR_JOBS}
@@ -148,6 +149,7 @@ jobs:
           docker build -t movesrwth/carl-storm:${{ matrix.build_type.dockerTag }} . \
             --build-arg BASE_IMAGE=movesrwth/${{ matrix.build_type.baseImg }} \
             --build-arg build_type="${{ matrix.build_type.name }}" \
+            --build-arg cmake_args="-DCARL_WARNING_AS_ERROR=ON" \
             --build-arg no_threads=${NR_JOBS}
       - name: Run Docker
         run: docker run -d -it --name ci movesrwth/carl-storm:${{ matrix.build_type.dockerTag }}

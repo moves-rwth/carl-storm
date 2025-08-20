@@ -10,10 +10,11 @@
 #include <cassert>
 #include <ostream>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnull-pointer-arithmetic"
-# pragma GCC diagnostic push
-# pragma GCC diagnostic ignored "-Wfree-nonheap-object"
+#include "platform.h"
+
+CLANG_WARNING_DISABLE("-Wnull-pointer-arithmetic")
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfree-nonheap-object"
 
 namespace carl {
 /** This class packs a complete binary tree in a vector.
@@ -339,4 +340,4 @@ void CompactTree<E, FI>::increaseCapacity() {
 } // namespace carl
 
 #pragma GCC diagnostic pop
-#pragma clang diagnostic pop
+CLANG_WARNING_RESET
