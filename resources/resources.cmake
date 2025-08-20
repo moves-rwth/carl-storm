@@ -11,10 +11,6 @@ endif()
 ###############
 ##### Generic resource configuration
 ###############
-if("${CMAKE_GENERATOR}" MATCHES "Make")
-	set(CMAKE_MAKE_PROGRAM "$(MAKE)")
-endif()
-
 # Make sure that libraries from /usr/lib et al are found before OSX frameworks
 set(CMAKE_FIND_FRAMEWORK "LAST")
 
