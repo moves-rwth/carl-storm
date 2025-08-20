@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        distro: ["debian-12", "ubuntu-22.04", "ubuntu-24.04", "minimal_dependencies"]
+        distro: ["debian-12", "ubuntu-24.04", "debian-13", "minimal_dependencies"]
         build_type: ["Debug", "Release"]
     steps:
       - name: Git clone
