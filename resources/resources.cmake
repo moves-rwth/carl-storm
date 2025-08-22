@@ -11,10 +11,6 @@ endif()
 ###############
 ##### Generic resource configuration
 ###############
-if("${CMAKE_GENERATOR}" MATCHES "Make")
-	set(CMAKE_MAKE_PROGRAM "$(MAKE)")
-endif()
-
 # Make sure that libraries from /usr/lib et al are found before OSX frameworks
 set(CMAKE_FIND_FRAMEWORK "LAST")
 
@@ -153,23 +149,23 @@ else()
 	message(STATUS "carl - GiNaC is disabled")
 endif()
 
+##### Threads
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+
+##### Googletest
 if(PROJECT_IS_TOP_LEVEL)
 	##### GTest
 	if(NOT GTEST_FOUND)
-		set(GTEST_VERSION "1.12.0")
-		set(GTEST_ZIPHASH "9e89030ad8687c17d7bf8ddb1cab4320")
+		set(GTEST_VERSION "1.17.0")
 		include(resources/gtest.cmake)
-		unset(GTEST_ZIPHASH)
 	endif()
-	print_resource_info("GTest" GTESTMAIN_STATIC ${GTEST_VERSION})
+	print_resource_info("GTest" GTest::gtest_main ${GTEST_VERSION})
 endif()
 
 ##### MPFR
 IF(USE_MPFR_FLOAT)
 	load_library(carl MPFR 0.0 REQUIRED)
 endif()
-
-set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
-set(THREADS_PREFER_PTHREAD_FLAG TRUE)
-find_package(Threads REQUIRED)
 
