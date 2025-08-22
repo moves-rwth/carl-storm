@@ -270,6 +270,12 @@ if (TARGET Doxygen::doxygen AND PROJECT_IS_TOP_LEVEL)
 	include(resources/doc-resources.cmake)
 	add_subdirectory(doxygen-conf)
 endif()
+
+if(PROJECT_IS_TOP_LEVEL)
+	# Apply code formatting
+	add_custom_target(format COMMAND ${PROJECT_SOURCE_DIR}/resources/scripts/auto-format.sh)
+endif()
+
 add_subdirectory(src)
 
 include(export)
