@@ -1756,11 +1756,11 @@ UnivariatePolynomial<C> operator*(const UnivariatePolynomial<C>& lhs, const Univ
 
 template<typename C>
 UnivariatePolynomial<C> operator*(const UnivariatePolynomial<C>& lhs, Variable rhs) {
-	return std::move(UnivariatePolynomial<C>(lhs) *= rhs);
+	return UnivariatePolynomial<C>(lhs) *= rhs;
 }
 template<typename C>
 UnivariatePolynomial<C> operator*(Variable lhs, const UnivariatePolynomial<C>& rhs) {
-	return std::move(UnivariatePolynomial<C>(rhs) *= lhs);
+	return UnivariatePolynomial<C>(rhs) *= lhs;
 }
 
 template<typename C>
