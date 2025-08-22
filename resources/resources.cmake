@@ -149,6 +149,12 @@ else()
 	message(STATUS "carl - GiNaC is disabled")
 endif()
 
+##### Threads
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+
+##### Googletest
 if(PROJECT_IS_TOP_LEVEL)
 	##### GTest
 	if(NOT GTEST_FOUND)
@@ -162,8 +168,4 @@ endif()
 IF(USE_MPFR_FLOAT)
 	load_library(carl MPFR 0.0 REQUIRED)
 endif()
-
-set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
-set(THREADS_PREFER_PTHREAD_FLAG TRUE)
-find_package(Threads REQUIRED)
 

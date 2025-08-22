@@ -5,4 +5,4 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-set(GTEST_LIBRARIES GTest::gtest_main)
+set(GTEST_LIBRARIES GTest::gtest_main Threads::Threads)
