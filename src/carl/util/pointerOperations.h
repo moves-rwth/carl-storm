@@ -1,7 +1,7 @@
-/* 
+/*
  * @file pointerOperations.h
  * @author Gereon Kremer <gereon.kremer@cs.rwth-aachen.de>
- * 
+ *
  * This file contains generic operations on pointers.
  * We define our own suite of STL like operations like std::equal_to or std::less
  * on pointers (and shared pointers) with our own semantic.
@@ -26,56 +26,60 @@ namespace carl {
  */
 template<typename T, bool mayBeNull = true>
 struct equal_to {
-	std::equal_to<T> eq;
-	bool operator()(const T& lhs, const T& rhs) const {
-		return eq(lhs, rhs);
-	}
+    std::equal_to<T> eq;
+    bool operator()(const T& lhs, const T& rhs) const {
+        return eq(lhs, rhs);
+    }
 };
 
 template<typename T, bool mayBeNull>
 struct equal_to<T*, mayBeNull> {
-	bool operator()(const T* lhs, const T* rhs) const {
-		if (lhs == rhs) return true;
-		if (mayBeNull) {
-			if (lhs == nullptr || rhs == nullptr) return false;
-		}
-		assert(lhs != nullptr);
-		assert(rhs != nullptr);
-		return std::equal_to<T>()(*lhs, *rhs);
-	}
+    bool operator()(const T* lhs, const T* rhs) const {
+        if (lhs == rhs)
+            return true;
+        if (mayBeNull) {
+            if (lhs == nullptr || rhs == nullptr)
+                return false;
+        }
+        assert(lhs != nullptr);
+        assert(rhs != nullptr);
+        return std::equal_to<T>()(*lhs, *rhs);
+    }
 };
 
 template<typename T, bool mayBeNull>
 struct equal_to<std::shared_ptr<T>, mayBeNull> {
-	bool operator()(const std::shared_ptr<const T>& lhs, const std::shared_ptr<const T>& rhs) const {
-		if (lhs == rhs) return true;
-		if (mayBeNull) {
-			if (lhs == nullptr || rhs == nullptr) return false;
-		}
-		return std::equal_to<T>()(*lhs, *rhs);
-	}
+    bool operator()(const std::shared_ptr<const T>& lhs, const std::shared_ptr<const T>& rhs) const {
+        if (lhs == rhs)
+            return true;
+        if (mayBeNull) {
+            if (lhs == nullptr || rhs == nullptr)
+                return false;
+        }
+        return std::equal_to<T>()(*lhs, *rhs);
+    }
 };
 
 template<typename T, bool mayBeNull = true>
 struct not_equal_to {
-	std::not_equal_to<T> neq;
-	bool operator()(const T& lhs, const T& rhs) const {
-		return neq(lhs, rhs);
-	}
+    std::not_equal_to<T> neq;
+    bool operator()(const T& lhs, const T& rhs) const {
+        return neq(lhs, rhs);
+    }
 };
 
 template<typename T, bool mayBeNull>
 struct not_equal_to<T*, mayBeNull> {
-	bool operator()(const T* lhs, const T* rhs) const {
-		return !equal_to<T, mayBeNull>()(lhs, rhs);
-	}
+    bool operator()(const T* lhs, const T* rhs) const {
+        return !equal_to<T, mayBeNull>()(lhs, rhs);
+    }
 };
 
 template<typename T, bool mayBeNull>
 struct not_equal_to<std::shared_ptr<T>, mayBeNull> {
-	bool operator()(const std::shared_ptr<const T>& lhs, const std::shared_ptr<const T>& rhs) const {
-		return !equal_to<T, mayBeNull>()(lhs, rhs);
-	}
+    bool operator()(const std::shared_ptr<const T>& lhs, const std::shared_ptr<const T>& rhs) const {
+        return !equal_to<T, mayBeNull>()(lhs, rhs);
+    }
 };
 
 /**
@@ -86,56 +90,60 @@ struct not_equal_to<std::shared_ptr<T>, mayBeNull> {
  */
 template<typename T, bool mayBeNull = true>
 struct less {
-	std::less<T> _less;
-	bool operator()(const T& lhs, const T& rhs) const {
-		return _less(lhs, rhs);
-	}
+    std::less<T> _less;
+    bool operator()(const T& lhs, const T& rhs) const {
+        return _less(lhs, rhs);
+    }
 };
 
 template<typename T, bool mayBeNull>
 struct less<T*, mayBeNull> {
-	std::less<T> _less;
-	bool operator()(const T* lhs, const T* rhs) const {
-		if (lhs == rhs) return false;
-		if (mayBeNull) {
-			if (lhs == nullptr || rhs == nullptr) return lhs == nullptr;
-		}
-		return _less(*lhs, *rhs);
-	}
+    std::less<T> _less;
+    bool operator()(const T* lhs, const T* rhs) const {
+        if (lhs == rhs)
+            return false;
+        if (mayBeNull) {
+            if (lhs == nullptr || rhs == nullptr)
+                return lhs == nullptr;
+        }
+        return _less(*lhs, *rhs);
+    }
 };
 
 template<typename T, bool mayBeNull>
 struct less<std::shared_ptr<T>, mayBeNull> {
-	std::less<T> _less;
-	bool operator()(const std::shared_ptr<const T>& lhs, const std::shared_ptr<const T>& rhs) const {
-		if (lhs == rhs) return false;
-		if (mayBeNull) {
-			if (lhs == nullptr || rhs == nullptr) return lhs == nullptr;
-		}
-		return _less(*lhs, *rhs);
-	}
+    std::less<T> _less;
+    bool operator()(const std::shared_ptr<const T>& lhs, const std::shared_ptr<const T>& rhs) const {
+        if (lhs == rhs)
+            return false;
+        if (mayBeNull) {
+            if (lhs == nullptr || rhs == nullptr)
+                return lhs == nullptr;
+        }
+        return _less(*lhs, *rhs);
+    }
 };
 
 template<typename T, bool mayBeNull = true>
 struct greater {
-	std::greater<T> _greater;
-	bool operator()(const T& lhs, const T& rhs) const {
-		return _greater(lhs, rhs);
-	}
+    std::greater<T> _greater;
+    bool operator()(const T& lhs, const T& rhs) const {
+        return _greater(lhs, rhs);
+    }
 };
 
 template<typename T, bool mayBeNull>
 struct greater<T*, mayBeNull> {
-	bool operator()(const T* lhs, const T* rhs) const {
-		return less<T, mayBeNull>()(rhs, lhs);
-	}
+    bool operator()(const T* lhs, const T* rhs) const {
+        return less<T, mayBeNull>()(rhs, lhs);
+    }
 };
 
 template<typename T, bool mayBeNull>
 struct greater<std::shared_ptr<T>, mayBeNull> {
-	bool operator()(const std::shared_ptr<const T>& lhs, const std::shared_ptr<const T>& rhs) const {
-		return less<T, mayBeNull>()(rhs, lhs);
-	}
+    bool operator()(const std::shared_ptr<const T>& lhs, const std::shared_ptr<const T>& rhs) const {
+        return less<T, mayBeNull>()(rhs, lhs);
+    }
 };
 
 /**
@@ -145,30 +153,32 @@ struct greater<std::shared_ptr<T>, mayBeNull> {
  */
 template<typename T, bool mayBeNull = true>
 struct hash {
-	std::hash<T> _hash;
-	bool operator()(const T& lhs, const T& rhs) const {
-		return _hash(lhs, rhs);
-	}
+    std::hash<T> _hash;
+    bool operator()(const T& lhs, const T& rhs) const {
+        return _hash(lhs, rhs);
+    }
 };
 
 template<typename T, bool mayBeNull>
 struct hash<T*, mayBeNull> {
-	std::size_t operator()(const T* t) const {
-		if (mayBeNull) {
-			if (t == nullptr) return 0;
-		}
-		return std::hash<T>()(*t);
-	}
+    std::size_t operator()(const T* t) const {
+        if (mayBeNull) {
+            if (t == nullptr)
+                return 0;
+        }
+        return std::hash<T>()(*t);
+    }
 };
 
 template<typename T, bool mayBeNull>
 struct hash<std::shared_ptr<T>, mayBeNull> {
-	std::size_t operator()(const std::shared_ptr<T>& t) const {
-		if (mayBeNull) {
-			if (t == nullptr) return 0;
-		}
-		return std::hash<T>()(*t);
-	}
+    std::size_t operator()(const std::shared_ptr<T>& t) const {
+        if (mayBeNull) {
+            if (t == nullptr)
+                return 0;
+        }
+        return std::hash<T>()(*t);
+    }
 };
 
-}
+}  // namespace carl

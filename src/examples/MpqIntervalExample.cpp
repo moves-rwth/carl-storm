@@ -9,12 +9,11 @@
  */
 
 #include "../carl/interval/Interval.h"
-int main (int argc, char** argv)
-{
-	mpq_class a = 2;
-	mpq_class b = 4;
-	mpq_class c = 6;
-	mpq_class d = 3;
-	
-	carl::Interval<mpq_class> mpqInterval( a*b, carl::BoundType::WEAK, c/d, carl::BoundType::STRICT );
+int main(int argc, char** argv) {
+    mpq_class a = 2;
+    mpq_class b = 4;
+    mpq_class c = 6;
+    mpq_class d = 3;
+
+    carl::Interval<mpq_class> mpqInterval(a * b, carl::BoundType::WEAK, c / d, carl::BoundType::STRICT);
 }

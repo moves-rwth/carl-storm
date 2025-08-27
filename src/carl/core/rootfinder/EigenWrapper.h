@@ -12,6 +12,6 @@ namespace eigen {
  */
 std::vector<double> root_approximation(const std::vector<double>& coeffs);
 
-}
-}
-}
+}  // namespace eigen
+}  // namespace rootfinder
+}  // namespace carl

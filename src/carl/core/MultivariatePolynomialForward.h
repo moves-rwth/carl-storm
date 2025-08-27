@@ -7,4 +7,4 @@ class Variable;
 struct NotRelevant {};
 template<typename Coeff, typename Ordering = NotRelevant, typename Policies = StdMultivariatePolynomialPolicies<>>
 class MultivariatePolynomial;
-}
+}  // namespace carl

@@ -19,7 +19,6 @@
  *
  */
 
-
 /**
  * @file   BuchbergerStats.h
  * @author Sebastian Junges
@@ -28,91 +27,77 @@
 
 #pragma once
 
-namespace carl
-{
+namespace carl {
 
 /**
  * A little class for gathering statistics about the Buchberger algorithm calls.
  */
-class BuchbergerStats
-{
-public:
-    static BuchbergerStats* getInstance( );
+class BuchbergerStats {
+   public:
+    static BuchbergerStats* getInstance();
 
     /**
      *  Count that we found a TSQ which had a constant trailing term
      */
-    void TSQWithConstant( )
-    {
+    void TSQWithConstant() {
         mNrOfTSQWithConstant++;
     }
 
     /**
      * Count that we found a TSQ which did not have a constant trailing term
      */
-    void TSQWithoutConstant( )
-    {
+    void TSQWithoutConstant() {
         mNrOfTSQWithoutConstant++;
     }
 
     /**
      * Count that we could reduce a single term polynomial by calculating the Squarefree part
      */
-    void SingleTermSFP( )
-    {
+    void SingleTermSFP() {
         mNrOfSingleTermSFP++;
     }
 
-    void ReducibleIdentity( )
-    {
+    void ReducibleIdentity() {
         mNrOfReducibleIdentities++;
     }
     /**
      *  Count that we take and reduce another S-Pair
      */
-    void TreatSPair( )
-    {
+    void TreatSPair() {
         mNrOfReductions++;
     }
 
     /**
      * Count that an S-Pair reduced to some non zero polynomial
      */
-    void NonZeroReduction( )
-    {
+    void NonZeroReduction() {
         mNrOfNonZeroReductions++;
     }
 
-    unsigned getNrTSQWithConstant( ) const
-    {
+    unsigned getNrTSQWithConstant() const {
         return mNrOfTSQWithConstant;
     }
 
-    unsigned getNrTSQWithoutConstant( ) const
-    {
+    unsigned getNrTSQWithoutConstant() const {
         return mNrOfTSQWithoutConstant;
     }
 
-    unsigned getSingleTermSFP( ) const
-    {
+    unsigned getSingleTermSFP() const {
         return mNrOfSingleTermSFP;
     }
-    
-    unsigned getNrReducibleIdentities( ) const
-    {
+
+    unsigned getNrReducibleIdentities() const {
         return mNrOfReducibleIdentities;
     }
-protected:
 
-    BuchbergerStats( ) :
-    mNrOfTSQWithConstant( 0 ),
-    mNrOfTSQWithoutConstant( 0 ),
-    mNrOfSingleTermSFP( 0 ),
-    mNrOfReducibleIdentities( 0 ),
-    mNrOfReductions( 0 ),
-    mNrOfNonZeroReductions( 0 )
-    {
-    }
+   protected:
+    BuchbergerStats()
+        : mNrOfTSQWithConstant(0),
+          mNrOfTSQWithoutConstant(0),
+          mNrOfSingleTermSFP(0),
+          mNrOfReducibleIdentities(0),
+          mNrOfReductions(0),
+          mNrOfNonZeroReductions(0) {}
     unsigned mNrOfTSQWithConstant;
     unsigned mNrOfTSQWithoutConstant;
     unsigned mNrOfSingleTermSFP;
@@ -120,7 +105,7 @@ protected:
     unsigned mNrOfReductions;
     unsigned mNrOfNonZeroReductions;
 
-private:
+   private:
     static BuchbergerStats* instance;
 };
-}
+}  // namespace carl

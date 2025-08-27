@@ -1,23 +1,22 @@
-#include "gtest/gtest.h"
-#include "../../carl/formula/bitvector/BVTermPool.h"
-#include "../../carl/formula/bitvector/BVConstraintPool.h"
 #include "../../carl/core/MultivariatePolynomial.h"
 #include "../../carl/core/VariablePool.h"
 #include "../../carl/formula/FormulaPool.h"
 #include "../../carl/formula/SortManager.h"
+#include "../../carl/formula/bitvector/BVConstraintPool.h"
+#include "../../carl/formula/bitvector/BVTermPool.h"
 #include "../../carl/numbers/config.h"
+#include "gtest/gtest.h"
 #ifdef USE_CLN_NUMBERS
 #include <cln/cln.h>
 #endif
 
 using namespace carl;
 
-TEST(BVConstraint, Construction)
-{
+TEST(BVConstraint, Construction) {
     Variable a = freshBitvectorVariable("a");
     Variable b = freshBitvectorVariable("b");
 
-	carl::SortManager::getInstance().clear();
+    carl::SortManager::getInstance().clear();
     Sort bvSort = SortManager::getInstance().addSort("BitVec");
     SortManager::getInstance().makeSortIndexable(bvSort, 1, VariableType::VT_BITVECTOR);
     Sort bv16Sort = SortManager::getInstance().index(bvSort, {16});
@@ -48,7 +47,7 @@ TEST(BVConstraint, Construction)
     check_for_default_constructor = bvzeroext;
 
     BVConstraint constraint = BVConstraint::create(BVCompareRelation::SLT, oxaa, bvzeroext);
-	EXPECT_TRUE(constraint.relation() == BVCompareRelation::SLT);
+    EXPECT_TRUE(constraint.relation() == BVCompareRelation::SLT);
     // std::cout << constraint.toString("", false, false, true) << std::endl;
 
     // check for simplification of terms (division)
@@ -59,7 +58,7 @@ TEST(BVConstraint, Construction)
     BVTerm factor1(BVTermType::CONSTANT, BVValue(16, 43 /* 00101011 */));
     BVTerm factor2(BVTermType::CONSTANT, BVValue(16, 9 /* 00001001 */));
     BVTerm product(BVTermType::MUL, factor1, factor2);
-    EXPECT_TRUE(product == BVTerm(BVTermType::CONSTANT, BVValue(16, 43*9)));
+    EXPECT_TRUE(product == BVTerm(BVTermType::CONSTANT, BVValue(16, 43 * 9)));
 
     // check for simplification of constraints
     BVConstraint simplifyMeToo = BVConstraint::create(BVCompareRelation::SGT, oxfff0, oxaa33);
@@ -68,7 +67,7 @@ TEST(BVConstraint, Construction)
 #ifdef USE_CLN_NUMBERS
     // Test BVValue construction from CLN / GMP objects
     // (every 8-bit value)
-    for(int i=-256;i<=256;++i) {
+    for (int i = -256; i <= 256; ++i) {
         char i_str[5];
         snprintf(i_str, 5, "%d", i);
 

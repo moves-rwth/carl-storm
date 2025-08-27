@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   PolynomialSorts.h
  * Author: Sebastian Junges
  *
@@ -11,20 +11,17 @@
  * @param generators
  */
 template<class Polynomial>
-class sortByLeadingTerm
-{
-public:
+class sortByLeadingTerm {
+   public:
+    explicit sortByLeadingTerm(const std::vector<Polynomial>& generators) : mGenerators(generators) {}
 
-    explicit sortByLeadingTerm(const std::vector<Polynomial>& generators): mGenerators(generators) {
-    }
-
-    bool operator()(std::size_t a, std::size_t b) const
-    {
-		assert(a < mGenerators.size()); 
-		assert(b < mGenerators.size());
+    bool operator()(std::size_t a, std::size_t b) const {
+        assert(a < mGenerators.size());
+        assert(b < mGenerators.size());
         return Polynomial::compareByLeadingTerm(mGenerators[a], mGenerators[b]);
     }
-private:
+
+   private:
     const std::vector<Polynomial>& mGenerators;
 };
 
@@ -33,16 +30,14 @@ private:
  * @param generators
  */
 template<class Polynomial>
-class sortByPolSize
-{
-public:
-
-    explicit sortByPolSize(const std::vector<Polynomial>& generators): mGenerators(generators) {
-    }
+class sortByPolSize {
+   public:
+    explicit sortByPolSize(const std::vector<Polynomial>& generators) : mGenerators(generators) {}
 
     bool operator()(std::size_t a, std::size_t b) const {
         return Polynomial::compareByNrTerms(mGenerators[a], mGenerators[b]);
     }
-private:
+
+   private:
     const std::vector<Polynomial>& mGenerators;
 };

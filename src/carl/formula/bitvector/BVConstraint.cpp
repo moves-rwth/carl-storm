@@ -6,16 +6,12 @@
 #include "BVConstraint.h"
 #include "BVConstraintPool.h"
 
-namespace carl
-{
-    BVConstraint BVConstraint::create(bool _consistent)
-    {
-        return *(BVConstraintPool::getInstance().create(_consistent));
-    }
+namespace carl {
+BVConstraint BVConstraint::create(bool _consistent) {
+    return *(BVConstraintPool::getInstance().create(_consistent));
+}
 
-    BVConstraint BVConstraint::create(const BVCompareRelation& _relation,
-        const BVTerm& _lhs, const BVTerm& _rhs)
-    {
-        return *(BVConstraintPool::getInstance().create(_relation, _lhs, _rhs));
-    }
-} // namespace carl
+BVConstraint BVConstraint::create(const BVCompareRelation& _relation, const BVTerm& _lhs, const BVTerm& _rhs) {
+    return *(BVConstraintPool::getInstance().create(_relation, _lhs, _rhs));
+}
+}  // namespace carl
