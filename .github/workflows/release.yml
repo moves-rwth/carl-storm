@@ -1,6 +1,10 @@
 name: Release new version
 # Triggered by new a release on Github
-# Deploys Docker containers and updates stable branch
+# - deploys Docker containers
+# - updates stable branch
+# - updates carl-storm version in Storm
+
+# Needs personal access token CI_token with permissions 'pull-requests' and 'workflows'
 
 on:
   release:
@@ -8,12 +12,14 @@ on:
 
 jobs:
   deploy_docker:
+    # Create Docker images for tag
     uses: ./.github/workflows/release_docker.yml
     with:
       # Use the tag from the release
       tag: ${{ github.event.release.tag_name }}
 
   update_stable:
+    # Update stable branch
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -33,7 +39,17 @@ jobs:
           git push origin stable
 
   deploy_docker_stable:
+    # Create Docker images for stable branch
     needs: update_stable
     uses: ./.github/workflows/release_docker.yml
     with:
       tag: stable
+
+  update_storm:
+    # Trigger generation of PR in Storm which updates the carl-storm version
+    needs: [deploy_docker, deploy_docker_stable]
+    uses: moves-rwth/storm/.github/workflows/update_carl.yml@master
+    with:
+      carl_version: ${{ github.event.release.tag_name }}
+    secrets:
+      personal_access_token: ${{ secrets.CI_token }}
