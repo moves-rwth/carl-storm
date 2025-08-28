@@ -1,6 +1,12 @@
 Changelog
 ==============
 
+## Version 14.31 (2025/08)
+- Treat warnings as errors in CI and fixed compiler warnings.
+- Removed deprecated definitions and headers.
+- Do not use namespace std in header files.
+- Updated Googletest.
+
 ## Version 14.30 (2025/06)
 - Added CMake options `ALLOW_SHIPPED_CLN` and `ALLOW_SHIPPED_GINAC` and CMake flag `HAVE_CLN`.
 - Improved Ginac CMake support.
