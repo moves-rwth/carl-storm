@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   BVConstraintPool.h
  * Author: Andreas Krueger <andreas.krueger@rwth-aachen.de>
  */
@@ -7,30 +7,26 @@
 
 #include "Pool.h"
 
-namespace carl
-{
-	// Forward declaration
-	class BVConstraint;
-	enum class BVCompareRelation : unsigned;
-	class BVTerm;
+namespace carl {
+// Forward declaration
+class BVConstraint;
+enum class BVCompareRelation : unsigned;
+class BVTerm;
 
-	class BVConstraintPool : public Singleton<BVConstraintPool>, public Pool<BVConstraint>
-	{
-		friend Singleton<BVConstraintPool>;
+class BVConstraintPool : public Singleton<BVConstraintPool>, public Pool<BVConstraint> {
+    friend Singleton<BVConstraintPool>;
 
-		using Constraint = BVConstraint;
-		using ConstraintPtr = Constraint*;
-		using ConstConstraintPtr = const Constraint*;
+    using Constraint = BVConstraint;
+    using ConstraintPtr = Constraint*;
+    using ConstConstraintPtr = const Constraint*;
 
-		public:
+   public:
+    ConstConstraintPtr create(bool _consistent = true);
 
-		ConstConstraintPtr create(bool _consistent = true);
+    ConstConstraintPtr create(const BVCompareRelation& _relation, const BVTerm& _lhs, const BVTerm& _rhs);
 
-		ConstConstraintPtr create(const BVCompareRelation& _relation,
-			const BVTerm& _lhs, const BVTerm& _rhs);
-
-		void assignId(ConstraintPtr _constraint, std::size_t _id) override;
-	};
-}
+    void assignId(ConstraintPtr _constraint, std::size_t _id) override;
+};
+}  // namespace carl
 
 #define BV_CONSTRAINT_POOL BVConstraintPool::getInstance()

@@ -3,9 +3,9 @@
 #include "../../formula/model/ran/RealAlgebraicNumber.h"
 #include "../../formula/model/ran/RealAlgebraicNumberEvaluation.h"
 #include "../../interval/Interval.h"
-#include "../logging.h"
 #include "../Sign.h"
 #include "../UnivariatePolynomial.h"
+#include "../logging.h"
 #include "IncrementalRootFinder.h"
 
 #include <boost/optional.hpp>
@@ -24,15 +24,13 @@ namespace rootfinder {
  * Find all real roots of a univariate 'polynomial' with numeric coefficients within a given 'interval'.
  */
 template<typename Coeff, typename Number, typename Finder = IncrementalRootFinder<Number>, EnableIf<std::is_same<Coeff, Number>> = dummy>
-std::vector<RealAlgebraicNumber<Number>> realRoots(
-		const UnivariatePolynomial<Coeff>& polynomial,
-		const Interval<Number>& interval = Interval<Number>::unboundedInterval(),
-		SplittingStrategy pivoting = SplittingStrategy::DEFAULT
-) {
-	CARL_LOG_DEBUG("carl.core.rootfinder", polynomial << " within " << interval);
-	auto r = Finder(polynomial, interval, pivoting).getAllRoots();
-	CARL_LOG_DEBUG("carl.core.rootfinder", "-> " << r);
-	return r;
+std::vector<RealAlgebraicNumber<Number>> realRoots(const UnivariatePolynomial<Coeff>& polynomial,
+                                                   const Interval<Number>& interval = Interval<Number>::unboundedInterval(),
+                                                   SplittingStrategy pivoting = SplittingStrategy::DEFAULT) {
+    CARL_LOG_DEBUG("carl.core.rootfinder", polynomial << " within " << interval);
+    auto r = Finder(polynomial, interval, pivoting).getAllRoots();
+    CARL_LOG_DEBUG("carl.core.rootfinder", "-> " << r);
+    return r;
 }
 
 /**
@@ -40,15 +38,12 @@ std::vector<RealAlgebraicNumber<Number>> realRoots(
  * However, all coefficients must be types that contain numeric numbers that are retrievable by using .constantPart();
  */
 template<typename Coeff, typename Number, DisableIf<std::is_same<Coeff, Number>> = dummy>
-std::vector<RealAlgebraicNumber<Number>> realRoots(
-		const UnivariatePolynomial<Coeff>& polynomial,
-		const Interval<Number>& interval = Interval<Number>::unboundedInterval(),
-		SplittingStrategy pivoting = SplittingStrategy::DEFAULT
-) {
-	assert(polynomial.isUnivariate());
-	return realRoots(polynomial.convert(std::function<Number(const Coeff&)>([](const Coeff& c){ return c.constantPart(); })), interval, pivoting);
+std::vector<RealAlgebraicNumber<Number>> realRoots(const UnivariatePolynomial<Coeff>& polynomial,
+                                                   const Interval<Number>& interval = Interval<Number>::unboundedInterval(),
+                                                   SplittingStrategy pivoting = SplittingStrategy::DEFAULT) {
+    assert(polynomial.isUnivariate());
+    return realRoots(polynomial.convert(std::function<Number(const Coeff&)>([](const Coeff& c) { return c.constantPart(); })), interval, pivoting);
 }
-
 
 /**
  * Find all real roots of a univariate 'polynomial' with non-numeric coefficients within a given 'interval'.
@@ -56,12 +51,9 @@ std::vector<RealAlgebraicNumber<Number>> realRoots(
  * Note that this is a convenience method with swapped arguments to omit the interval but give a strategy.
  */
 template<typename Coeff, typename Number = typename UnderlyingNumberType<Coeff>::type>
-std::vector<RealAlgebraicNumber<Number>> realRoots(
-		const UnivariatePolynomial<Coeff>& polynomial,
-		SplittingStrategy pivoting = SplittingStrategy::DEFAULT,
-		const Interval<Number>& interval = Interval<Number>::unboundedInterval()
-) {
-	return realRoots(polynomial, interval, pivoting);
+std::vector<RealAlgebraicNumber<Number>> realRoots(const UnivariatePolynomial<Coeff>& polynomial, SplittingStrategy pivoting = SplittingStrategy::DEFAULT,
+                                                   const Interval<Number>& interval = Interval<Number>::unboundedInterval()) {
+    return realRoots(polynomial, interval, pivoting);
 }
 
 ////////////////////////////////////////
@@ -85,21 +77,16 @@ std::vector<RealAlgebraicNumber<Number>> realRoots(
  * of roots is returned.
  */
 template<typename Coeff, typename Number = typename UnderlyingNumberType<Coeff>::type>
-boost::optional<std::vector<RealAlgebraicNumber<Number>>> realRoots(
-		const UnivariatePolynomial<Coeff>& p,
-		const std::map<Variable, RealAlgebraicNumber<Number>>& m,
-		const Interval<Number>& interval = Interval<Number>::unboundedInterval(),
-		SplittingStrategy pivoting = SplittingStrategy::DEFAULT
-);
+boost::optional<std::vector<RealAlgebraicNumber<Number>>> realRoots(const UnivariatePolynomial<Coeff>& p,
+                                                                    const std::map<Variable, RealAlgebraicNumber<Number>>& m,
+                                                                    const Interval<Number>& interval = Interval<Number>::unboundedInterval(),
+                                                                    SplittingStrategy pivoting = SplittingStrategy::DEFAULT);
 
 template<typename Coeff, typename Number = typename UnderlyingNumberType<Coeff>::type>
-boost::optional<std::vector<RealAlgebraicNumber<Number>>> realRoots(
-		const UnivariatePolynomial<Coeff>& p,
-		const std::list<Variable>& variables,
-		const std::list<RealAlgebraicNumber<Number>>& values,
-		const Interval<Number>& interval = Interval<Number>::unboundedInterval(),
-		SplittingStrategy pivoting = SplittingStrategy::DEFAULT
-);
+boost::optional<std::vector<RealAlgebraicNumber<Number>>> realRoots(const UnivariatePolynomial<Coeff>& p, const std::list<Variable>& variables,
+                                                                    const std::list<RealAlgebraicNumber<Number>>& values,
+                                                                    const Interval<Number>& interval = Interval<Number>::unboundedInterval(),
+                                                                    SplittingStrategy pivoting = SplittingStrategy::DEFAULT);
 
 /////////////////////////
 // Auxiliary Functions //
@@ -110,15 +97,12 @@ boost::optional<std::vector<RealAlgebraicNumber<Number>>> realRoots(
  * However, this function uses realRoots() to obtain the real roots.
  * TODO What's the point of this function? We can use realRoots(..).size().
  */
-template<typename Coeff, typename Number= typename UnderlyingNumberType<Coeff>::type>
-uint countRealRoots(
-		const UnivariatePolynomial<Coeff>& polynomial,
-		const Interval<Number>& interval = Interval<Number>::unboundedInterval(),
-		SplittingStrategy pivoting = SplittingStrategy::DEFAULT
-) {
-	return realRoots(polynomial, interval, pivoting).size();
+template<typename Coeff, typename Number = typename UnderlyingNumberType<Coeff>::type>
+uint countRealRoots(const UnivariatePolynomial<Coeff>& polynomial, const Interval<Number>& interval = Interval<Number>::unboundedInterval(),
+                    SplittingStrategy pivoting = SplittingStrategy::DEFAULT) {
+    return realRoots(polynomial, interval, pivoting).size();
 }
-}
-}
+}  // namespace rootfinder
+}  // namespace carl
 
 #include "RootFinder.tpp"
