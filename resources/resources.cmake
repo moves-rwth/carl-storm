@@ -109,6 +109,7 @@ if(USE_CLN_NUMBERS)
 else()
 	message(STATUS "carl - CLN is disabled")
 endif()
+set(USE_CLN_NUMBERS ${HAVE_CLN})
 
 
 ##### CoCoALib
@@ -148,6 +149,7 @@ if(USE_GINAC AND HAVE_CLN)
 else()
 	message(STATUS "carl - GiNaC is disabled")
 endif()
+set(USE_GINAC ${HAVE_GINAC})
 
 ##### Threads
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
