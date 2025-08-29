@@ -22,8 +22,8 @@ The following steps should be performed before releasing a new carl-storm versio
    The new tag should now be visible on [GitHub](https://github.com/moves-rwth/carl-storm/tags).
 
 5. [Add new release](https://github.com/moves-rwth/carl-storm/releases/new) on GitHub.
+   Create a new tag or use the tag created in the previous step.
    Finishing the release automatically triggers a CI workflow which also
    * updates the `stable` branch
    * creates new Docker containers for both the tag and `stable` branch
-
-6. Use the [CI of docker-storm](https://github.com/moves-rwth/docker-storm/actions/workflows/dependencies.yml) to update the Docker images for [storm-dependencies](https://hub.docker.com/r/movesrwth/storm-dependencies).
+   * triggers a PR in Storm to update the carl-storm version
