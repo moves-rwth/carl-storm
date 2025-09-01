@@ -69,7 +69,7 @@ jobs:
           docker build -t movesrwth/carl-storm:ci . \
             --build-arg BASE_IMAGE=movesrwth/storm-basesystem:${{ matrix.distro }} \
             --build-arg build_type="${{ matrix.build_type }}" \
-            --build-arg cmake_args="-DCARL_WARNING_AS_ERROR=ON -DALLOW_SHIPPED_CLN=OFF -DALLOW_SHIPPED_GINAC=OFF" \
+            --build-arg cmake_args="-DCARL_WARNING_AS_ERROR=ON \
             --build-arg no_threads=${NR_JOBS}
       - name: Run Docker
         run: docker run -d -it --name ci movesrwth/carl-storm:ci
