@@ -1,6 +1,10 @@
 Changelog
 ==============
 
+## Version 14.32 (2025/09)
+- Properly disable usage of CLN and Ginac by default.
+- CI workflow for new releases.
+
 ## Version 14.31 (2025/08)
 - Treat warnings as errors in CI and fixed compiler warnings.
 - Removed deprecated definitions and headers.
