@@ -17,6 +17,7 @@ jobs:
     with:
       # Use the tag from the release
       tag: ${{ github.event.release.tag_name }}
+    secrets: inherit
 
   update_stable:
     # Update stable branch
@@ -44,6 +45,7 @@ jobs:
     uses: ./.github/workflows/release_docker.yml
     with:
       tag: stable
+    secrets: inherit
 
   update_storm:
     # Trigger generation of PR in Storm which updates the carl-storm version
