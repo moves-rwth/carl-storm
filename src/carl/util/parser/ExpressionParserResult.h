@@ -9,22 +9,21 @@
 
 #pragma once
 
-#include <string>
 #include <boost/variant/variant.hpp>
+#include <string>
 
-#include "carl/core/Variable.h"
 #include "carl/core/Monomial.h"
-#include "carl/core/Term.h"
 #include "carl/core/RationalFunction.h"
+#include "carl/core/Term.h"
+#include "carl/core/Variable.h"
 #include "carl/formula/Formula.h"
 
 namespace carl {
 namespace parser {
 
 template<typename Pol>
-using ExpressionType = boost::variant< typename Pol::CoeffType, carl::Variable, carl::Monomial::Arg,
-		carl::Term<typename Pol::CoeffType>, Pol, RationalFunction<Pol>,
-		carl::Formula<Pol> >;
+using ExpressionType = boost::variant<typename Pol::CoeffType, carl::Variable, carl::Monomial::Arg, carl::Term<typename Pol::CoeffType>, Pol,
+                                      RationalFunction<Pol>, carl::Formula<Pol>>;
 
 }
-}
+}  // namespace carl

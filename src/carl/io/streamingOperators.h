@@ -52,14 +52,15 @@ inline std::ostream& operator<<(std::ostream& os, const std::vector<T>& v);
  */
 template<typename T>
 inline std::ostream& operator<<(std::ostream& os, const std::forward_list<T>& l) {
-	os << "[";
-	bool first = true;
-	for (const auto& it: l) {
-		if (!first) os << ", ";
-		first = false;
-		os << it;
-	}
-	return os << "]";
+    os << "[";
+    bool first = true;
+    for (const auto& it : l) {
+        if (!first)
+            os << ", ";
+        first = false;
+        os << it;
+    }
+    return os << "]";
 }
 
 /**
@@ -71,14 +72,15 @@ inline std::ostream& operator<<(std::ostream& os, const std::forward_list<T>& l)
  */
 template<typename T>
 inline std::ostream& operator<<(std::ostream& os, const std::list<T>& l) {
-	os << "[" << l.size() << ": ";
-	bool first = true;
-	for (const auto& it: l) {
-		if (!first) os << ", ";
-		first = false;
-		os << it;
-	}
-	return os << "]";
+    os << "[" << l.size() << ": ";
+    bool first = true;
+    for (const auto& it : l) {
+        if (!first)
+            os << ", ";
+        first = false;
+        os << it;
+    }
+    return os << "]";
 }
 
 /**
@@ -90,14 +92,15 @@ inline std::ostream& operator<<(std::ostream& os, const std::list<T>& l) {
  */
 template<typename Key, typename Value, typename Comparator>
 inline std::ostream& operator<<(std::ostream& os, const std::map<Key, Value, Comparator>& m) {
-	os << "{";
-	bool first = true;
-	for (const auto& it: m) {
-		if (!first) os << ", ";
-		first = false;
-		os << it.first << " : " << it.second;
-	}
-	return os << "}";
+    os << "{";
+    bool first = true;
+    for (const auto& it : m) {
+        if (!first)
+            os << ", ";
+        first = false;
+        os << it.first << " : " << it.second;
+    }
+    return os << "}";
 }
 
 /**
@@ -109,7 +112,7 @@ inline std::ostream& operator<<(std::ostream& os, const std::map<Key, Value, Com
  */
 template<typename U, typename V>
 inline std::ostream& operator<<(std::ostream& os, const std::pair<U, V>& p) {
-	return os << "(" << p.first << ", " << p.second << ")";
+    return os << "(" << p.first << ", " << p.second << ")";
 }
 
 /**
@@ -121,14 +124,15 @@ inline std::ostream& operator<<(std::ostream& os, const std::pair<U, V>& p) {
  */
 template<typename T, typename C>
 inline std::ostream& operator<<(std::ostream& os, const std::set<T, C>& s) {
-	os << "{" << s.size() << ": ";
-	bool first = true;
-	for (const auto& it: s) {
-		if (!first) os << ", ";
-		first = false;
-		os << it;
-	}
-	return os << "}";
+    os << "{" << s.size() << ": ";
+    bool first = true;
+    for (const auto& it : s) {
+        if (!first)
+            os << ", ";
+        first = false;
+        os << it;
+    }
+    return os << "}";
 }
 
 /**
@@ -139,7 +143,7 @@ inline std::ostream& operator<<(std::ostream& os, const std::set<T, C>& s) {
  */
 template<std::size_t I = 0, typename... T, typename std::enable_if<I == sizeof...(T), void>::type* = nullptr>
 inline std::ostream& operator<<(std::ostream& os, const std::tuple<T...>& /*unused*/) {
-	return os << ")";
+    return os << ")";
 }
 
 /**
@@ -149,11 +153,13 @@ inline std::ostream& operator<<(std::ostream& os, const std::tuple<T...>& /*unus
  * @param t tuple to be printed.
  * @return Output stream.
  */
-template<std::size_t I = 0, typename... T, typename std::enable_if<I < sizeof...(T), void>::type* = nullptr>
-std::ostream& operator<<(std::ostream& os, const std::tuple<T...>& t) {
-	if (I == 0) os << "(" << std::get<I>(t);
-	else os << ", " << std::get<I>(t);
-	return operator<< <I+1>(os, t);
+template<std::size_t I = 0, typename... T,
+         typename std::enable_if<I<sizeof...(T), void>::type* = nullptr> std::ostream& operator<<(std::ostream& os, const std::tuple<T...>& t) {
+    if (I == 0)
+        os << "(" << std::get<I>(t);
+    else
+        os << ", " << std::get<I>(t);
+    return operator<< <I + 1>(os, t);
 }
 
 /**
@@ -165,14 +171,15 @@ std::ostream& operator<<(std::ostream& os, const std::tuple<T...>& t) {
  */
 template<typename Key, typename Value, typename H, typename E, typename A>
 inline std::ostream& operator<<(std::ostream& os, const std::unordered_map<Key, Value, H, E, A>& m) {
-	os << "{";
-	bool first = true;
-	for (const auto& it: m) {
-		if (!first) os << ", ";
-		first = false;
-		os << it.first << " : " << it.second;
-	}
-	return os << "}";
+    os << "{";
+    bool first = true;
+    for (const auto& it : m) {
+        if (!first)
+            os << ", ";
+        first = false;
+        os << it.first << " : " << it.second;
+    }
+    return os << "}";
 }
 
 /**
@@ -184,14 +191,15 @@ inline std::ostream& operator<<(std::ostream& os, const std::unordered_map<Key, 
  */
 template<typename T, typename H, typename K, typename A>
 inline std::ostream& operator<<(std::ostream& os, const std::unordered_set<T, H, K, A>& s) {
-	os << "{" << s.size() << ": ";
-	bool first = true;
-	for (const auto& it: s) {
-		if (!first) os << ", ";
-		first = false;
-		os << it;
-	}
-	return os << "}";
+    os << "{" << s.size() << ": ";
+    bool first = true;
+    for (const auto& it : s) {
+        if (!first)
+            os << ", ";
+        first = false;
+        os << it;
+    }
+    return os << "}";
 }
 
 /**
@@ -203,14 +211,15 @@ inline std::ostream& operator<<(std::ostream& os, const std::unordered_set<T, H,
  */
 template<typename T>
 inline std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
-	os << "[" << v.size() << ": ";
-	bool first = true;
-	for (const auto& it: v) {
-		if (!first) os << ", ";
-		first = false;
-		os << it;
-	}
-	return os << "]";
+    os << "[" << v.size() << ": ";
+    bool first = true;
+    for (const auto& it : v) {
+        if (!first)
+            os << ", ";
+        first = false;
+        os << it;
+    }
+    return os << "]";
 }
 
-}
+}  // namespace carl

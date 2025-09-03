@@ -1,4 +1,4 @@
-/** 
+/**
  * @file   adaption_cln/typetraits.h
  * @ingroup cln
  * @ingroup typetraits
@@ -23,4 +23,4 @@ TRAIT_TRUE(is_rational, cln::cl_RA, cln);
 TRAIT_TYPE(IntegralType, cln::cl_I, cln::cl_I, cln);
 TRAIT_TYPE(IntegralType, cln::cl_RA, cln::cl_I, cln);
 
-}
+}  // namespace carl
