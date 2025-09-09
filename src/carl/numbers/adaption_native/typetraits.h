@@ -26,9 +26,8 @@ TRAIT_TRUE(is_subset_of_integers, unsigned int, );
 TRAIT_TRUE(is_subset_of_integers, unsigned long int, );
 TRAIT_TRUE(is_subset_of_integers, unsigned long long int, );
 
-
 TRAIT_TYPE(IntegralType, float, sint, );
 TRAIT_TYPE(IntegralType, double, sint, );
 TRAIT_TYPE(IntegralType, long double, sint, );
 
-}
+}  // namespace carl

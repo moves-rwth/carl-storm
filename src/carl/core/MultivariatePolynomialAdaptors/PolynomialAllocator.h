@@ -1,4 +1,4 @@
-/** 
+/**
  * @file:   PolynomialAllocator.h
  * @author: Sebastian Junges
  *
@@ -7,10 +7,6 @@
 
 #pragma once
 
-namespace carl
-{
-struct NoAllocator
-{
-	
-};
-}
+namespace carl {
+struct NoAllocator {};
+}  // namespace carl

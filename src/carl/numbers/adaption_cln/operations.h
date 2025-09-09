@@ -13,46 +13,46 @@
 static_assert(false, "This file may only be included indirectly by numbers.h");
 #endif
 
-#include "../../util/platform.h"
-#include "typetraits.h"
 #include <cassert>
 #include <cmath>
 #include <limits>
 #include <sstream>
 #include <vector>
+#include "../../util/platform.h"
+#include "typetraits.h"
 
 namespace carl {
 
 inline bool isZero(const cln::cl_I& n) {
-	return zerop(n);
+    return zerop(n);
 }
 
 inline bool isZero(const cln::cl_RA& n) {
-	return zerop(n);
+    return zerop(n);
 }
 
 inline bool isOne(const cln::cl_I& n) {
-	return n == carl::constant_one<cln::cl_I>().get();
+    return n == carl::constant_one<cln::cl_I>().get();
 }
 
 inline bool isOne(const cln::cl_RA& n) {
-	return n  == carl::constant_one<cln::cl_RA>().get();
+    return n == carl::constant_one<cln::cl_RA>().get();
 }
 
 inline bool isPositive(const cln::cl_I& n) {
-	return n > carl::constant_zero<cln::cl_RA>().get();
+    return n > carl::constant_zero<cln::cl_RA>().get();
 }
 
 inline bool isPositive(const cln::cl_RA& n) {
-	return n > carl::constant_zero<cln::cl_RA>().get();
+    return n > carl::constant_zero<cln::cl_RA>().get();
 }
 
 inline bool isNegative(const cln::cl_I& n) {
-	return n < carl::constant_zero<cln::cl_RA>().get();
+    return n < carl::constant_zero<cln::cl_RA>().get();
 }
 
 inline bool isNegative(const cln::cl_RA& n) {
-	return n < carl::constant_zero<cln::cl_RA>().get();
+    return n < carl::constant_zero<cln::cl_RA>().get();
 }
 
 /**
@@ -61,7 +61,7 @@ inline bool isNegative(const cln::cl_RA& n) {
  * @return Numerator.
  */
 inline cln::cl_I getNum(const cln::cl_RA& n) {
-	return cln::numerator(n);
+    return cln::numerator(n);
 }
 
 /**
@@ -70,7 +70,7 @@ inline cln::cl_I getNum(const cln::cl_RA& n) {
  * @return Denominator.
  */
 inline cln::cl_I getDenom(const cln::cl_RA& n) {
-	return cln::denominator(n);
+    return cln::denominator(n);
 }
 
 /**
@@ -80,7 +80,7 @@ inline cln::cl_I getDenom(const cln::cl_RA& n) {
  * @return true.
  */
 inline bool isInteger(const cln::cl_I& /*unused*/) {
-	return true;
+    return true;
 }
 
 /**
@@ -89,7 +89,7 @@ inline bool isInteger(const cln::cl_I& /*unused*/) {
  * @return true.
  */
 inline bool isInteger(const cln::cl_RA& n) {
-	return isOne(getDenom(n));
+    return isOne(getDenom(n));
 }
 
 /**
@@ -98,7 +98,7 @@ inline bool isInteger(const cln::cl_RA& n) {
  * @return Bit size of n.
  */
 inline std::size_t bitsize(const cln::cl_I& n) {
-	return cln::integer_length(n);
+    return cln::integer_length(n);
 }
 /**
  * Get the bit size of the representation of a fraction.
@@ -106,7 +106,7 @@ inline std::size_t bitsize(const cln::cl_I& n) {
  * @return Bit size of n.
  */
 inline std::size_t bitsize(const cln::cl_RA& n) {
-	return cln::integer_length(getNum(n)) + cln::integer_length(getDenom(n));
+    return cln::integer_length(getNum(n)) + cln::integer_length(getDenom(n));
 }
 
 /**
@@ -115,7 +115,7 @@ inline std::size_t bitsize(const cln::cl_RA& n) {
  * @return Double.
  */
 inline double toDouble(const cln::cl_RA& n) {
-	return cln::double_approx(n);
+    return cln::double_approx(n);
 }
 /**
  * Converts the given integer to a double.
@@ -123,7 +123,7 @@ inline double toDouble(const cln::cl_RA& n) {
  * @return Double.
  */
 inline double toDouble(const cln::cl_I& n) {
-	return cln::double_approx(n);
+    return cln::double_approx(n);
 }
 
 template<typename Integer>
@@ -144,28 +144,27 @@ inline uint toInt<uint>(const cln::cl_I& n) {
     return uint(cln::cl_I_to_long(n));
 }
 
-
 template<typename To, typename From>
 inline To fromInt(const From& n);
 
 template<>
 inline cln::cl_I fromInt(const uint& n) {
-	return cln::cl_I(n);
+    return cln::cl_I(n);
 }
 
 template<>
 inline cln::cl_I fromInt(const sint& n) {
-	return cln::cl_I(n);
+    return cln::cl_I(n);
 }
 
 template<>
 inline cln::cl_RA fromInt(const uint& n) {
-	return cln::cl_RA(n);
+    return cln::cl_RA(n);
 }
 
 template<>
 inline cln::cl_RA fromInt(const sint& n) {
-	return cln::cl_RA(n);
+    return cln::cl_RA(n);
 }
 
 /**
@@ -176,12 +175,12 @@ inline cln::cl_RA fromInt(const sint& n) {
  */
 template<>
 inline cln::cl_I toInt<cln::cl_I>(const cln::cl_RA& n) {
-	assert(isInteger(n));
-	return getNum(n);
+    assert(isInteger(n));
+    return getNum(n);
 }
 template<>
 inline sint toInt<sint>(const cln::cl_RA& n) {
-	return toInt<sint>(toInt<cln::cl_I>(n));
+    return toInt<sint>(toInt<cln::cl_I>(n));
 }
 template<>
 inline uint toInt<uint>(const cln::cl_RA& n) {
@@ -194,11 +193,11 @@ inline uint toInt<uint>(const cln::cl_RA& n) {
  * @return n as cln::cl_LF.
  */
 inline cln::cl_LF toLF(const cln::cl_RA& n) {
-	return cln::cl_R_to_LF(n, std::max(cln::integer_length(cln::numerator(n)), cln::integer_length(cln::denominator(n))));
+    return cln::cl_R_to_LF(n, std::max(cln::integer_length(cln::numerator(n)), cln::integer_length(cln::denominator(n))));
 }
 
-static const cln::cl_RA ONE_DIVIDED_BY_10_TO_THE_POWER_OF_23 = cln::cl_RA(1)/cln::expt(cln::cl_RA(10), 23);
-static const cln::cl_RA ONE_DIVIDED_BY_10_TO_THE_POWER_OF_52 = cln::cl_RA(1)/cln::expt(cln::cl_RA(10), 52);
+static const cln::cl_RA ONE_DIVIDED_BY_10_TO_THE_POWER_OF_23 = cln::cl_RA(1) / cln::expt(cln::cl_RA(10), 23);
+static const cln::cl_RA ONE_DIVIDED_BY_10_TO_THE_POWER_OF_52 = cln::cl_RA(1) / cln::expt(cln::cl_RA(10), 52);
 
 template<>
 cln::cl_RA rationalize<cln::cl_RA>(double n);
@@ -213,17 +212,17 @@ inline cln::cl_RA rationalize<cln::cl_RA>(int n) {
 
 template<>
 inline cln::cl_RA rationalize<cln::cl_RA>(uint n) {
-	return cln::cl_RA(n);
+    return cln::cl_RA(n);
 }
 
 template<>
 inline cln::cl_RA rationalize<cln::cl_RA>(sint n) {
-	return cln::cl_RA(n);
+    return cln::cl_RA(n);
 }
 
-template<> [[deprecated("use parse() instead.")]]
+template<>
+[[deprecated("use parse() instead.")]]
 cln::cl_RA rationalize<cln::cl_RA>(const std::string& n);
-
 
 template<>
 cln::cl_I parse<cln::cl_I>(const std::string& n);
@@ -243,7 +242,7 @@ bool try_parse<cln::cl_RA>(const std::string& n, cln::cl_RA& res);
  * @return \f$|n|\f$.
  */
 inline cln::cl_I abs(const cln::cl_I& n) {
-	return cln::abs(n);
+    return cln::abs(n);
 }
 
 /**
@@ -252,7 +251,7 @@ inline cln::cl_I abs(const cln::cl_I& n) {
  * @return \f$|n|\f$.
  */
 inline cln::cl_RA abs(const cln::cl_RA& n) {
-	return cln::abs(n);
+    return cln::abs(n);
 }
 
 /**
@@ -261,7 +260,7 @@ inline cln::cl_RA abs(const cln::cl_RA& n) {
  * @return The next integer.
  */
 inline cln::cl_I round(const cln::cl_RA& n) {
-	return cln::round1(n);
+    return cln::round1(n);
 }
 
 /**
@@ -270,7 +269,7 @@ inline cln::cl_I round(const cln::cl_RA& n) {
  * @return The next integer.
  */
 inline cln::cl_I round(const cln::cl_I& n) {
-	return n;
+    return n;
 }
 
 /**
@@ -279,7 +278,7 @@ inline cln::cl_I round(const cln::cl_I& n) {
  * @return \f$\lfloor n \rfloor\f$.
  */
 inline cln::cl_I floor(const cln::cl_RA& n) {
-	return cln::floor1(n);
+    return cln::floor1(n);
 }
 
 /**
@@ -288,7 +287,7 @@ inline cln::cl_I floor(const cln::cl_RA& n) {
  * @return \f$\lfloor n \rfloor\f$.
  */
 inline cln::cl_I floor(const cln::cl_I& n) {
-	return n;
+    return n;
 }
 
 /**
@@ -297,7 +296,7 @@ inline cln::cl_I floor(const cln::cl_I& n) {
  * @return \f$\lceil n \rceil\f$.
  */
 inline cln::cl_I ceil(const cln::cl_RA& n) {
-	return cln::ceiling1(n);
+    return cln::ceiling1(n);
 }
 
 /**
@@ -306,7 +305,7 @@ inline cln::cl_I ceil(const cln::cl_RA& n) {
  * @return \f$\lceil n \rceil\f$.
  */
 inline cln::cl_I ceil(const cln::cl_I& n) {
-	return n;
+    return n;
 }
 
 /**
@@ -316,7 +315,7 @@ inline cln::cl_I ceil(const cln::cl_I& n) {
  * @return Gcd of a and b.
  */
 inline cln::cl_I gcd(const cln::cl_I& a, const cln::cl_I& b) {
-	return cln::gcd(a,b);
+    return cln::gcd(a, b);
 }
 
 /**
@@ -327,12 +326,12 @@ inline cln::cl_I gcd(const cln::cl_I& a, const cln::cl_I& b) {
  * @return Updated a.
  */
 inline cln::cl_I& gcd_assign(cln::cl_I& a, const cln::cl_I& b) {
-    a = cln::gcd(a,b);
-	return a;
+    a = cln::gcd(a, b);
+    return a;
 }
 
 inline void divide(const cln::cl_I& dividend, const cln::cl_I& divisor, cln::cl_I& quotient, cln::cl_I& remainder) {
-	cln::cl_I_div_t res = cln::floor2(dividend, divisor);
+    cln::cl_I_div_t res = cln::floor2(dividend, divisor);
     quotient = res.quotient;
     remainder = res.remainder;
 }
@@ -346,8 +345,8 @@ inline void divide(const cln::cl_I& dividend, const cln::cl_I& divisor, cln::cl_
  * @return Updated a.
  */
 inline cln::cl_RA& gcd_assign(cln::cl_RA& a, const cln::cl_RA& b) {
-	a = cln::gcd(carl::getNum(a),carl::getNum(b)) / cln::lcm(carl::getDenom(a),carl::getDenom(b));
-	return a;
+    a = cln::gcd(carl::getNum(a), carl::getNum(b)) / cln::lcm(carl::getDenom(a), carl::getDenom(b));
+    return a;
 }
 
 /**
@@ -358,7 +357,7 @@ inline cln::cl_RA& gcd_assign(cln::cl_RA& a, const cln::cl_RA& b) {
  * @return Gcd of a and b.
  */
 inline cln::cl_RA gcd(const cln::cl_RA& a, const cln::cl_RA& b) {
-	return cln::gcd(carl::getNum(a),carl::getNum(b)) / cln::lcm(carl::getDenom(a),carl::getDenom(b));
+    return cln::gcd(carl::getNum(a), carl::getNum(b)) / cln::lcm(carl::getDenom(a), carl::getDenom(b));
 }
 
 /**
@@ -368,7 +367,7 @@ inline cln::cl_RA gcd(const cln::cl_RA& a, const cln::cl_RA& b) {
  * @return Lcm of a and b.
  */
 inline cln::cl_I lcm(const cln::cl_I& a, const cln::cl_I& b) {
-	return cln::lcm(a,b);
+    return cln::lcm(a, b);
 }
 
 /**
@@ -379,9 +378,9 @@ inline cln::cl_I lcm(const cln::cl_I& a, const cln::cl_I& b) {
  * @return Lcm of a and b.
  */
 inline cln::cl_RA lcm(const cln::cl_RA& a, const cln::cl_RA& b) {
-    assert( carl::isInteger( a ) );
-    assert( carl::isInteger( b ) );
-	return cln::lcm(carl::getNum(a),carl::getNum(b));
+    assert(carl::isInteger(a));
+    assert(carl::isInteger(b));
+    return cln::lcm(carl::getNum(a), carl::getNum(b));
 }
 
 /**
@@ -392,22 +391,22 @@ inline cln::cl_RA lcm(const cln::cl_RA& a, const cln::cl_RA& b) {
  */
 template<>
 inline cln::cl_RA pow(const cln::cl_RA& basis, std::size_t exp) {
-	return cln::expt(basis, int(exp));
+    return cln::expt(basis, int(exp));
 }
 
 inline cln::cl_RA log(const cln::cl_RA& n) {
-	return cln::rationalize(cln::realpart(cln::log(n)));
+    return cln::rationalize(cln::realpart(cln::log(n)));
 }
 inline cln::cl_RA log10(const cln::cl_RA& n) {
-	return cln::rationalize(cln::realpart(cln::log(n, 10)));
+    return cln::rationalize(cln::realpart(cln::log(n, 10)));
 }
 
 inline cln::cl_RA sin(const cln::cl_RA& n) {
-	return cln::rationalize(cln::sin(n));
+    return cln::rationalize(cln::sin(n));
 }
 
 inline cln::cl_RA cos(const cln::cl_RA& n) {
-	return cln::rationalize(cln::cos(n));
+    return cln::rationalize(cln::cos(n));
 }
 
 /**
@@ -427,7 +426,8 @@ cln::cl_RA sqrt(const cln::cl_RA& a);
  *
  * If we are able to find a an \f$x\f$ such that \f$x\f$ is the exact root of \f$a\f$, \f$(x,x)\f$ is returned.
  * If we can not find such a number (note that such a number might not even exist), \f$(x,y)\f$ is returned with \f$ x < \sqrt{a} < y \f$.
- * Note that we try to find bounds that are very close to the actual square root. If a small representation is more important than a small interval, sqrt_fast should be used.
+ * Note that we try to find bounds that are very close to the actual square root. If a small representation is more important than a small interval, sqrt_fast
+ * should be used.
  * @param a A fraction.
  * @return Interval containing the square root of a.
  */
@@ -451,7 +451,7 @@ std::pair<cln::cl_RA, cln::cl_RA> root_safe(const cln::cl_RA& a, uint n);
  * @return \f$a \% b\f$.
  */
 inline cln::cl_I mod(const cln::cl_I& a, const cln::cl_I& b) {
-	return cln::rem(a, b);
+    return cln::rem(a, b);
 }
 
 /**
@@ -461,7 +461,7 @@ inline cln::cl_I mod(const cln::cl_I& a, const cln::cl_I& b) {
  * @return \f$ a / b \f$.
  */
 inline cln::cl_RA div(const cln::cl_RA& a, const cln::cl_RA& b) {
-	return (a / b);
+    return (a / b);
 }
 
 /**
@@ -472,8 +472,8 @@ inline cln::cl_RA div(const cln::cl_RA& a, const cln::cl_RA& b) {
  * @return \f$ a / b \f$.
  */
 inline cln::cl_I div(const cln::cl_I& a, const cln::cl_I& b) {
-	assert(cln::mod(a, b) == 0);
-	return cln::exquo(a, b);
+    assert(cln::mod(a, b) == 0);
+    return cln::exquo(a, b);
 }
 
 /**
@@ -485,7 +485,7 @@ inline cln::cl_I div(const cln::cl_I& a, const cln::cl_I& b) {
  */
 inline cln::cl_RA& div_assign(cln::cl_RA& a, const cln::cl_RA& b) {
     a /= b;
-	return a;
+    return a;
 }
 
 /**
@@ -497,8 +497,8 @@ inline cln::cl_RA& div_assign(cln::cl_RA& a, const cln::cl_RA& b) {
  * @return \f$ a / b \f$.
  */
 inline cln::cl_I& div_assign(cln::cl_I& a, const cln::cl_I& b) {
-	assert(cln::mod(a,b) == 0);
-	a = cln::exquo(a, b);
+    assert(cln::mod(a, b) == 0);
+    a = cln::exquo(a, b);
     return a;
 }
 
@@ -508,9 +508,8 @@ inline cln::cl_I& div_assign(cln::cl_I& a, const cln::cl_I& b) {
  * @param b Second argument.
  * @return \f$ a / b \f$.
  */
-inline cln::cl_RA quotient(const cln::cl_RA& a, const cln::cl_RA& b)
-{
-	return a / b;
+inline cln::cl_RA quotient(const cln::cl_RA& a, const cln::cl_RA& b) {
+    return a / b;
 }
 /**
  * Divide two integers.
@@ -519,11 +518,9 @@ inline cln::cl_RA quotient(const cln::cl_RA& a, const cln::cl_RA& b)
  * @param b Second argument.
  * @return \f$ a / b \f$.
  */
-inline cln::cl_I quotient(const cln::cl_I& a, const cln::cl_I& b)
-{
-	return cln::exquo(a - cln::rem(a, b), b);
+inline cln::cl_I quotient(const cln::cl_I& a, const cln::cl_I& b) {
+    return cln::exquo(a - cln::rem(a, b), b);
 }
-
 
 /**
  * Calculate the remainder of the integer division.
@@ -532,9 +529,8 @@ inline cln::cl_I quotient(const cln::cl_I& a, const cln::cl_I& b)
  * @return \f$a \% b\f$.
  */
 inline cln::cl_I remainder(const cln::cl_I& a, const cln::cl_I& b) {
-	return cln::rem(a, b);
+    return cln::rem(a, b);
 }
-
 
 /**
  * Divide two integers.
@@ -543,20 +539,19 @@ inline cln::cl_I remainder(const cln::cl_I& a, const cln::cl_I& b) {
  * @param b Second argument.
  * @return \f$ a / b \f$.
  */
-inline cln::cl_I operator/(const cln::cl_I& a, const cln::cl_I& b)
-{
-	return quotient(a,b);
+inline cln::cl_I operator/(const cln::cl_I& a, const cln::cl_I& b) {
+    return quotient(a, b);
 }
 inline cln::cl_I operator/(const cln::cl_I& lhs, const int& rhs) {
-	return lhs / cln::cl_I(rhs);
+    return lhs / cln::cl_I(rhs);
 }
 
 inline cln::cl_RA reciprocal(const cln::cl_RA& a) {
-	return cln::recip(a);
+    return cln::recip(a);
 }
 
-std::string toString(const cln::cl_RA& _number, bool _infix=true);
+std::string toString(const cln::cl_RA& _number, bool _infix = true);
 
-std::string toString(const cln::cl_I& _number, bool _infix=true);
+std::string toString(const cln::cl_I& _number, bool _infix = true);
 
-}
+}  // namespace carl

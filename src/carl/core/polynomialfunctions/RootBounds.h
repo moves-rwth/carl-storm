@@ -15,13 +15,13 @@ namespace carl {
  */
 template<typename Coeff>
 Coeff cauchyBound(const UnivariatePolynomial<Coeff>& p) {
-	static_assert(is_field<Coeff>::value, "Cauchy bounds are only defined for field-coefficients");
-	if (p.isConstant()) return carl::constant_zero<Coeff>::get();
-	
-	auto it = std::max_element(p.coefficients().begin(), std::prev(p.coefficients().end()), 
-		[](const auto& a, const auto& b){ return carl::abs(a) < carl::abs(b); }
-	);
-	return 1 + carl::abs(*it) / carl::abs(p.lcoeff());
+    static_assert(is_field<Coeff>::value, "Cauchy bounds are only defined for field-coefficients");
+    if (p.isConstant())
+        return carl::constant_zero<Coeff>::get();
+
+    auto it =
+        std::max_element(p.coefficients().begin(), std::prev(p.coefficients().end()), [](const auto& a, const auto& b) { return carl::abs(a) < carl::abs(b); });
+    return 1 + carl::abs(*it) / carl::abs(p.lcoeff());
 }
 
 /*
@@ -31,17 +31,12 @@ Coeff cauchyBound(const UnivariatePolynomial<Coeff>& p) {
  */
 template<typename Coeff>
 Coeff hirstMaceyBound(const UnivariatePolynomial<Coeff>& p) {
-	static_assert(is_field<Coeff>::value, "HirstMacey bounds are only defined for field-coefficients");
-	if (p.isConstant()) return carl::constant_zero<Coeff>::get();
-	auto sum = std::accumulate(
-		p.coefficients().begin(),
-		std::prev(p.coefficients().end()),
-		carl::constant_zero<Coeff>::get(),
-		[](const auto& a, const auto& b){ 
-			return static_cast<Coeff>(a + carl::abs(b));
-		}
-	);
-	return std::max(carl::constant_one<Coeff>::get(), sum / carl::abs(p.lcoeff()));
+    static_assert(is_field<Coeff>::value, "HirstMacey bounds are only defined for field-coefficients");
+    if (p.isConstant())
+        return carl::constant_zero<Coeff>::get();
+    auto sum = std::accumulate(p.coefficients().begin(), std::prev(p.coefficients().end()), carl::constant_zero<Coeff>::get(),
+                               [](const auto& a, const auto& b) { return static_cast<Coeff>(a + carl::abs(b)); });
+    return std::max(carl::constant_one<Coeff>::get(), sum / carl::abs(p.lcoeff()));
 }
 
 /*
@@ -51,21 +46,22 @@ Coeff hirstMaceyBound(const UnivariatePolynomial<Coeff>& p) {
  */
 template<typename Coeff>
 Coeff lagrangeBound(const UnivariatePolynomial<Coeff>& p) {
-	static_assert(is_field<Coeff>::value, "Lagrange bounds are only defined for field-coefficients");
-	if (p.isConstant()) return carl::constant_zero<Coeff>::get();
-	
-	Coeff max;
-	Coeff lc = carl::abs(p.lcoeff());
-	for (std::size_t i = 1; i <= p.degree(); ++i) {
-		if (carl::isZero(p.coefficients()[p.degree()-i])) continue;
-		auto cur = carl::abs(p.coefficients()[p.degree()-i]) / lc;
-		if (i > 1) {
-			cur = carl::root_safe(cur, i).second;
-		}
-		max = std::max(max, cur);
-	}
-	return 2 * max;
+    static_assert(is_field<Coeff>::value, "Lagrange bounds are only defined for field-coefficients");
+    if (p.isConstant())
+        return carl::constant_zero<Coeff>::get();
+
+    Coeff max;
+    Coeff lc = carl::abs(p.lcoeff());
+    for (std::size_t i = 1; i <= p.degree(); ++i) {
+        if (carl::isZero(p.coefficients()[p.degree() - i]))
+            continue;
+        auto cur = carl::abs(p.coefficients()[p.degree() - i]) / lc;
+        if (i > 1) {
+            cur = carl::root_safe(cur, i).second;
+        }
+        max = std::max(max, cur);
+    }
+    return 2 * max;
 }
 
-
-}
+}  // namespace carl

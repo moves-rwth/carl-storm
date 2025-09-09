@@ -1,4 +1,4 @@
-/** 
+/**
  * @file:   groebner.h
  * @author: Sebastian Junges
  *
@@ -8,5 +8,5 @@
 #pragma once
 
 #include "GBProcedure.h"
-#include "gb-buchberger/Buchberger.h"
 #include "Reductor.h"
+#include "gb-buchberger/Buchberger.h"

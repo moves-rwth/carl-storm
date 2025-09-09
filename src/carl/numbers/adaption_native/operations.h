@@ -25,59 +25,59 @@ namespace carl {
  */
 
 inline bool isZero(sint n) {
-	return n == 0;
+    return n == 0;
 }
 inline bool isZero(double n) {
-	return std::fpclassify(n) == FP_ZERO;
+    return std::fpclassify(n) == FP_ZERO;
 }
 inline bool isOne(sint n) {
-	return n == 1;
+    return n == 1;
 }
 inline bool isPositive(sint n) {
-	return n > 0;
+    return n > 0;
 }
 inline bool isNegative(sint n) {
-	return n < 0;
+    return n < 0;
 }
 
 inline bool isNaN(double d) {
-	if (std::is_same<decltype(std::isnan(d)), bool>::value) {
-		return std::isnan(d);
-	} else if (std::is_same<decltype(std::isnan(d)), int>::value) {
-		return std::isnan(d) != 0;
-	}
+    if (std::is_same<decltype(std::isnan(d)), bool>::value) {
+        return std::isnan(d);
+    } else if (std::is_same<decltype(std::isnan(d)), int>::value) {
+        return std::isnan(d) != 0;
+    }
 }
 inline bool isInf(double d) {
-	if (std::is_same<decltype(std::isinf(d)), bool>::value) {
-		return std::isinf(d);
-	} else if (std::is_same<decltype(std::isinf(d)), int>::value) {
-		return std::isinf(d) != 0;
-	}
+    if (std::is_same<decltype(std::isinf(d)), bool>::value) {
+        return std::isinf(d);
+    } else if (std::is_same<decltype(std::isinf(d)), int>::value) {
+        return std::isinf(d) != 0;
+    }
 }
 
 inline bool isNumber(double d) {
-	return !isNaN(d) && !isInf(d);
+    return !isNaN(d) && !isInf(d);
 }
 
 inline bool isInteger(double d) {
-	double tmp;
-	return std::fpclassify(std::modf(d, &tmp)) == FP_ZERO;
+    double tmp;
+    return std::fpclassify(std::modf(d, &tmp)) == FP_ZERO;
 }
 
 inline bool isInteger(sint /*unused*/) {
-	return true;
+    return true;
 }
 
 inline bool isNegative(double d) {
-	return d < 0;
+    return d < 0;
 }
 
 inline bool isPositive(double d) {
-	return d > 0;
+    return d > 0;
 }
 
 inline std::size_t bitsize(unsigned /*unused*/) {
-	return sizeof(unsigned) * 8;
+    return sizeof(unsigned) * 8;
 }
 
 /**
@@ -87,16 +87,16 @@ inline std::size_t bitsize(unsigned /*unused*/) {
  */
 
 inline double toDouble(sint n) {
-	return double(n);
+    return double(n);
 }
 inline double toDouble(double n) {
-	return n;
+    return n;
 }
 inline double toDouble(unsigned n) {
-	return double(n);
+    return double(n);
 }
 inline double toDouble(unsigned long n) {
-	return double(n);
+    return double(n);
 }
 
 template<typename Integer>
@@ -113,21 +113,23 @@ inline uint toInt<uint>(double n) {
 }
 
 template<>
-inline double rationalize(double n) { return n; }
+inline double rationalize(double n) {
+    return n;
+}
 
 template<typename T>
 inline typename std::enable_if<std::is_arithmetic<typename remove_all<T>::type>::value, std::string>::type toString(const T& n, bool /*unused*/) {
-	return std::to_string(n);
+    return std::to_string(n);
 }
-//inline std::string toString(sint n, bool /*unused*/) {
+// inline std::string toString(sint n, bool /*unused*/) {
 //	return std::to_string(n);
-//}
-//inline std::string toString(uint n, bool /*unused*/) {
+// }
+// inline std::string toString(uint n, bool /*unused*/) {
 //	return std::to_string(n);
-//}
-//inline std::string toString(double n, bool /*unused*/) {
+// }
+// inline std::string toString(double n, bool /*unused*/) {
 //	return std::to_string(n);
-//}
+// }
 
 /**
  * Basic Operators
@@ -135,66 +137,66 @@ inline typename std::enable_if<std::is_arithmetic<typename remove_all<T>::type>:
  * The following functions implement simple operations on the given numbers.
  */
 inline double floor(double n) {
-	return std::floor(n);
+    return std::floor(n);
 }
 inline double ceil(double n) {
-	return std::ceil(n);
+    return std::ceil(n);
 }
 inline double abs(double n) {
-	return std::abs(n);
+    return std::abs(n);
 }
 
 inline uint mod(uint n, uint m) {
-	return n % m;
+    return n % m;
 }
 inline sint mod(sint n, sint m) {
-	return n % m;
+    return n % m;
 }
 
 inline sint remainder(sint n, sint m) {
-	return n % m;
+    return n % m;
 }
 inline sint div(sint n, sint m) {
-	assert(n % m == 0);
-	return n / m;
+    assert(n % m == 0);
+    return n / m;
 }
 inline sint quotient(sint n, sint m) {
-	return n / m;
+    return n / m;
 }
 inline void divide(sint dividend, sint divisor, sint& quo, sint& rem) {
-	quo = quotient(dividend, divisor);
-	rem = remainder(dividend, divisor);
+    quo = quotient(dividend, divisor);
+    rem = remainder(dividend, divisor);
 }
 
 inline double sin(double in) {
-	return std::sin(in);
+    return std::sin(in);
 }
 
 inline double cos(double in) {
-	return std::cos(in);
+    return std::cos(in);
 }
 
 inline double acos(double in) {
-	return std::acos(in);
+    return std::acos(in);
 }
 
 inline double sqrt(double in) {
-	return std::sqrt(in);
+    return std::sqrt(in);
 }
 
-inline std::pair<double,double> sqrt_safe(double in) {
-	return std::make_pair(std::sqrt(in), std::sqrt(in));
+inline std::pair<double, double> sqrt_safe(double in) {
+    return std::make_pair(std::sqrt(in), std::sqrt(in));
 }
 
 inline double pow(double in, uint exp) {
-	return std::pow(in,exp);
+    return std::pow(in, exp);
 }
 
 inline double log(double in) {
-	return std::log(in);
+    return std::log(in);
 }
 inline double log10(double in) {
-	return std::log10(in);
+    return std::log10(in);
 }
 
 /**
@@ -206,21 +208,23 @@ inline double log10(double in) {
  */
 template<typename Number>
 inline Number highestPower(const Number& n) {
-	static_assert(std::is_fundamental<Number>::value, "Only works on native types.");
-	uint iterations = 0;
-	// Number has 2^k Bits, we do k iterations
-	if (sizeof(Number) == 2) iterations = 4;
-	else if (sizeof(Number) == 4) iterations = 5;
-	else if (sizeof(Number) == 8) iterations = 6;
-	assert(iterations > 0);
+    static_assert(std::is_fundamental<Number>::value, "Only works on native types.");
+    uint iterations = 0;
+    // Number has 2^k Bits, we do k iterations
+    if (sizeof(Number) == 2)
+        iterations = 4;
+    else if (sizeof(Number) == 4)
+        iterations = 5;
+    else if (sizeof(Number) == 8)
+        iterations = 6;
+    assert(iterations > 0);
 
-	Number res = n;
-	for (uint i = 0; i < iterations; i++) {
-		res |= res >> (1 << i);
-	}
-	res -= res >> 1;
-	return res;
+    Number res = n;
+    for (uint i = 0; i < iterations; i++) {
+        res |= res >> (1 << i);
+    }
+    res -= res >> 1;
+    return res;
 }
 
-
-}
+}  // namespace carl

@@ -26,66 +26,65 @@ static_assert(false, "This file may only be included indirectly by numbers.h");
 
 namespace carl {
 
-
 /**
  * Informational functions
  *
  * The following functions return informations about the given numbers.
  */
 inline bool isZero(const mpz_class& n) {
-	return constant_zero<mpz_class>::get() == n;
+    return constant_zero<mpz_class>::get() == n;
 }
 
 inline bool isZero(const mpq_class& n) {
-	return constant_zero<mpz_class>::get() == n;
+    return constant_zero<mpz_class>::get() == n;
 }
 
 inline bool isOne(const mpz_class& n) {
-	return constant_one<mpz_class>::get() == n;
+    return constant_one<mpz_class>::get() == n;
 }
 
 inline bool isOne(const mpq_class& n) {
-	return constant_one<mpz_class>::get() == n;
+    return constant_one<mpz_class>::get() == n;
 }
 
 inline bool isPositive(const mpz_class& n) {
-	return n > carl::constant_zero<mpz_class>().get();
+    return n > carl::constant_zero<mpz_class>().get();
 }
 
 inline bool isPositive(const mpq_class& n) {
-	return n > carl::constant_zero<mpq_class>().get();
+    return n > carl::constant_zero<mpq_class>().get();
 }
 
 inline bool isNegative(const mpz_class& n) {
-	return n < carl::constant_zero<mpz_class>().get();
+    return n < carl::constant_zero<mpz_class>().get();
 }
 
 inline bool isNegative(const mpq_class& n) {
-	return n < carl::constant_zero<mpq_class>().get();
+    return n < carl::constant_zero<mpq_class>().get();
 }
 
 inline mpz_class getNum(const mpq_class& n) {
-	return n.get_num();
+    return n.get_num();
 }
 
 inline mpz_class getNum(const mpz_class& n) {
-	return n;
+    return n;
 }
 
 inline mpz_class getDenom(const mpq_class& n) {
-	return n.get_den();
+    return n.get_den();
 }
 
 inline mpz_class getDenom(const mpz_class& n) {
-	return n;
+    return n;
 }
 
 inline bool isInteger(const mpq_class& n) {
-	 return 0 != mpz_divisible_p(n.get_num_mpz_t(), n.get_den_mpz_t());
+    return 0 != mpz_divisible_p(n.get_num_mpz_t(), n.get_den_mpz_t());
 }
 
 inline bool isInteger(const mpz_class& /*unused*/) {
-	return true;
+    return true;
 }
 
 /**
@@ -94,7 +93,7 @@ inline bool isInteger(const mpz_class& /*unused*/) {
  * @return Bit size of n.
  */
 inline std::size_t bitsize(const mpz_class& n) {
-	return mpz_sizeinbase(n.__get_mp(),2);
+    return mpz_sizeinbase(n.__get_mp(), 2);
 }
 /**
  * Get the bit size of the representation of a fraction.
@@ -102,7 +101,7 @@ inline std::size_t bitsize(const mpz_class& n) {
  * @return Bit size of n.
  */
 inline std::size_t bitsize(const mpq_class& n) {
-	return mpz_sizeinbase(getNum(n).__get_mp(),2) + mpz_sizeinbase(getDenom(n).__get_mp(),2);
+    return mpz_sizeinbase(getNum(n).__get_mp(), 2) + mpz_sizeinbase(getDenom(n).__get_mp(), 2);
 }
 
 /**
@@ -112,10 +111,10 @@ inline std::size_t bitsize(const mpq_class& n) {
  */
 
 inline double toDouble(const mpq_class& n) {
-	return n.get_d();
+    return n.get_d();
 }
 inline double toDouble(const mpz_class& n) {
-	return n.get_d();
+    return n.get_d();
 }
 
 template<typename Integer>
@@ -145,8 +144,8 @@ inline Integer toInt(const mpq_class& n);
  */
 template<>
 inline mpz_class toInt<mpz_class>(const mpq_class& n) {
-	assert(isInteger(n));
-	return getNum(n);
+    assert(isInteger(n));
+    return getNum(n);
 }
 
 template<typename To, typename From>
@@ -154,32 +153,32 @@ inline To fromInt(const From& n);
 
 template<>
 inline mpz_class fromInt(const uint& n) {
-	mpz_class res;
-	mpz_set_ui(res.get_mpz_t(), n);
-	return res;
-	//assert(n <= std::numeric_limits<unsigned long>::max());
-	//assert(n >= std::numeric_limits<unsigned long>::min());
-	//return mpz_class(static_cast<unsigned long>(n));
+    mpz_class res;
+    mpz_set_ui(res.get_mpz_t(), n);
+    return res;
+    // assert(n <= std::numeric_limits<unsigned long>::max());
+    // assert(n >= std::numeric_limits<unsigned long>::min());
+    // return mpz_class(static_cast<unsigned long>(n));
 }
 
 template<>
 inline mpz_class fromInt(const sint& n) {
-	mpz_class res;
-	mpz_set_si(res.get_mpz_t(), n);
-	return res;
-	//assert(n <= std::numeric_limits<signed long>::max());
-	//assert(n >= std::numeric_limits<signed long>::min());
-	//return mpz_class(static_cast<signed long>(n));
+    mpz_class res;
+    mpz_set_si(res.get_mpz_t(), n);
+    return res;
+    // assert(n <= std::numeric_limits<signed long>::max());
+    // assert(n >= std::numeric_limits<signed long>::min());
+    // return mpz_class(static_cast<signed long>(n));
 }
 
 template<>
 inline mpq_class fromInt(const uint& n) {
-	return fromInt<mpz_class>(n);
+    return fromInt<mpz_class>(n);
 }
 
 template<>
 inline mpq_class fromInt(const sint& n) {
-	return fromInt<mpz_class>(n);
+    return fromInt<mpz_class>(n);
 }
 
 /**
@@ -193,7 +192,7 @@ inline sint toInt<sint>(const mpq_class& n) {
 }
 template<>
 inline uint toInt<uint>(const mpq_class& n) {
-	return toInt<uint>(toInt<mpz_class>(n));
+    return toInt<uint>(toInt<mpz_class>(n));
 }
 
 template<typename T>
@@ -201,37 +200,38 @@ inline T rationalize(const PreventConversion<mpq_class>&);
 
 template<>
 inline mpq_class rationalize<mpq_class>(float n) {
-	assert(!std::isinf(n) && !std::isnan(n));
-	return mpq_class(n);
+    assert(!std::isinf(n) && !std::isnan(n));
+    return mpq_class(n);
 }
 
 template<>
 inline mpq_class rationalize<mpq_class>(double n) {
-	assert(!std::isinf(n) && !std::isnan(n));
-	return mpq_class(n);
+    assert(!std::isinf(n) && !std::isnan(n));
+    return mpq_class(n);
 }
 
 template<>
 inline mpq_class rationalize<mpq_class>(int n) {
-	return mpq_class(n);
+    return mpq_class(n);
 }
 
 template<>
 inline mpq_class rationalize<mpq_class>(uint n) {
-	return mpq_class(static_cast<unsigned long>(n));
+    return mpq_class(static_cast<unsigned long>(n));
 }
 
 template<>
 inline mpq_class rationalize<mpq_class>(sint n) {
-	return mpq_class(static_cast<signed long>(n));
+    return mpq_class(static_cast<signed long>(n));
 }
 
-template<> [[deprecated("use parse() instead.")]]
+template<>
+[[deprecated("use parse() instead.")]]
 mpq_class rationalize<mpq_class>(const std::string& n);
 
 template<>
 inline mpq_class rationalize<mpq_class>(const PreventConversion<mpq_class>& n) {
-	return n;
+    return n;
 }
 
 template<>
@@ -253,76 +253,80 @@ bool try_parse<mpq_class>(const std::string& n, mpq_class& res);
  */
 
 inline mpz_class abs(const mpz_class& n) {
-	mpz_class res;
-	mpz_abs(res.get_mpz_t(), n.get_mpz_t());
-	return res;
+    mpz_class res;
+    mpz_abs(res.get_mpz_t(), n.get_mpz_t());
+    return res;
 }
 
 inline mpq_class abs(const mpq_class& n) {
-	mpq_class res;
-	mpq_abs(res.get_mpq_t(), n.get_mpq_t());
-	return res;
+    mpq_class res;
+    mpq_abs(res.get_mpq_t(), n.get_mpq_t());
+    return res;
 }
 
 inline mpz_class round(const mpq_class& n) {
-	if (isZero(mpz_class(n.get_num_mpz_t()))) return carl::constant_zero<mpz_class>::get();
-	mpz_class res;
-	mpz_class rem;
-	mpz_fdiv_qr(res.get_mpz_t(), rem.get_mpz_t(), n.get_num_mpz_t(), n.get_den_mpz_t());
-	rem *= 2;
-	if (rem >= getDenom(n)) ++res;
-	return res;
+    if (isZero(mpz_class(n.get_num_mpz_t())))
+        return carl::constant_zero<mpz_class>::get();
+    mpz_class res;
+    mpz_class rem;
+    mpz_fdiv_qr(res.get_mpz_t(), rem.get_mpz_t(), n.get_num_mpz_t(), n.get_den_mpz_t());
+    rem *= 2;
+    if (rem >= getDenom(n))
+        ++res;
+    return res;
 }
 
 inline mpz_class round(const mpz_class& n) {
-	return n;
+    return n;
 }
 
 inline mpz_class floor(const mpq_class& n) {
-	if (isZero(mpz_class(n.get_num_mpz_t()))) return carl::constant_zero<mpz_class>::get();
-	mpz_class res;
-	mpz_fdiv_q(res.get_mpz_t(), n.get_num_mpz_t(), n.get_den_mpz_t());
-	return res;
+    if (isZero(mpz_class(n.get_num_mpz_t())))
+        return carl::constant_zero<mpz_class>::get();
+    mpz_class res;
+    mpz_fdiv_q(res.get_mpz_t(), n.get_num_mpz_t(), n.get_den_mpz_t());
+    return res;
 }
 
 inline mpz_class floor(const mpz_class& n) {
-	return n;
+    return n;
 }
 
 inline mpz_class ceil(const mpq_class& n) {
-	if (isZero(mpz_class(n.get_num_mpz_t()))) return carl::constant_zero<mpz_class>::get();
-	mpz_class res;
-	mpz_cdiv_q(res.get_mpz_t(), n.get_num_mpz_t(), n.get_den_mpz_t());
-	return res;
+    if (isZero(mpz_class(n.get_num_mpz_t())))
+        return carl::constant_zero<mpz_class>::get();
+    mpz_class res;
+    mpz_cdiv_q(res.get_mpz_t(), n.get_num_mpz_t(), n.get_den_mpz_t());
+    return res;
 }
 inline mpz_class ceil(const mpz_class& n) {
-	return n;
+    return n;
 }
 
 inline mpz_class gcd(const mpz_class& a, const mpz_class& b) {
-	mpz_class res;
-	mpz_gcd(res.get_mpz_t(), a.get_mpz_t(), b.get_mpz_t());
-	return res;
+    mpz_class res;
+    mpz_gcd(res.get_mpz_t(), a.get_mpz_t(), b.get_mpz_t());
+    return res;
 }
 
 inline mpz_class lcm(const mpz_class& a, const mpz_class& b) {
-	mpz_class res;
-	mpz_lcm(res.get_mpz_t(), a.get_mpz_t(), b.get_mpz_t());
-	return res;
+    mpz_class res;
+    mpz_lcm(res.get_mpz_t(), a.get_mpz_t(), b.get_mpz_t());
+    return res;
 }
 
 inline mpq_class gcd(const mpq_class& a, const mpq_class& b) {
     mpz_class resNum;
-	mpz_gcd(resNum.get_mpz_t(), getNum(a).get_mpz_t(), getNum(b).get_mpz_t());
-	mpz_class resDen;
-	mpz_lcm(resDen.get_mpz_t(), getDenom(a).get_mpz_t(), getDenom(b).get_mpz_t());
-	mpq_class resqNum;
-	mpq_set_z(resqNum.get_mpq_t(), resNum.get_mpz_t());
-	mpq_class resqDen;
-	mpq_set_z(resqDen.get_mpq_t(), resDen.get_mpz_t());
-	mpq_class res;
-	mpq_div(res.get_mpq_t(), resqNum.get_mpq_t(), resqDen.get_mpq_t());
-	return res;
+    mpz_gcd(resNum.get_mpz_t(), getNum(a).get_mpz_t(), getNum(b).get_mpz_t());
+    mpz_class resDen;
+    mpz_lcm(resDen.get_mpz_t(), getDenom(a).get_mpz_t(), getDenom(b).get_mpz_t());
+    mpq_class resqNum;
+    mpq_set_z(resqNum.get_mpq_t(), resNum.get_mpz_t());
+    mpq_class resqDen;
+    mpq_set_z(resqDen.get_mpq_t(), resDen.get_mpz_t());
+    mpq_class res;
+    mpq_div(res.get_mpq_t(), resqNum.get_mpq_t(), resqDen.get_mpq_t());
+    return res;
 }
 
 /**
@@ -333,8 +337,8 @@ inline mpq_class gcd(const mpq_class& a, const mpq_class& b) {
  * @return Updated a.
  */
 inline mpz_class& gcd_assign(mpz_class& a, const mpz_class& b) {
-    a = carl::gcd(a,b);
-	return a;
+    a = carl::gcd(a, b);
+    return a;
 }
 
 /**
@@ -345,61 +349,61 @@ inline mpz_class& gcd_assign(mpz_class& a, const mpz_class& b) {
  * @return Updated a.
  */
 inline mpq_class& gcd_assign(mpq_class& a, const mpq_class& b) {
-    a = carl::gcd(a,b);
-	return a;
+    a = carl::gcd(a, b);
+    return a;
 }
 
 inline mpq_class lcm(const mpq_class& a, const mpq_class& b) {
     mpz_class resNum;
-	mpz_lcm(resNum.get_mpz_t(), getNum(a).get_mpz_t(), getNum(b).get_mpz_t());
-	mpz_class resDen;
-	mpz_gcd(resDen.get_mpz_t(), getDenom(a).get_mpz_t(), getDenom(b).get_mpz_t());
-	mpq_class resqNum;
-	mpq_set_z(resqNum.get_mpq_t(), resNum.get_mpz_t());
-	mpq_class resqDen;
-	mpq_set_z(resqDen.get_mpq_t(), resDen.get_mpz_t());
-	mpq_class res;
-	mpq_div(res.get_mpq_t(), resqNum.get_mpq_t(), resqDen.get_mpq_t());
-	return res;
+    mpz_lcm(resNum.get_mpz_t(), getNum(a).get_mpz_t(), getNum(b).get_mpz_t());
+    mpz_class resDen;
+    mpz_gcd(resDen.get_mpz_t(), getDenom(a).get_mpz_t(), getDenom(b).get_mpz_t());
+    mpq_class resqNum;
+    mpq_set_z(resqNum.get_mpq_t(), resNum.get_mpz_t());
+    mpq_class resqDen;
+    mpq_set_z(resqDen.get_mpq_t(), resDen.get_mpz_t());
+    mpq_class res;
+    mpq_div(res.get_mpq_t(), resqNum.get_mpq_t(), resqDen.get_mpq_t());
+    return res;
 }
 
 inline mpq_class log(const mpq_class& n) {
-	return carl::rationalize<mpq_class>(std::log(mpq_class(n).get_d()));
+    return carl::rationalize<mpq_class>(std::log(mpq_class(n).get_d()));
 }
 inline mpq_class log10(const mpq_class& n) {
-	return carl::rationalize<mpq_class>(std::log10(mpq_class(n).get_d()));
+    return carl::rationalize<mpq_class>(std::log10(mpq_class(n).get_d()));
 }
 
 inline mpq_class sin(const mpq_class& n) {
-	return carl::rationalize<mpq_class>(std::sin(mpq_class(n).get_d()));
+    return carl::rationalize<mpq_class>(std::sin(mpq_class(n).get_d()));
 }
 
 inline mpq_class cos(const mpq_class& n) {
-	return carl::rationalize<mpq_class>(std::cos(mpq_class(n).get_d()));
+    return carl::rationalize<mpq_class>(std::cos(mpq_class(n).get_d()));
 }
 
 template<>
 inline mpz_class pow(const mpz_class& basis, std::size_t exp) {
-	mpz_class res;
-	mpz_pow_ui(res.get_mpz_t(), basis.get_mpz_t(), exp);
-	return res;
+    mpz_class res;
+    mpz_pow_ui(res.get_mpz_t(), basis.get_mpz_t(), exp);
+    return res;
 }
 
 template<>
 inline mpq_class pow(const mpq_class& basis, std::size_t exp) {
-	mpz_class den = basis.get_den();
-	mpz_class powDen;
-	mpz_pow_ui(powDen.get_mpz_t(), den.get_mpz_t(), exp);
-	mpz_class num = basis.get_num();
-	mpz_class powNum;
-	mpz_pow_ui(powNum.get_mpz_t(), num.get_mpz_t(), exp);
-	mpq_class resNum;
-	mpq_set_z(resNum.get_mpq_t(), powNum.get_mpz_t());
-	mpq_class resDen;
-	mpq_set_z(resDen.get_mpq_t(), powDen.get_mpz_t());
-	mpq_class res;
-	mpq_div(res.get_mpq_t(), resNum.get_mpq_t(), resDen.get_mpq_t());
-	return res;
+    mpz_class den = basis.get_den();
+    mpz_class powDen;
+    mpz_pow_ui(powDen.get_mpz_t(), den.get_mpz_t(), exp);
+    mpz_class num = basis.get_num();
+    mpz_class powNum;
+    mpz_pow_ui(powNum.get_mpz_t(), num.get_mpz_t(), exp);
+    mpq_class resNum;
+    mpq_set_z(resNum.get_mpq_t(), powNum.get_mpz_t());
+    mpq_class resDen;
+    mpq_set_z(resDen.get_mpq_t(), powDen.get_mpz_t());
+    mpq_class res;
+    mpq_div(res.get_mpq_t(), resNum.get_mpq_t(), resDen.get_mpq_t());
+    return res;
 }
 
 /**
@@ -414,13 +418,13 @@ bool sqrt_exact(const mpq_class& a, mpq_class& b);
 
 mpq_class sqrt(const mpq_class& a);
 
-std::pair<mpq_class,mpq_class> sqrt_safe(const mpq_class& a);
+std::pair<mpq_class, mpq_class> sqrt_safe(const mpq_class& a);
 
 /**
  * Calculate the nth root of a fraction.
  * The precise result is contained in the resulting interval.
  */
-std::pair<mpq_class,mpq_class> root_safe(const mpq_class& a, uint n);
+std::pair<mpq_class, mpq_class> root_safe(const mpq_class& a, uint n);
 
 /**
  * Compute square root in a fast but less precise way.
@@ -429,48 +433,44 @@ std::pair<mpq_class,mpq_class> root_safe(const mpq_class& a, uint n);
  * @param a Some number.
  * @return [x,x] if sqrt(a) = x is rational, otherwise [y,z] for y,z integer and y < sqrt(a) < z.
  */
-std::pair<mpq_class,mpq_class> sqrt_fast(const mpq_class& a);
+std::pair<mpq_class, mpq_class> sqrt_fast(const mpq_class& a);
 
 inline mpz_class mod(const mpz_class& n, const mpz_class& m) {
     // TODO: In order to have the same result as division of native signed integer we have to
     //       make it that complicated, as mpz_mod always returns positive integer. Maybe there is a better way.
-	mpz_class res;
-	mpz_mod(res.get_mpz_t(), abs(n).get_mpz_t(), m.get_mpz_t());
-	return isNegative(n) ? mpz_class(-res) : res;
+    mpz_class res;
+    mpz_mod(res.get_mpz_t(), abs(n).get_mpz_t(), m.get_mpz_t());
+    return isNegative(n) ? mpz_class(-res) : res;
 }
 
 inline mpz_class remainder(const mpz_class& n, const mpz_class& m) {
-	return mod(n,m);
+    return mod(n, m);
 }
 
-inline mpz_class quotient(const mpz_class& n, const mpz_class& d)
-{
+inline mpz_class quotient(const mpz_class& n, const mpz_class& d) {
     // TODO: In order to have the same result as division of native signed integer we have to
     //       make it that complicated, as mpz_div does round differently. Maybe there is a better way.
-	mpz_class res;
-	mpz_div(res.get_mpz_t(), abs(n).get_mpz_t(), abs(d).get_mpz_t());
-	return isNegative(n) == isNegative(d) ? res : mpz_class(-res);
+    mpz_class res;
+    mpz_div(res.get_mpz_t(), abs(n).get_mpz_t(), abs(d).get_mpz_t());
+    return isNegative(n) == isNegative(d) ? res : mpz_class(-res);
 }
 
-inline mpz_class operator/(const mpz_class& n, const mpz_class& d)
-{
-	return quotient(n,d);
+inline mpz_class operator/(const mpz_class& n, const mpz_class& d) {
+    return quotient(n, d);
 }
 
-inline mpq_class quotient(const mpq_class& n, const mpq_class& d)
-{
-	mpq_class res;
-	mpq_div(res.get_mpq_t(), n.get_mpq_t(), d.get_mpq_t());
-	return res;
+inline mpq_class quotient(const mpq_class& n, const mpq_class& d) {
+    mpq_class res;
+    mpq_div(res.get_mpq_t(), n.get_mpq_t(), d.get_mpq_t());
+    return res;
 }
 
-inline mpq_class operator/(const mpq_class& n, const mpq_class& d)
-{
-	return quotient(n,d);
+inline mpq_class operator/(const mpq_class& n, const mpq_class& d) {
+    return quotient(n, d);
 }
 
 inline void divide(const mpz_class& dividend, const mpz_class& divisor, mpz_class& quotient, mpz_class& remainder) {
-	mpz_divmod(quotient.get_mpz_t(), remainder.get_mpz_t(), dividend.get_mpz_t(), divisor.get_mpz_t());
+    mpz_divmod(quotient.get_mpz_t(), remainder.get_mpz_t(), dividend.get_mpz_t(), divisor.get_mpz_t());
 }
 
 /**
@@ -480,7 +480,7 @@ inline void divide(const mpz_class& dividend, const mpz_class& divisor, mpz_clas
  * @return \f$ a / b \f$.
  */
 inline mpq_class div(const mpq_class& a, const mpq_class& b) {
-	return carl::quotient(a,b);
+    return carl::quotient(a, b);
 }
 
 /**
@@ -491,8 +491,8 @@ inline mpq_class div(const mpq_class& a, const mpq_class& b) {
  * @return \f$ a / b \f$.
  */
 inline mpz_class div(const mpz_class& a, const mpz_class& b) {
-	assert(carl::mod(a, b) == 0);
-	return carl::quotient(a, b);
+    assert(carl::mod(a, b) == 0);
+    return carl::quotient(a, b);
 }
 
 /**
@@ -504,7 +504,7 @@ inline mpz_class div(const mpz_class& a, const mpz_class& b) {
  * @return \f$ a / b \f$.
  */
 inline mpz_class& div_assign(mpz_class& a, const mpz_class& b) {
-	a = carl::quotient(a, b);
+    a = carl::quotient(a, b);
     return a;
 }
 /**
@@ -516,25 +516,24 @@ inline mpz_class& div_assign(mpz_class& a, const mpz_class& b) {
  * @return \f$ a / b \f$.
  */
 inline mpq_class& div_assign(mpq_class& a, const mpq_class& b) {
-	a = carl::quotient(a, b);
+    a = carl::quotient(a, b);
     return a;
 }
 
 inline mpq_class reciprocal(const mpq_class& a) {
-	mpq_class res;
-	mpq_inv(res.get_mpq_t(), a.get_mpq_t());
-	return res;
+    mpq_class res;
+    mpq_inv(res.get_mpq_t(), a.get_mpq_t());
+    return res;
 }
 
-inline mpq_class operator *(const mpq_class& lhs, const mpq_class& rhs)
-{
-	mpq_class res;
-	mpq_mul(res.get_mpq_t(), lhs.get_mpq_t(), rhs.get_mpq_t());
-	return res;
+inline mpq_class operator*(const mpq_class& lhs, const mpq_class& rhs) {
+    mpq_class res;
+    mpq_mul(res.get_mpq_t(), lhs.get_mpq_t(), rhs.get_mpq_t());
+    return res;
 }
 
-std::string toString(const mpq_class& _number, bool _infix=true);
+std::string toString(const mpq_class& _number, bool _infix = true);
 
-std::string toString(const mpz_class& _number, bool _infix=true);
+std::string toString(const mpz_class& _number, bool _infix = true);
 
-}
+}  // namespace carl
