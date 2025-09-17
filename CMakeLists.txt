@@ -26,6 +26,7 @@ project(carl CXX)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 # Include own macros.
 include( carlmacros )
+include(CheckIncludeFileCXX)
 
 set_version(14 32 1)
 
@@ -159,6 +160,11 @@ set(CMAKE_COMPILE_WARNING_AS_ERROR ${CARL_WARNING_AS_ERROR})
 # In release mode, we turn on even more optimizations if we do not have to provide a portable binary.
 if (NOT PORTABLE AND (NOT APPLE_SILICON OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 15.0)))
 	add_compile_options($<$<CONFIG:Release>:-march=native>)
+endif()
+
+CHECK_INCLUDE_FILE_CXX("execinfo.h" SYS_HAS_EXECINFO)
+if(NOT CHECK_INCLUDE_FILE_CXX)
+	add_compile_definitions("CARL_SKIP_EXECINFO")
 endif()
 
 if(DEVELOPER)

@@ -5,7 +5,7 @@
 #include <memory>
 #include <sstream>
 
-#if !defined __VS
+#if !defined __VS && !defined CARL_SKIP_EXECINFO
 #include <cxxabi.h>
 #include <dlfcn.h>
 #include <execinfo.h>
@@ -13,7 +13,7 @@
 
 namespace carl {
 
-#if defined __VS
+#if defined __VS || defined CARL_SKIP_EXECINFO
 	//Windows
 	void printStacktrace(bool interaction) {
 		//TODO implement for windows
