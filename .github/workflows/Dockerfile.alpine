@@ -38,6 +38,7 @@ RUN apk add --no-cache \
     gcc \
     g++ \
     git \
+    bash \
     musl-dev \
     linux-headers \
     boost-dev \
