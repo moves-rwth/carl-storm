@@ -22,7 +22,7 @@ jobs:
     # Build and run with different compilers (GCC, Clang)
     # Run on latest Archlinux version to get most recent compiler versions
     # Run on alpine to test with muslc (an glibc alternative).
-    name: Compiler Tests (${{ matrix.config.name }}, ${{ matrix.config.build_type }}, ${{ matrix.build_type }})
+    name: Compiler Tests (${{ matrix.config.name }} on ${{ matrix.config.build_type }}, ${{ matrix.config.build_type }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
