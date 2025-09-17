@@ -4,6 +4,7 @@
 #include <Eigen/Eigenvalues>
 
 #include <vector>
+#include "../../numbers/numbers.h"
 
 namespace carl {
 namespace rootfinder {

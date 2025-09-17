@@ -21,6 +21,7 @@ jobs:
   compilerTests:
     # Build and run with different compilers (GCC, Clang)
     # Run on latest Archlinux version to get most recent compiler versions
+    # Run on alpine to test with muslc (an glibc alternative).
     name: Compiler Tests (${{ matrix.config.name }}, ${{ matrix.config.build_type }})
     runs-on: ubuntu-latest
     strategy:
@@ -29,19 +30,27 @@ jobs:
           - {name: "GCC",
              build_type: "Debug",
              cmake_args: "-DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCARL_WARNING_AS_ERROR=ON",
-             packages: ""
+             packages: "",
+             distro: "archlinux"
             }
           - {name: "Clang",
              build_type: "Debug",
              cmake_args: "-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCARL_WARNING_AS_ERROR=ON",
-             packages: "clang"
+             packages: "clang",
+             distro: "archlinux"
+            }
+          - { name: "muslc",
+              build_type: "Debug",
+              cmake_args: "-DCARL_WARNING_AS_ERROR=ON",
+              packages: "",
+              distro: "alpine"
             }
     steps:
       - name: Git clone
         uses: actions/checkout@v5
       - name: Build Carl-storm from Dockerfile
         run: |
-          docker build -t movesrwth/carl-storm:ci . -f .github/workflows/Dockerfile.archlinux \
+          docker build -t movesrwth/carl-storm:ci . -f .github/workflows/Dockerfile.${{ matrix.distro }} \
             --build-arg build_type="${{ matrix.build_type }}" \
             --build-arg cmake_args="${{ matrix.config.cmake_args }}" \
             --build-arg packages="${{ matrix.config.packages }}" \
