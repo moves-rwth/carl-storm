@@ -22,7 +22,7 @@ jobs:
     # Build and run with different compilers (GCC, Clang)
     # Run on latest Archlinux version to get most recent compiler versions
     # Run on alpine to test with muslc (an glibc alternative).
-    name: Compiler Tests (${{ matrix.config.name }}, ${{ matrix.config.build_type }})
+    name: Compiler Tests (${{ matrix.config.name }}, ${{ matrix.config.build_type }}, ${{ matrix.build_type }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -50,8 +50,8 @@ jobs:
         uses: actions/checkout@v5
       - name: Build Carl-storm from Dockerfile
         run: |
-          docker build -t movesrwth/carl-storm:ci . -f .github/workflows/Dockerfile.${{ matrix.distro }} \
-            --build-arg build_type="${{ matrix.build_type }}" \
+          docker build -t movesrwth/carl-storm:ci . -f .github/workflows/Dockerfile.${{ matrix.config.distro }} \
+            --build-arg build_type="${{ matrix.config.build_type }}" \
             --build-arg cmake_args="${{ matrix.config.cmake_args }}" \
             --build-arg packages="${{ matrix.config.packages }}" \
             --build-arg no_threads=${NR_JOBS}
