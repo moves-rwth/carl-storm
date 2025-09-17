@@ -1,4 +1,4 @@
-# Dockerfile for Carl-storm on Archlinux
+# Dockerfile for Carl-storm on Alpine
 ########################################
 # The Docker image can be built by executing:
 # docker build -t yourusername/carl-storm .
