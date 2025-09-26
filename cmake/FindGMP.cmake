@@ -32,6 +32,8 @@ if(GMP_INCLUDE_DIR AND GMP_LIBRARY)
 
 	if (EXISTS "${GMP_INCLUDE_DIR}/gmp-x86_64.h")
 		GetVersion(GMP_VERSION "${GMP_INCLUDE_DIR}/gmp-x86_64.h")
+	elseif (EXISTS "${GMP_INCLUDE_DIR}/gmp-aarch64.h")
+		GetVersion(GMP_VERSION "${GMP_INCLUDE_DIR}/gmp-aarch64.h")
 	else()
 		GetVersion(GMP_VERSION "${GMP_INCLUDE_DIR}/gmp.h")
 	endif()
