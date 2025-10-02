@@ -1,6 +1,10 @@
 Changelog
 ==============
 
+## Version 14.33 (2025/10)
+- Support for musl libc
+- Improved support for Linux ARM
+
 ## Version 14.32 (2025/09)
 - Properly disable usage of CLN and Ginac by default.
 - CI workflow for new releases.
