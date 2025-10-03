@@ -102,20 +102,20 @@ jobs:
     strategy:
       matrix:
         config:
-          - {name: "XCode 14.3, Intel",
-             distro: "macos-13",
-             xcode: "14.3",
-             build_type: "Debug"
-            }
           - {name: "XCode 15.4, ARM",
              distro: "macos-14",
              xcode: "15.4",
              build_type: "Debug"
             }
-          - {name: "XCode 16.3, ARM",
+          - {name: "XCode Latest, ARM",
              distro: "macos-15",
-             xcode: "16.3",
-             build_type: "Debug"
+             xcode: "latest-stable",
+             buildType: "Debug"
+            }
+          - {name: "XCode Latest, Intel",
+             distro: "macos-15-intel",
+             xcode: "latest-stable",
+             buildType: "Debug"
             }
     runs-on: ${{ matrix.config.distro }}
     steps:
