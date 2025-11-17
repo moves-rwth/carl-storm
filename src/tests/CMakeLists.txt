@@ -2,12 +2,6 @@
 add_custom_target(all-tests)
 
 add_library(TestCommon STATIC Common.cpp)
-# Workaround for googletest bug with char conversions, being recognized by Clang 21+
-# See https://github.com/google/googletest/issues/4762
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "21")
-	message(WARNING "Googletest has a bug recognized by Clang 21+. Supressing character-conversion warning.")
-	target_compile_options(TestCommon INTERFACE -Wno-character-conversion)
-endif()
 
 target_link_libraries(TestCommon lib_carl ${GTEST_LIBRARIES})
 add_dependencies(TestCommon carl_resources lib_carl GTest::gtest_main)

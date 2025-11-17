@@ -160,7 +160,9 @@ find_package(Threads REQUIRED)
 if(PROJECT_IS_TOP_LEVEL)
 	##### GTest
 	if(NOT GTEST_FOUND)
-		set(GTEST_VERSION "1.17.0")
+		# Manual commit hash used in gtest.cmake to fix compiler warning
+		#set(GTEST_VERSION "1.17.0")
+		set(GTEST_VERSION "fa8438ae6b70c57010177de47a9f13d7041a6328")
 		include(resources/gtest.cmake)
 	endif()
 	print_resource_info("GTest" GTest::gtest_main ${GTEST_VERSION})
