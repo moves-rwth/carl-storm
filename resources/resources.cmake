@@ -159,6 +159,13 @@ find_package(Threads REQUIRED)
 ##### Googletest
 if(PROJECT_IS_TOP_LEVEL)
 	##### GTest
+	# Workaround for googletest bug with char conversions, being recognized by Clang 21+
+	# See https://github.com/google/googletest/issues/4762
+	if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "21")
+		message(WARNING "Googletest has a bug recognized by Clang 21+. Supressing character-conversion warning.")
+		add_compile_options(-Wno-character-conversion) # target_compile_options cannot be used on Alias
+	endif()
+
 	if(NOT GTEST_FOUND)
 		set(GTEST_VERSION "1.17.0")
 		include(resources/gtest.cmake)
