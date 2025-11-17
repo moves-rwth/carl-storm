@@ -1,5 +1,4 @@
 include(FetchContent)
-
 FetchContent_Declare(
 	googletest
 	# Use commit with workaround for char conversion warning, being recognized by Clang 21+.
