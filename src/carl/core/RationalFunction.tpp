@@ -44,11 +44,11 @@ void RationalFunction<Pol, AS>::eliminateCommonFactor(bool _justNormalize) {
 		mIsSimplified = true;
 		return;
 	}
-	CoeffType cpFactorNom(std::move(nominatorAsPolynomial().coprimeFactor()));
-	CoeffType cpFactorDen(std::move(denominatorAsPolynomial().coprimeFactor()));
+	CoeffType cpFactorNom(nominatorAsPolynomial().coprimeFactor());
+	CoeffType cpFactorDen(denominatorAsPolynomial().coprimeFactor());
 	mPolynomialQuotient->first *= cpFactorNom;
 	mPolynomialQuotient->second *= cpFactorDen;
-	CoeffType cpFactor(std::move(cpFactorDen / cpFactorNom));
+	CoeffType cpFactor(cpFactorDen / cpFactorNom);
 	if (!_justNormalize && !denominatorAsPolynomial().isConstant()) {
 		carl::gcd(nominatorAsPolynomial(), denominatorAsPolynomial());
 		auto ret = carl::lazyDiv(nominatorAsPolynomial(), denominatorAsPolynomial());
