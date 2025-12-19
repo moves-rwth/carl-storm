@@ -26,6 +26,7 @@ target_include_directories( lib_carl PUBLIC
 	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
 )
 target_link_libraries(lib_carl PUBLIC GMPXX_SHARED GMP_SHARED eigencarl Boost::headers ${CMAKE_DL_LIBS} pthread)
+target_link_libraries(lib_carl PRIVATE carl_storm_compiler_warnings)
 if(CARL_USE_BLISS)
 	target_link_libraries(lib_carl PUBLIC BLISS_SHARED)
 endif()
@@ -58,6 +59,7 @@ if(CARL_BUILD_STATIC)
         set_target_properties( lib_carl_static PROPERTIES LINK_SEARCH_START_STATIC TRUE )
 
 	target_link_libraries(lib_carl_static PUBLIC eigencarl GMPXX_STATIC GMP_STATIC Boost_STATIC ${CMAKE_DL_LIBS} pthread)
+	target_link_libraries(lib_carl_static INTERFACE carl_storm_compiler_warnings)
 	if(CARL_USE_BLISS)
 		target_link_libraries(lib_carl_static PUBLIC BLISS_STATIC)
 	endif()
