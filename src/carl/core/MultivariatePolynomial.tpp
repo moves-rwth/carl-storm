@@ -2150,12 +2150,11 @@ template<typename Coeff, typename Ordering, typename Policies>
 bool MultivariatePolynomial<Coeff, Ordering, Policies>::isConsistent() const {
 	std::set<Monomial::Arg> monomials;
 	for (unsigned i = 0; i < this->mTerms.size(); i++) {
-		//assert(this->mTerms[i]);
 		assert(!this->mTerms[i].isZero());
 		if (i > 0) {
 			assert(this->mTerms[i].tdeg() > 0);
 		}
-		auto it = monomials.insert(mTerms[i].monomial());
+        [[maybe_unused]] auto it = monomials.insert(mTerms[i].monomial());
 		assert(it.second);
 	}
 	if (mOrdered) {
