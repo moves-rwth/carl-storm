@@ -65,9 +65,8 @@ find_package(Boost 1.70 REQUIRED CONFIG)
 print_resource_info("Boost" Boost::headers ${Boost_VERSION})
 
 ##### Eigen3
-set(EIGEN3_VERSION "3.4.1-alpha")
-include(resources/eigen3.cmake)
-print_resource_info("Eigen3" EIGEN3 ${EIGEN3_VERSION})
+include(resources/eigen.cmake)
+print_resource_info("Eigen" eigencarl ${CARL_EIGEN_GIT_TAG})
 
 ##### bliss
 if(USE_BLISS)
