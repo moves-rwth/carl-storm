@@ -1,9 +1,15 @@
 Changelog
 ==============
 
+## Version 14.34 (2026/02)
+- Introduce CMake argument `CARL_EIGEN_GIT_TAG` to set Eigen version.
+- Require shipped version of Eigen.
+- Removed shipped versions of CLN and GiNaC.
+- Fixed some compiler warnings.
+
 ## Version 14.33 (2025/10)
-- Support for musl libc
-- Improved support for Linux ARM
+- Support for musl libc.
+- Improved support for Linux ARM.
 
 ## Version 14.32 (2025/09)
 - Properly disable usage of CLN and Ginac by default.
