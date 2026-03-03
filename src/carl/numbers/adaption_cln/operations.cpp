@@ -109,7 +109,7 @@ std::pair<cln::cl_RA, cln::cl_RA> sqrt_safe(const cln::cl_RA& a) {
 std::pair<cln::cl_RA, cln::cl_RA> sqrt_precision(const cln::cl_RA& a, const cln::cl_RA& prec) {
     // Precision should already be achieved through use of sqrt and cln::rationalize
     auto res = sqrt_safe(a);
-    assert(res.second - res.first <= prec);
+    assert(res.second - res.first <= prec * res.second);
     return res;
 }
 

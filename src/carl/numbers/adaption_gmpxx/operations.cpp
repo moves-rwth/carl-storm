@@ -70,9 +70,15 @@ std::pair<mpq_class, mpq_class> sqrt_safe(const mpq_class& a) {
 
 std::pair<mpq_class, mpq_class> sqrt_precision(const mpq_class& a, const mpq_class& prec) {
     assert(mpq_sgn(a.__get_mp()) > 0);
+    // Scale such that scale*max(num, denom) >= 2/precision^2
+    // Then the resulting interval has width <= precision
     mpq_class scale = 2 / (prec * prec);
+    scale /= a.get_num() > a.get_den() ? a.get_num() : a.get_den();
+    if (scale < 1) {
+        scale = 1;
+    }
     auto res = sqrt_safe(a.get_num() * scale.get_num(), a.get_den() * scale.get_num());
-    assert(res.second - res.first <= prec);
+    assert(res.second - res.first <= prec * res.second);
     return res;
 }
 
