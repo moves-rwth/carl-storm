@@ -117,21 +117,28 @@ TYPED_TEST(RationalNumbers, Sqrt_precision) {
         std::pair<TypeParam, TypeParam> res = carl::sqrt_precision(a, precision);
         EXPECT_LE(res.first*res.first, a);
         EXPECT_LE(a, res.second*res.second);
-        EXPECT_LE(res.second - res.first, precision);
+        EXPECT_LE(res.second - res.first, precision * res.second);
     }
     {
         TypeParam a = TypeParam(2)/TypeParam(3);
         std::pair<TypeParam, TypeParam> res = carl::sqrt_precision(a, precision);
         EXPECT_LE(res.first*res.first, a);
         EXPECT_LE(a, res.second*res.second);
-        EXPECT_LE(res.second - res.first, precision);
+        EXPECT_LE(res.second - res.first, precision * res.second);
     }
     {
         TypeParam a = TypeParam("93536104789177766012087302264675950042191285291185")/TypeParam("93536104789177786765035829293842113257979682750464");
         std::pair<TypeParam, TypeParam> res = carl::sqrt_precision(a, precision);
         EXPECT_LE(res.first*res.first, a);
         EXPECT_LE(a, res.second*res.second);
-        EXPECT_LE(res.second - res.first, precision);
+        EXPECT_LE(res.second - res.first, precision * res.second);
+    }
+    {
+        TypeParam a = TypeParam("93536104789177766012087302264675950042191285291185");
+        std::pair<TypeParam, TypeParam> res = carl::sqrt_precision(a, precision);
+        EXPECT_LE(res.first*res.first, a);
+        EXPECT_LE(a, res.second*res.second);
+        EXPECT_LE(res.second - res.first, precision * res.second);
     }
 }
 

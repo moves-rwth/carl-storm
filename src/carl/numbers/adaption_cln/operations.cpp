@@ -117,7 +117,7 @@ namespace carl
     {
         // Precision should already be achieved through use of sqrt and cln::rationalize
         auto res = sqrt_safe(a);
-        assert(res.second - res.first <= prec);
+        assert(res.second - res.first <= prec * res.second);
         return res;
     }
 
