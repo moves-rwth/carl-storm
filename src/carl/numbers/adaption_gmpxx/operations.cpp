@@ -35,17 +35,14 @@ mpq_class sqrt(const mpq_class& a) {
     return (r.first + r.second) / 2;
 }
 
-std::pair<mpq_class, mpq_class> sqrt_safe(const mpq_class& a) {
-    assert(mpq_sgn(a.__get_mp()) > 0);
-    mpz_class den = a.get_den();
-    mpz_class num = a.get_num();
-    mpz_class root_den;
-    mpz_class root_den_rem;
-    mpz_sqrtrem(root_den.__get_mp(), root_den_rem.__get_mp(), den.__get_mp());
-
+std::pair<mpq_class, mpq_class> sqrt_safe(const mpz_class& num, const mpz_class& den) {
     mpz_class root_num;
     mpz_class root_num_rem;
     mpz_sqrtrem(root_num.__get_mp(), root_num_rem.__get_mp(), num.__get_mp());
+
+    mpz_class root_den;
+    mpz_class root_den_rem;
+    mpz_sqrtrem(root_den.__get_mp(), root_den_rem.__get_mp(), den.__get_mp());
 
     mpq_class lower;
     mpq_class upper;
@@ -64,6 +61,19 @@ std::pair<mpq_class, mpq_class> sqrt_safe(const mpq_class& a) {
     upper /= root_den;
 
     return std::make_pair(lower, upper);
+}
+
+std::pair<mpq_class, mpq_class> sqrt_safe(const mpq_class& a) {
+    assert(mpq_sgn(a.__get_mp()) > 0);
+    return sqrt_safe(a.get_num(), a.get_den());
+}
+
+std::pair<mpq_class, mpq_class> sqrt_precision(const mpq_class& a, const mpq_class& prec) {
+    assert(mpq_sgn(a.__get_mp()) > 0);
+    mpq_class scale = 2 / (prec * prec);
+    auto res = sqrt_safe(a.get_num() * scale.get_num(), a.get_den() * scale.get_num());
+    assert(res.second - res.first <= prec);
+    return res;
 }
 
 std::pair<mpq_class, mpq_class> root_safe(const mpq_class& a, uint n) {
