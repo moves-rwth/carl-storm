@@ -8,15 +8,15 @@
 
 namespace carl {
 namespace model {
-	
-template<typename T, typename Rational, typename Poly>
-T substitute(const T& t, const Model<Rational,Poly>& m);
 
 template<typename T, typename Rational, typename Poly>
-ModelValue<Rational,Poly> evaluate(const T& t, const Model<Rational,Poly>& m);
+T substitute(const T& t, const Model<Rational, Poly>& m);
 
-}
-}
+template<typename T, typename Rational, typename Poly>
+ModelValue<Rational, Poly> evaluate(const T& t, const Model<Rational, Poly>& m);
+
+}  // namespace model
+}  // namespace carl
 
 #include "ModelEvaluation_helper.h"
 
@@ -36,10 +36,10 @@ namespace model {
  * This may not be possible for some expressions, for example for uninterpreted equalities.
  */
 template<typename T, typename Rational, typename Poly>
-T substitute(const T& t, const Model<Rational,Poly>& m) {
-	T res = t;
-	substituteIn(res, m);
-	return res;
+T substitute(const T& t, const Model<Rational, Poly>& m) {
+    T res = t;
+    substituteIn(res, m);
+    return res;
 }
 
 /**
@@ -47,24 +47,24 @@ T substitute(const T& t, const Model<Rational,Poly>& m) {
  * The result is always a ModelValue, though it may be a ModelSubstitution in some cases.
  */
 template<typename T, typename Rational, typename Poly>
-ModelValue<Rational,Poly> evaluate(const T& t, const Model<Rational,Poly>& m) {
-	T tmp = t;
-	ModelValue<Rational,Poly> res;
-	evaluate(res, tmp, m);
-	if (res.isRAN() && res.asRAN().isNumeric()) {
-		res = res.asRAN().value();
-	}
-	return res;
+ModelValue<Rational, Poly> evaluate(const T& t, const Model<Rational, Poly>& m) {
+    T tmp = t;
+    ModelValue<Rational, Poly> res;
+    evaluate(res, tmp, m);
+    if (res.isRAN() && res.asRAN().isNumeric()) {
+        res = res.asRAN().value();
+    }
+    return res;
 }
 
 template<typename T, typename Rational, typename Poly>
-unsigned satisfiedBy(const T& t, const Model<Rational,Poly>& m) {
-	auto mv = evaluate(t, m);
-	if (mv.isBool()) {
-		return mv.asBool() ? 1 : 0;
-	}
-	return 2;
+unsigned satisfiedBy(const T& t, const Model<Rational, Poly>& m) {
+    auto mv = evaluate(t, m);
+    if (mv.isBool()) {
+        return mv.asBool() ? 1 : 0;
+    }
+    return 2;
 }
 
-}
-}
+}  // namespace model
+}  // namespace carl

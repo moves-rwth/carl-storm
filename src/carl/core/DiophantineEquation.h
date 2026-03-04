@@ -10,18 +10,15 @@
 
 namespace carl {
 
-    
 /**
  * Diophantine Equations solver
  */
 template<typename T>
-std::vector<T> solveDiophantine(MultivariatePolynomial<T> & p);
+std::vector<T> solveDiophantine(MultivariatePolynomial<T>& p);
 
 template<typename T>
 T extended_gcd_integer(T a, T b, T& s, T& t);
 
-
-
-} // namespace carl
+}  // namespace carl
 
 #include "DiophantineEquation.tpp"
