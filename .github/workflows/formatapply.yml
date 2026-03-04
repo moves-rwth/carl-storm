@@ -16,12 +16,14 @@ jobs:
           clangFormatVersion: 20
           style: file
           inplace: True
+          extensions: 'h,cpp,tpp'
       - uses: DoozyX/clang-format-lint-action@v0.20
         with:
           source: './src'
           clangFormatVersion: 20
           style: file
           inplace: True
+          extensions: 'h,cpp,tpp'
       - name: Commit Formatting
         run: |
           git config user.name 'Auto Format'
