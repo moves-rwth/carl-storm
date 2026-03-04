@@ -306,10 +306,4 @@ namespace carl
             _out << "    " << **constraint << "  [id=" << (*constraint)->mID << ", hash=" << (*constraint)->hash() << ", usages=" << (*constraint)->mUsages << "]" << std::endl;
         _out << "---------------------------------------------------" << std::endl;
     }
-
-    template<typename Pol>
-    const ConstraintPool<Pol>& constraintPool()
-    {
-        return ConstraintPool<Pol>::getInstance();
-    }
 }    // namespace carl
