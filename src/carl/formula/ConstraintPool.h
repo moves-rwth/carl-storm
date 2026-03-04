@@ -250,13 +250,6 @@ class ConstraintPool : public Singleton<ConstraintPool<Pol>> {
      */
     void print(std::ostream& _out = std::cout) const;
 };
-
-/**
- * @return A constant reference to the shared constraint pool.
- */
-template<typename Pol>
-const ConstraintPool<Pol>& constraintPool();
-
 }  // namespace carl
 
 #include "ConstraintPool.tpp"
