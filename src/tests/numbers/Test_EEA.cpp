@@ -1,6 +1,7 @@
-#include "../../carl/numbers/adaption_native/EEA.h"
 #include "../../carl/numbers/numbers.h"
 #include "gtest/gtest.h"
+
+#include "../../carl/numbers/adaption_native/EEA.h"
 
 using namespace carl;
 

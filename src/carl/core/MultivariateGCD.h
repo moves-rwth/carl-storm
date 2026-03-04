@@ -123,6 +123,6 @@ class MultivariateGCD : GCDCalculation {
 };
 
 }  // namespace carl
+
 #include "MultivariateGCD.tpp"
-#include "PrimitiveEuclideanAlgorithm.h"
 #include "PrimitiveEuclideanAlgorithm.tpp"
