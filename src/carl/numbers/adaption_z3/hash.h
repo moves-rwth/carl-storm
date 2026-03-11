@@ -1,4 +1,4 @@
-/** 
+/**
  * @file    adaption_gmpxx/hash.h
  * @ingroup gmpxx
  * @author  Sebastian Junges
@@ -10,25 +10,20 @@
 
 #include "include.h"
 
-namespace std
-{
+namespace std {
 
-template<> 
-struct hash<mpz>
-{
-	size_t operator()(const mpz& z) const
-	{
-		return mpz_manager<false>::hash(z);
-	}
-};
-	
 template<>
-struct hash<mpq>
-{
-	size_t operator()(const mpq& q) const
-	{
-		return mpq_manager<false>::hash(q);
-	}
+struct hash<mpz> {
+    size_t operator()(const mpz& z) const {
+        return mpz_manager<false>::hash(z);
+    }
 };
 
-}
+template<>
+struct hash<mpq> {
+    size_t operator()(const mpq& q) const {
+        return mpq_manager<false>::hash(q);
+    }
+};
+
+}  // namespace std

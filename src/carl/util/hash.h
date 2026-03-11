@@ -11,7 +11,7 @@ namespace carl {
  * It is reimplemented here to avoid including all of boost/functional/hash.hpp for this single line of code.
  */
 inline void hash_combine(std::size_t& seed, std::size_t value) {
-	seed ^= value + 0x9e3779b9 + (seed<<6) + (seed>>2);
+    seed ^= value + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
 /**
@@ -20,7 +20,7 @@ inline void hash_combine(std::size_t& seed, std::size_t value) {
  */
 template<typename T>
 inline void hash_add(std::size_t& seed, const T& value) {
-	carl::hash_combine(seed, std::hash<T>()(value));
+    carl::hash_combine(seed, std::hash<T>()(value));
 }
 
 /**
@@ -28,7 +28,7 @@ inline void hash_add(std::size_t& seed, const T& value) {
  */
 template<>
 inline void hash_add(std::size_t& seed, const std::size_t& value) {
-	carl::hash_combine(seed, value);
+    carl::hash_combine(seed, value);
 }
 
 /**
@@ -36,8 +36,8 @@ inline void hash_add(std::size_t& seed, const std::size_t& value) {
  */
 template<typename First, typename... Tail>
 inline void hash_add(std::size_t& seed, const First& value, Tail&&... tail) {
-	carl::hash_add(seed, value);
-	carl::hash_add(seed, std::forward<Tail>(tail)...);
+    carl::hash_add(seed, value);
+    carl::hash_add(seed, std::forward<Tail>(tail)...);
 }
 
 /**
@@ -45,8 +45,8 @@ inline void hash_add(std::size_t& seed, const First& value, Tail&&... tail) {
  */
 template<typename T1, typename T2>
 inline void hash_add(std::size_t& seed, const std::pair<T1, T2>& p) {
-	carl::hash_add(seed, p.first);
-	carl::hash_add(seed, p.second);
+    carl::hash_add(seed, p.first);
+    carl::hash_add(seed, p.second);
 }
 
 /**
@@ -54,7 +54,7 @@ inline void hash_add(std::size_t& seed, const std::pair<T1, T2>& p) {
  */
 template<typename T>
 inline void hash_add(std::size_t& seed, const std::vector<T>& v) {
-	for (const auto& t: v) carl::hash_add(seed, t);
+    for (const auto& t : v) carl::hash_add(seed, t);
 }
 
 /**
@@ -63,8 +63,8 @@ inline void hash_add(std::size_t& seed, const std::vector<T>& v) {
  */
 template<typename... Args>
 inline std::size_t hash_all(Args&&... args) {
-	std::size_t seed = 0;
-	hash_add(seed, std::forward<Args>(args)...);
-	return seed;
+    std::size_t seed = 0;
+    hash_add(seed, std::forward<Args>(args)...);
+    return seed;
 }
-} // namespace carl
+}  // namespace carl
