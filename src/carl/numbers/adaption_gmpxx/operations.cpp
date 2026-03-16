@@ -85,6 +85,7 @@ namespace carl
 
         // Precision was not achieved
         // -> Manually scale numerator and denominator
+        // see doc/sqrt_proof.md for details on the scaling factor.
         mpz_class num = a.get_num();
         mpz_class den = a.get_den();
         assert(num >= 1);

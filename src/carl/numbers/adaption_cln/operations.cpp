@@ -129,6 +129,7 @@ namespace carl
 
         // Precision was not achieved
         // -> Manually scale numerator and denominator
+        // see doc/sqrt_proof.md for details on the scaling factor.
         cln::cl_I num = cln::numerator(a);
         cln::cl_I den = cln::denominator(a);
         assert(num >= 1);
