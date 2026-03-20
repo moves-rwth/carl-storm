@@ -3,42 +3,40 @@
  * @author Benedikt Seidl
  */
 
-#include "gtest/gtest.h"
 #include "../../carl/numbers/numbers.h"
+#include "gtest/gtest.h"
 
-TEST(doubleFloatTest, Constructor)
-{ 
+TEST(doubleFloatTest, Constructor) {
     // double constructor tests
     double dVal = 4;
     ASSERT_NO_THROW(carl::FLOAT_T<double> hf1 = carl::FLOAT_T<double>(dVal));
     dVal = 0;
     EXPECT_EQ(0, carl::FLOAT_T<double>(dVal).value());
-    
+
     // float constructor tests
     float fVal = 4;
     ASSERT_NO_THROW(carl::FLOAT_T<double> hf1 = carl::FLOAT_T<double>(fVal));
     fVal = 0;
     EXPECT_EQ(0, carl::FLOAT_T<double>(fVal).value());
-    
+
     // integer constructor tests
     int iVal = 4;
     ASSERT_NO_THROW(carl::FLOAT_T<double> hf1 = carl::FLOAT_T<double>(double(iVal)));
     iVal = 0;
     EXPECT_EQ(0, carl::FLOAT_T<double>(double(iVal)).value());
-    
+
     // mpfr constructor tests
     dVal = 3.14159265358979323846264338327950288419716939937510582097494459230781640628620899;
     carl::FLOAT_T<double> hf1 = carl::FLOAT_T<double>(dVal);
-    
+
     // copy constructor test
-    //ASSERT_EQ(hf1, carl::FLOAT_T<double>(hf1));
+    // ASSERT_EQ(hf1, carl::FLOAT_T<double>(hf1));
 }
 
-TEST(doubleFloatTest, Hash)
-{
-	std::hash<carl::FLOAT_T<double>> hasher;
-	hasher(carl::FLOAT_T<double>(2.0));
-	SUCCEED();
+TEST(doubleFloatTest, Hash) {
+    std::hash<carl::FLOAT_T<double>> hasher;
+    hasher(carl::FLOAT_T<double>(2.0));
+    SUCCEED();
 }
 
 /*
@@ -50,15 +48,14 @@ TEST(doubleFloatTest, Hash)
  * 7 <= 7
  * 7 == 7
  */
-TEST(doubleFloatTest, BooleanOperators)
-{
+TEST(doubleFloatTest, BooleanOperators) {
     double v1 = 7;
     carl::FLOAT_T<double> f1 = carl::FLOAT_T<double>(v1);
     double v2 = 2;
     carl::FLOAT_T<double> f2 = carl::FLOAT_T<double>(v2);
     double v3 = 7;
     carl::FLOAT_T<double> f3 = carl::FLOAT_T<double>(v3);
-    
+
     ASSERT_GT(f1, f2);
     ASSERT_LT(f2, f1);
     ASSERT_NE(f1, f2);
@@ -74,8 +71,7 @@ TEST(doubleFloatTest, BooleanOperators)
  * 7 + 0 = 7
  * 7 + -0 = 7
  */
-TEST(doubleFloatTest, Addition)
-{
+TEST(doubleFloatTest, Addition) {
     double v1 = 7;
     double v2 = 2;
     double v3 = 7;
@@ -88,7 +84,7 @@ TEST(doubleFloatTest, Addition)
     double vResult2 = 4;
     double vResult3 = 7;
     double vResult4 = 7;
-    
+
     carl::FLOAT_T<double> f1 = carl::FLOAT_T<double>(v1);
     carl::FLOAT_T<double> f2 = carl::FLOAT_T<double>(v2);
     carl::FLOAT_T<double> f3 = carl::FLOAT_T<double>(v3);
@@ -101,17 +97,16 @@ TEST(doubleFloatTest, Addition)
     carl::FLOAT_T<double> result2 = carl::FLOAT_T<double>(vResult2);
     carl::FLOAT_T<double> result3 = carl::FLOAT_T<double>(vResult3);
     carl::FLOAT_T<double> result4 = carl::FLOAT_T<double>(vResult4);
-    
-    
+
     f1.add_assign(f2, carl::CARL_RND::N);
     ASSERT_EQ(result1, f1);
-    
+
     f3.add_assign(f4, carl::CARL_RND::N);
     ASSERT_EQ(result2, f3);
-    
+
     f5.add_assign(f6, carl::CARL_RND::N);
     ASSERT_EQ(result3, f5);
-    
+
     f7.add_assign(f8, carl::CARL_RND::N);
     ASSERT_EQ(result4, f7);
 }
@@ -123,8 +118,7 @@ TEST(doubleFloatTest, Addition)
  * 9 - 0 = 9
  * 9 - -0 = 9
  */
-TEST(doubleFloatTest, Subtraction)
-{
+TEST(doubleFloatTest, Subtraction) {
     double v1 = 9;
     double v2 = 5;
     double v3 = 9;
@@ -137,7 +131,7 @@ TEST(doubleFloatTest, Subtraction)
     double vResult2 = 13;
     double vResult3 = 9;
     double vResult4 = 9;
-    
+
     carl::FLOAT_T<double> f1 = carl::FLOAT_T<double>(v1);
     carl::FLOAT_T<double> f2 = carl::FLOAT_T<double>(v2);
     carl::FLOAT_T<double> f3 = carl::FLOAT_T<double>(v3);
@@ -150,16 +144,16 @@ TEST(doubleFloatTest, Subtraction)
     carl::FLOAT_T<double> result2 = carl::FLOAT_T<double>(vResult2);
     carl::FLOAT_T<double> result3 = carl::FLOAT_T<double>(vResult3);
     carl::FLOAT_T<double> result4 = carl::FLOAT_T<double>(vResult4);
-    
+
     f1.sub_assign(f2, carl::CARL_RND::N);
     ASSERT_EQ(result1, f1);
-    
+
     f3.sub_assign(f4, carl::CARL_RND::N);
     ASSERT_EQ(result2, f3);
-    
+
     f5.sub_assign(f6, carl::CARL_RND::N);
     ASSERT_EQ(result3, f5);
-    
+
     f7.sub_assign(f8, carl::CARL_RND::N);
     ASSERT_EQ(result4, f7);
 }
@@ -171,8 +165,7 @@ TEST(doubleFloatTest, Subtraction)
  * 4 * 0 = 0
  * 4 * -0 = 0
  */
-TEST(doubleFloatTest, Multiplication)
-{
+TEST(doubleFloatTest, Multiplication) {
     double v1 = 4;
     double v2 = 3;
     double v3 = 4;
@@ -185,7 +178,7 @@ TEST(doubleFloatTest, Multiplication)
     double vResult2 = -20;
     double vResult3 = 0;
     double vResult4 = 0;
-    
+
     carl::FLOAT_T<double> f1 = carl::FLOAT_T<double>(v1);
     carl::FLOAT_T<double> f2 = carl::FLOAT_T<double>(v2);
     carl::FLOAT_T<double> f3 = carl::FLOAT_T<double>(v3);
@@ -198,16 +191,16 @@ TEST(doubleFloatTest, Multiplication)
     carl::FLOAT_T<double> result2 = carl::FLOAT_T<double>(vResult2);
     carl::FLOAT_T<double> result3 = carl::FLOAT_T<double>(vResult3);
     carl::FLOAT_T<double> result4 = carl::FLOAT_T<double>(vResult4);
-    
+
     f1.mul_assign(f2, carl::CARL_RND::N);
     ASSERT_EQ(result1, f1);
-    
+
     f3.mul_assign(f4, carl::CARL_RND::N);
     ASSERT_EQ(result2, f3);
-    
+
     f5.mul_assign(f6, carl::CARL_RND::N);
     ASSERT_EQ(result3, f5);
-    
+
     f7.mul_assign(f8, carl::CARL_RND::N);
     ASSERT_EQ(result4, f7);
 }
@@ -219,8 +212,7 @@ TEST(doubleFloatTest, Multiplication)
  * -8 / -4 = 2
  * 8 / 0 dies
  */
-TEST(doubleFloatTest, Division)
-{
+TEST(doubleFloatTest, Division) {
     double v1 = 8;
     double v2 = 4;
     double v3 = 8;
@@ -232,7 +224,7 @@ TEST(doubleFloatTest, Division)
     double vResult1 = 2;
     double vResult2 = -4;
     double vResult3 = 2;
-    
+
     carl::FLOAT_T<double> f1 = carl::FLOAT_T<double>(v1);
     carl::FLOAT_T<double> f2 = carl::FLOAT_T<double>(v2);
     carl::FLOAT_T<double> f3 = carl::FLOAT_T<double>(v3);
@@ -244,18 +236,18 @@ TEST(doubleFloatTest, Division)
     carl::FLOAT_T<double> result1 = carl::FLOAT_T<double>(vResult1);
     carl::FLOAT_T<double> result2 = carl::FLOAT_T<double>(vResult2);
     carl::FLOAT_T<double> result3 = carl::FLOAT_T<double>(vResult3);
-    
+
     f1.div_assign(f2, carl::CARL_RND::N);
     ASSERT_EQ(result1, f1);
-    
+
     f3.div_assign(f4, carl::CARL_RND::N);
     ASSERT_EQ(result2, f3);
-    
+
     f5.div_assign(f6, carl::CARL_RND::N);
     ASSERT_EQ(result3, f5);
-    
+
 #ifndef NDEBUG
-	// This may not fail if we are not compiling in DEBUG mode.
+    // This may not fail if we are not compiling in DEBUG mode.
     ASSERT_DEATH(f7.div_assign(f8, carl::CARL_RND::N), ".*");
 #endif
 }
@@ -267,8 +259,7 @@ TEST(doubleFloatTest, Division)
  * root 256 8 = 2
  * sqrt -7 throws
  */
-TEST(doubleFloatTest, Roots)
-{
+TEST(doubleFloatTest, Roots) {
     double v1 = 16;
     double v2 = 27;
     double v3 = 256;
@@ -276,8 +267,7 @@ TEST(doubleFloatTest, Roots)
     double vResult1 = 4;
     double vResult2 = 3;
     double vResult3 = 2;
-    
-    
+
     carl::FLOAT_T<double> f1 = carl::FLOAT_T<double>(v1);
     carl::FLOAT_T<double> f2 = carl::FLOAT_T<double>(v2);
     carl::FLOAT_T<double> f3 = carl::FLOAT_T<double>(v3);
@@ -290,22 +280,18 @@ TEST(doubleFloatTest, Roots)
     ASSERT_EQ(result1, f1);
 
     // Todo: comparison doesn't work
-//    f2.cbrt_assign(carl::CARL_RND::N);
-//    ASSERT_EQ(result2, f2);
+    //    f2.cbrt_assign(carl::CARL_RND::N);
+    //    ASSERT_EQ(result2, f2);
 
     // Todo: yet to be implemented!
 //    f3.root_assign(i1, carl::CARL_RND::N);
 //    ASSERT_EQ(result3, f3);
 #ifndef NDEBUG
-	// This may not fail if we are not compiling in DEBUG mode.
+    // This may not fail if we are not compiling in DEBUG mode.
     ASSERT_DEATH(f4.sqrt_assign(carl::CARL_RND::N), ".*");
 #endif
 }
 
-TEST(doubleFloatTest, ConversionOperators)
-{
-}
+TEST(doubleFloatTest, ConversionOperators) {}
 
-TEST(doubleFloatTest, Precision)
-{
-}
+TEST(doubleFloatTest, Precision) {}

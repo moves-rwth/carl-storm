@@ -1,28 +1,27 @@
 #include "../Common.h"
 
-#include <carl/util/stringparser.h>
 #include <carl/core/MultivariatePolynomial.h>
 #include <carl/numbers/numbers.h>
+#include <carl/util/stringparser.h>
 
 #include <type_traits>
 #include <typeinfo>
 
 using namespace carl;
 
-class StringParserTest: public ::testing::Test {
-protected:
-	StringParserTest(): spSingleSymbExplicit() {}
-	void SetUp() override {
-		spSingleSymbExplicit.setImplicitMultiplicationMode(false);
-		spSingleSymbExplicit.setVariables({"x", "y", "z"});
-	}
-	StringParser spSingleSymbExplicit;
+class StringParserTest : public ::testing::Test {
+   protected:
+    StringParserTest() : spSingleSymbExplicit() {}
+    void SetUp() override {
+        spSingleSymbExplicit.setImplicitMultiplicationMode(false);
+        spSingleSymbExplicit.setVariables({"x", "y", "z"});
+    }
+    StringParser spSingleSymbExplicit;
 };
 
-TEST_F(StringParserTest, termsWithExplicitMultiplication)
-{
+TEST_F(StringParserTest, termsWithExplicitMultiplication) {
     const StringParser& sp = spSingleSymbExplicit;
-   
+
     EXPECT_NO_THROW(sp.parseTerm<mpq_class>("x*y^3*z^2"));
     Term<mpq_class> t1 = sp.parseTerm<mpq_class>("x*y^3*z^2");
     EXPECT_EQ((unsigned)6, t1.tdeg());
@@ -40,14 +39,11 @@ TEST_F(StringParserTest, termsWithExplicitMultiplication)
     EXPECT_EQ((mpq_class)3, t3.coeff());
     EXPECT_THROW(sp.parseTerm<mpq_class>("x^y"), InvalidInputStringException);
     EXPECT_THROW(sp.parseTerm<mpq_class>("3^3"), InvalidInputStringException);
-    
 }
 
-
-TEST_F(StringParserTest, polynomialsWithExplicitMultiplication)
-{
+TEST_F(StringParserTest, polynomialsWithExplicitMultiplication) {
     const StringParser& sp = spSingleSymbExplicit;
-    
+
     EXPECT_NO_THROW(sp.parseTerm<mpq_class>("x*y^3*z^2"));
     MultivariatePolynomial<mpq_class> p1 = sp.parseMultivariatePolynomial<mpq_class>("x*y^3*z^2");
     EXPECT_EQ((unsigned)1, p1.nrTerms());
@@ -61,8 +57,4 @@ TEST_F(StringParserTest, polynomialsWithExplicitMultiplication)
     EXPECT_THROW(sp.parseMultivariatePolynomial<mpq_class>("3^3"), InvalidInputStringException);
 }
 
-TEST_F(StringParserTest, rationalFunctionsWithExplicitMultiplication)
-{
-    
-}
-	
+TEST_F(StringParserTest, rationalFunctionsWithExplicitMultiplication) {}

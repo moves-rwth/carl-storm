@@ -3,46 +3,44 @@
  * @author Benedikt Seidl
  */
 
-
-#include "gtest/gtest.h"
 #include "../../carl/numbers/numbers.h"
+#include "gtest/gtest.h"
 
 #ifdef USE_MPFR_FLOAT
-TEST(mpfrFloatTest, Constructor)
-{
+TEST(mpfrFloatTest, Constructor) {
     // double constructor tests
     double dVal = 4;
     ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf1 = carl::FLOAT_T<mpfr_t>(dVal));
-    ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf2 = carl::FLOAT_T<mpfr_t>(dVal,carl::CARL_RND::A));
-    ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf3 = carl::FLOAT_T<mpfr_t>(dVal,carl::CARL_RND::A,10));
+    ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf2 = carl::FLOAT_T<mpfr_t>(dVal, carl::CARL_RND::A));
+    ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf3 = carl::FLOAT_T<mpfr_t>(dVal, carl::CARL_RND::A, 10));
     dVal = 0;
     EXPECT_TRUE(mpfr_zero_p(carl::FLOAT_T<mpfr_t>(dVal).value()) != 0);
 
     // float constructor tests
     float fVal = 4;
     ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf1 = carl::FLOAT_T<mpfr_t>(fVal));
-    ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf2 = carl::FLOAT_T<mpfr_t>(fVal,carl::CARL_RND::A));
-    ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf3 = carl::FLOAT_T<mpfr_t>(fVal,carl::CARL_RND::A,10));
+    ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf2 = carl::FLOAT_T<mpfr_t>(fVal, carl::CARL_RND::A));
+    ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf3 = carl::FLOAT_T<mpfr_t>(fVal, carl::CARL_RND::A, 10));
     fVal = 0;
     EXPECT_TRUE(mpfr_zero_p(carl::FLOAT_T<mpfr_t>(fVal).value()) != 0);
 
     // integer constructor tests
     int iVal = 4;
     ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf1 = carl::FLOAT_T<mpfr_t>(iVal));
-    ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf2 = carl::FLOAT_T<mpfr_t>(iVal,carl::CARL_RND::A));
-    ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf3 = carl::FLOAT_T<mpfr_t>(iVal,carl::CARL_RND::A,10));
+    ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf2 = carl::FLOAT_T<mpfr_t>(iVal, carl::CARL_RND::A));
+    ASSERT_NO_THROW(carl::FLOAT_T<mpfr_t> hf3 = carl::FLOAT_T<mpfr_t>(iVal, carl::CARL_RND::A, 10));
     iVal = 0;
     EXPECT_TRUE(mpfr_zero_p(carl::FLOAT_T<mpfr_t>(iVal).value()) != 0);
 
     // mpfr constructor tests
     mpfr_t mVal;
     mpfr_init(mVal);
-    mpfr_set_d(mVal,  3.14159265358979323846264338327950288419716939937510582097494459230781640628620899, MPFR_RNDNA);
+    mpfr_set_d(mVal, 3.14159265358979323846264338327950288419716939937510582097494459230781640628620899, MPFR_RNDNA);
     carl::FLOAT_T<mpfr_t> hf1 = carl::FLOAT_T<mpfr_t>(mVal);
-    //std::cout << hf1 << std::endl;
+    // std::cout << hf1 << std::endl;
     hf1.setPrecision(10);
     EXPECT_EQ(10, hf1.precision());
-    //std::cout << hf1 << std::endl;
+    // std::cout << hf1 << std::endl;
 
     // copy constructor test
     ASSERT_EQ(hf1, carl::FLOAT_T<mpfr_t>(hf1));
@@ -50,16 +48,15 @@ TEST(mpfrFloatTest, Constructor)
     SUCCEED();
 }
 
-TEST(mpfrFloatTest, Hash)
-{
-	std::hash<carl::FLOAT_T<mpfr_t>> hasher;
-	hasher(carl::FLOAT_T<mpfr_t>(10));
-	hasher(carl::FLOAT_T<mpfr_t>(-12.23648192394727230203828));
+TEST(mpfrFloatTest, Hash) {
+    std::hash<carl::FLOAT_T<mpfr_t>> hasher;
+    hasher(carl::FLOAT_T<mpfr_t>(10));
+    hasher(carl::FLOAT_T<mpfr_t>(-12.23648192394727230203828));
 
-	EXPECT_EQ(hasher(carl::FLOAT_T<mpfr_t>(10)), hasher(carl::FLOAT_T<mpfr_t>(10)));
-	EXPECT_EQ(hasher(carl::FLOAT_T<mpfr_t>(0)), hasher(carl::FLOAT_T<mpfr_t>(0)));
+    EXPECT_EQ(hasher(carl::FLOAT_T<mpfr_t>(10)), hasher(carl::FLOAT_T<mpfr_t>(10)));
+    EXPECT_EQ(hasher(carl::FLOAT_T<mpfr_t>(0)), hasher(carl::FLOAT_T<mpfr_t>(0)));
 
-	SUCCEED();
+    SUCCEED();
 }
 
 /*
@@ -71,8 +68,7 @@ TEST(mpfrFloatTest, Hash)
  * 7 <= 7
  * 7 == 7
  */
-TEST(mpfrFloatTest, BooleanOperators)
-{
+TEST(mpfrFloatTest, BooleanOperators) {
     double v1 = 7;
     carl::FLOAT_T<mpfr_t> f1 = carl::FLOAT_T<mpfr_t>(v1);
     double v2 = 2;
@@ -95,8 +91,7 @@ TEST(mpfrFloatTest, BooleanOperators)
  * 7 + 0 = 7
  * 7 + -0 = 7
  */
-TEST(mpfrFloatTest, Addition)
-{
+TEST(mpfrFloatTest, Addition) {
     double v1 = 7;
     double v2 = 2;
     double v3 = 7;
@@ -123,7 +118,6 @@ TEST(mpfrFloatTest, Addition)
     carl::FLOAT_T<mpfr_t> result3 = carl::FLOAT_T<mpfr_t>(vResult3);
     carl::FLOAT_T<mpfr_t> result4 = carl::FLOAT_T<mpfr_t>(vResult4);
 
-
     f1.add_assign(f2, carl::CARL_RND::N);
     ASSERT_EQ(result1, f1);
 
@@ -144,8 +138,7 @@ TEST(mpfrFloatTest, Addition)
  * 9 - 0 = 9
  * 9 - -0 = 9
  */
-TEST(mpfrFloatTest, Subtraction)
-{
+TEST(mpfrFloatTest, Subtraction) {
     double v1 = 9;
     double v2 = 5;
     double v3 = 9;
@@ -159,10 +152,10 @@ TEST(mpfrFloatTest, Subtraction)
     double vResult3 = 9;
     double vResult4 = 9;
 
-	double dUnary = 5;
-	double dUnaryResult = -5;
-	double dUnary2 = -3;
-	double dUnaryResult2 = 3;
+    double dUnary = 5;
+    double dUnaryResult = -5;
+    double dUnary2 = -3;
+    double dUnaryResult2 = 3;
 
     carl::FLOAT_T<mpfr_t> f1 = carl::FLOAT_T<mpfr_t>(v1);
     carl::FLOAT_T<mpfr_t> f2 = carl::FLOAT_T<mpfr_t>(v2);
@@ -177,10 +170,10 @@ TEST(mpfrFloatTest, Subtraction)
     carl::FLOAT_T<mpfr_t> result3 = carl::FLOAT_T<mpfr_t>(vResult3);
     carl::FLOAT_T<mpfr_t> result4 = carl::FLOAT_T<mpfr_t>(vResult4);
 
-	carl::FLOAT_T<mpfr_t> unary = carl::FLOAT_T<mpfr_t>(dUnary);
-	carl::FLOAT_T<mpfr_t> unaryResult = carl::FLOAT_T<mpfr_t>(dUnaryResult);
-	carl::FLOAT_T<mpfr_t> unary2 = carl::FLOAT_T<mpfr_t>(dUnary2);
-	carl::FLOAT_T<mpfr_t> unaryResult2 = carl::FLOAT_T<mpfr_t>(dUnaryResult2);
+    carl::FLOAT_T<mpfr_t> unary = carl::FLOAT_T<mpfr_t>(dUnary);
+    carl::FLOAT_T<mpfr_t> unaryResult = carl::FLOAT_T<mpfr_t>(dUnaryResult);
+    carl::FLOAT_T<mpfr_t> unary2 = carl::FLOAT_T<mpfr_t>(dUnary2);
+    carl::FLOAT_T<mpfr_t> unaryResult2 = carl::FLOAT_T<mpfr_t>(dUnaryResult2);
 
     f1.sub_assign(f2, carl::CARL_RND::N);
     ASSERT_EQ(result1, f1);
@@ -194,10 +187,10 @@ TEST(mpfrFloatTest, Subtraction)
     f7.sub_assign(f8, carl::CARL_RND::N);
     ASSERT_EQ(result4, f7);
 
-	unary = -unary;
-	unary2 = -unary2;
-	ASSERT_EQ(unaryResult, unary);
-	ASSERT_EQ(unaryResult2, unary2);
+    unary = -unary;
+    unary2 = -unary2;
+    ASSERT_EQ(unaryResult, unary);
+    ASSERT_EQ(unaryResult2, unary2);
 }
 
 /*
@@ -207,8 +200,7 @@ TEST(mpfrFloatTest, Subtraction)
  * 4 * 0 = 0
  * 4 * -0 = 0
  */
-TEST(mpfrFloatTest, Multiplication)
-{
+TEST(mpfrFloatTest, Multiplication) {
     double v1 = 4;
     double v2 = 3;
     double v3 = 4;
@@ -255,8 +247,7 @@ TEST(mpfrFloatTest, Multiplication)
  * -8 / -4 = 2
  * 8 / 0 dies
  */
-TEST(mpfrFloatTest, Division)
-{
+TEST(mpfrFloatTest, Division) {
     double v1 = 8;
     double v2 = 4;
     double v3 = 8;
@@ -301,8 +292,7 @@ TEST(mpfrFloatTest, Division)
  * root 256 8 = 2
  * sqrt -7 throws
  */
-TEST(mpfrFloatTest, Roots)
-{
+TEST(mpfrFloatTest, Roots) {
     double v1 = 16;
     double v2 = 27;
     double v3 = 256;
@@ -333,11 +323,7 @@ TEST(mpfrFloatTest, Roots)
 #endif
 }
 
-TEST(mpfrFloatTest, ConversionOperators)
-{
-}
+TEST(mpfrFloatTest, ConversionOperators) {}
 
-TEST(mpfrFloatTest, Precision)
-{
-}
+TEST(mpfrFloatTest, Precision) {}
 #endif

@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
 #include "carl/core/ConstraintOperations.h"
 #include "carl/util/stringparser.h"
+#include "gtest/gtest.h"
 
 #include "../Common.h"
 
