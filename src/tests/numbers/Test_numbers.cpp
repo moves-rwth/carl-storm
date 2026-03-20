@@ -104,10 +104,72 @@ TYPED_TEST(RationalNumbers, Squareroot) {
 	}
 	{
 		TypeParam a = TypeParam("93536104789177766012087302264675950042191285291185")/TypeParam("93536104789177786765035829293842113257979682750464");
-		std::pair<TypeParam, TypeParam> resultA = carl::sqrt_safe(a);
-		EXPECT_LE(resultA.first*resultA.first, a);
-		EXPECT_LE(a, resultA.second*resultA.second);
+		std::pair<TypeParam, TypeParam> res = carl::sqrt_safe(a);
+		EXPECT_LE(res.first*res.first, a);
+		EXPECT_LE(a, res.second*res.second);
 	}
+}
+
+TYPED_TEST(RationalNumbers, Sqrt_precision) {
+    TypeParam precision = TypeParam(1)/TypeParam(100000);
+    {
+        TypeParam a = TypeParam(2);
+        std::pair<TypeParam, TypeParam> res = carl::sqrt_precision(a, precision);
+        EXPECT_LE(res.first*res.first, a);
+        EXPECT_LE(a, res.second*res.second);
+        EXPECT_LE(res.second - res.first, precision * res.second);
+    }
+    {
+        TypeParam a = TypeParam(2)/TypeParam(3);
+        std::pair<TypeParam, TypeParam> res = carl::sqrt_precision(a, precision);
+        EXPECT_LE(res.first*res.first, a);
+        EXPECT_LE(a, res.second*res.second);
+        EXPECT_LE(res.second - res.first, precision * res.second);
+    }
+    {
+        TypeParam a = TypeParam("93536104789177766012087302264675950042191285291185")/TypeParam("93536104789177786765035829293842113257979682750464");
+        std::pair<TypeParam, TypeParam> res = carl::sqrt_precision(a, precision);
+        EXPECT_LE(res.first*res.first, a);
+        EXPECT_LE(a, res.second*res.second);
+        EXPECT_LE(res.second - res.first, precision * res.second);
+    }
+    {
+        TypeParam a = TypeParam("93536104789177766012087302264675950042191285291185");
+        std::pair<TypeParam, TypeParam> res = carl::sqrt_precision(a, precision);
+        EXPECT_LE(res.first*res.first, a);
+        EXPECT_LE(a, res.second*res.second);
+        EXPECT_LE(res.second - res.first, precision * res.second);
+    }
+    {
+        // Perform randomized tests
+        const size_t runs = 1000000;
+	    std::srand(std::time({})); // use current time as seed for random generator
+	    for (size_t i = 0; i < runs; ++i) {
+		    TypeParam num = TypeParam(std::rand()) * RAND_MAX + TypeParam(std::rand());
+		    TypeParam denom = TypeParam(std::rand()) * RAND_MAX + TypeParam(std::rand());
+		    TypeParam precision = TypeParam(1) / TypeParam(std::rand() + 1 % 1000000000);
+		    TypeParam a = num/denom;
+		    std::pair<TypeParam, TypeParam> res = carl::sqrt_precision(a, precision);
+	        EXPECT_LE(res.first*res.first, a);
+		    EXPECT_LE(a, res.second*res.second);
+		    EXPECT_LE(res.second - res.first, precision * res.second);
+	    }
+	    for (size_t i = 0; i < runs; ++i) {
+		    TypeParam num = TypeParam(std::rand());
+		    TypeParam denom = TypeParam(1);
+		    TypeParam precision = TypeParam(1) / TypeParam(std::rand() + 1 % 1000000000);
+		    TypeParam a = num/denom;
+		    TypeParam b = denom/num;
+		    std::pair<TypeParam, TypeParam> resA = carl::sqrt_precision(a, precision);
+		    std::pair<TypeParam, TypeParam> resB = carl::sqrt_precision(b, precision);
+	        EXPECT_LE(resA.first*resA.first, a);
+		    EXPECT_LE(a, resA.second*resA.second);
+		    EXPECT_LE(resA.second - resA.first, precision * resA.second);
+		    EXPECT_LE(resB.first*resB.first, b);
+		    EXPECT_LE(b, resB.second*resB.second);
+		    EXPECT_LE(resB.second - resB.first, precision * resB.second);
+	    }
+    }
 }
 
 TYPED_TEST(RationalNumbers, Sqrt_fast) {
