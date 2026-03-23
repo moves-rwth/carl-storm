@@ -50,7 +50,7 @@ jobs:
   update_storm:
     # Trigger generation of PR in Storm which updates the carl-storm version
     needs: [deploy_docker, deploy_docker_stable]
-    uses: moves-rwth/storm/.github/workflows/update_carl.yml@master
+    uses: stormchecker/storm/.github/workflows/update_carl.yml@master
     with:
       carl_version: ${{ github.event.release.tag_name }}
     secrets:
