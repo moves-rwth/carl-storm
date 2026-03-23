@@ -9,7 +9,7 @@ The following steps should be performed before releasing a new carl-storm versio
      git log last_tag..HEAD
      ```
 
-2. Check that carl-storm [CI](https://github.com/moves-rwth/carl-storm/actions/) builds without errors and all tests are successful.
+2. Check that carl-storm [CI](https://github.com/stormchecker/carl-storm/actions/) builds without errors and all tests are successful.
 
 3. Set new carl-storm version in `CMakeLists.txt`.
 
@@ -19,9 +19,9 @@ The following steps should be performed before releasing a new carl-storm versio
    git tag -a X.Y -m "Carl version X.Y" -s
    git push origin X.Y
    ```
-   The new tag should now be visible on [GitHub](https://github.com/moves-rwth/carl-storm/tags).
+   The new tag should now be visible on [GitHub](https://github.com/stormchecker/carl-storm/tags).
 
-5. [Add new release](https://github.com/moves-rwth/carl-storm/releases/new) on GitHub.
+5. [Add new release](https://github.com/stormchecker/carl-storm/releases/new) on GitHub.
    Create a new tag or use the tag created in the previous step.
    Finishing the release automatically triggers a CI workflow which also
    * updates the `stable` branch
