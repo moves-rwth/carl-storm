@@ -264,7 +264,7 @@ TEST(MultivariatePolynomial, Substitute)
     EXPECT_EQ(MultivariatePolynomial<Rational>((Rational)4 * v1), mp.substitute(substitutions));
     Variable x = freshRealVariable("x");
 
-    #ifdef USE_GINAC
+    #ifdef CARL_USE_GINAC
 	Variable v = freshRealVariable("v");
 	Variable y = freshRealVariable("y");
 	Variable z = freshRealVariable("z");

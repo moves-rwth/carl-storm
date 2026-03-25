@@ -9,7 +9,7 @@
 
 namespace carl
 {
-#ifdef PRUNE_MONOMIAL_POOL
+#ifdef CARL_PRUNE_MONOMIAL_POOL
 	Monomial::Arg MonomialPool::add( MonomialPool::PoolEntry&& pe, exponent totalDegree) {
 		MONOMIAL_POOL_LOCK_GUARD
 		auto iter = mPool.insert(std::move(pe));

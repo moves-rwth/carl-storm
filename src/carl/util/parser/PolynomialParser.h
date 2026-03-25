@@ -11,7 +11,7 @@
 #include <carl/numbers/numbers.h>
 
 #if BOOST_VERSION >= 105900
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 namespace boost { namespace spirit { namespace traits {
     template<> inline bool scale(int exp, cln::cl_RA& r, cln::cl_RA acc) {
         if (exp >= 0)
@@ -45,7 +45,7 @@ namespace boost { namespace spirit { namespace traits {
     }
 }}}
 #else
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 namespace boost { namespace spirit { namespace traits {
     template<> inline void scale(int exp, cln::cl_RA& n) {
         if (exp >= 0)

@@ -3,4 +3,4 @@
  */ 
 #pragma once
 
-#cmakedefine USE_GINAC
+#cmakedefine CARL_USE_GINAC

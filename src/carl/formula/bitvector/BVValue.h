@@ -33,7 +33,7 @@ namespace carl
         {
 			mValue.resize(_width);
         }
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
         explicit BVValue(std::size_t _width, const cln::cl_I& _value) :
         	mValue(_width)
         {

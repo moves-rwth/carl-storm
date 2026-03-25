@@ -10,7 +10,7 @@
 #include <random>
 #include <map>
 
-#ifdef USE_COCOA
+#ifdef CARL_USE_COCOA
 
 #include "CoCoA/library.H"
 

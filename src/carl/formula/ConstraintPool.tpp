@@ -28,7 +28,7 @@ namespace carl
         if( needs_cache<Pol>::value )
         {
             mpPolynomialCache = std::shared_ptr<typename Pol::CACHE>(new typename Pol::CACHE());
-#ifdef USE_GINAC
+#ifdef CARL_USE_GINAC
             setGinacConverterPolynomialCache<Pol>( mpPolynomialCache );
 #endif
         }

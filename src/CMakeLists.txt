@@ -5,7 +5,7 @@ add_subdirectory(carl)
 # We decided to always compile them by default and if gtest is present,
 # since non-compiling tests are a major blocker of development.
 if(PROJECT_IS_TOP_LEVEL)
-    if (EXCLUDE_TESTS_FROM_ALL)
+    if (CARL_EXCLUDE_TESTS_FROM_ALL)
         add_subdirectory(tests EXCLUDE_FROM_ALL)
     else()
         add_subdirectory(tests)

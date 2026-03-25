@@ -72,7 +72,7 @@ private:
 	std::string mVariablePrefix;
     
     
-    #ifdef THREAD_SAFE
+    #ifdef CARL_THREAD_SAFE
     #define FRESHVAR_LOCK_GUARD std::lock_guard<std::mutex> lock1( freshVarMutex );
     #define SETNAME_LOCK_GUARD std::lock_guard<std::mutex> lock2( setNameMutex );
     #else

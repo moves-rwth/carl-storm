@@ -4,7 +4,7 @@
 
 namespace carl {
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 	template<>
 	class Number<cln::cl_I> ;
 #endif
@@ -25,7 +25,7 @@ namespace carl {
 		Number(long long int n) : BaseNumber(n) {} // NOLINT
 		Number(unsigned long long int n): BaseNumber(n) {} // NOLINT
 		explicit Number(const std::string& s) : BaseNumber(s) {}
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 		explicit Number(const Number<cln::cl_I>& n);
 #endif
 

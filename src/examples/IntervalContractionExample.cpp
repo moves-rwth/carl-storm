@@ -13,7 +13,7 @@
 #include <chrono>
 #include <set>
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 #include <cln/cln.h>
 typedef cln::cl_RA Rational;
 typedef cln::cl_I Integer;

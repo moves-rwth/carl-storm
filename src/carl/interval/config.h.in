@@ -1,1 +1,1 @@
-#cmakedefine USE_MPFR_FLOAT
+#cmakedefine CARL_USE_MPFR_FLOAT

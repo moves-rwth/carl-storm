@@ -11,7 +11,7 @@
 namespace carl
 {
 	Monomial::~Monomial() {
-#ifdef PRUNE_MONOMIAL_POOL
+#ifdef CARL_PRUNE_MONOMIAL_POOL
 		MonomialPool::getInstance().free(this);
 #endif
 	}

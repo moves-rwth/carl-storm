@@ -6,7 +6,7 @@
 
 #include "../Common.h"
 
-#ifdef USE_COCOA
+#ifdef CARL_USE_COCOA
 TEST(LazardEvaluation, Test)
 {
 	using Poly = carl::MultivariatePolynomial<Rational>;

@@ -1,7 +1,7 @@
 #include "FLOAT_T.h"
 
 
-#ifdef USE_MPFR_FLOAT
+#ifdef CARL_USE_MPFR_FLOAT
 namespace carl {
 
 

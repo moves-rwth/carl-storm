@@ -120,7 +120,7 @@ int execute(std::ostream& os = std::cout)
 
 int main (int, char** ) 
 {
-    #ifdef USE_CLN_NUMBERS
+    #ifdef CARL_USE_CLN_NUMBERS
     execute<cln::cl_RA, GrLexOrdering, StdMultivariatePolynomialPolicies<NoReasons, NoAllocator>>();
     #else
     execute<mpq_class, GrLexOrdering, StdMultivariatePolynomialPolicies<NoReasons, NoAllocator>>();

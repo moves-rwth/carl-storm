@@ -17,7 +17,7 @@
 
 #include "../Common.h"
 
-#ifdef USE_MPFR_FLOAT
+#ifdef CARL_USE_MPFR_FLOAT
 
 using namespace carl;
 

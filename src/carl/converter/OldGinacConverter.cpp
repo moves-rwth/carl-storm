@@ -1,6 +1,6 @@
 #include "OldGinacConverter.h"
 
-#ifdef USE_GINAC
+#ifdef CARL_USE_GINAC
 namespace carl
 {
 template<typename Poly>

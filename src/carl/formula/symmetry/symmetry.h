@@ -18,7 +18,7 @@ using Symmetries = std::vector<Symmetry>;
 }
 }
 
-#ifdef USE_BLISS
+#ifdef CARL_USE_BLISS
 
 #include "SymmetryFinder.h"
 #include "SymmetryBreaker.h"

@@ -21,7 +21,7 @@ Using `[t]`, you can enable the _advanced mode_ that shows all options. Most of 
 
 ### General 
 
-- *BUILD_STATIC* [ON, OFF] <br>
+- *CARL_BUILD_STATIC* [ON, OFF] <br>
   If set to *ON*, carl is built as shared and static library, otherwise only as shared library.
 
 - *CMAKE_BUILD_TYPE* [Release, Debug]
@@ -33,21 +33,21 @@ Using `[t]`, you can enable the _advanced mode_ that shows all options. Most of 
   - `/usr/bin/g++`: Uses `g++`.
   - `/usr/bin/clang++`: Uses `clang`.
 
-- *USE_CLN_NUMBERS* [ON, OFF] <br>
+- *CARL_USE_CLN_NUMBERS* [ON, OFF] <br>
   If set to *ON*, CLN number types can be used in addition to GMP number types.
 
-- *USE_COCOA* [ON, OFF] <br />
+- *CARL_USE_COCOA* [ON, OFF] <br />
   If set to *ON*, CoCoALib can be used for advanced polynomial operations, for example multivariate gcd or factorization.
 
 - *USE_COTIRE* [ON, OFF] <br>
   If set to *ON*, `cotire` is used to produce precompiled headers. This can reduce the compile time significantly.
 
-- *USE_GINAC* [ON, OFF] <br>
-  If set to *ON*, GiNaC can be used for some polynomial operations. Note that this implies *USE_CLN_NUMBERS = ON*.
+- *CARL_USE_GINAC* [ON, OFF] <br>
+  If set to *ON*, GiNaC can be used for some polynomial operations. Note that this implies *CARL_USE_CLN_NUMBERS = ON*.
 
 ### Debugging
 
-- *DEVELOPER* <br>
+- *CARL_DEVELOPER* <br>
   Enables additional compiler warnings.
 
 - *LOGGING* [ON, OFF] <br>

@@ -11,7 +11,7 @@ namespace carl {
 
 class CArLConverter {
 public:
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 	mpq_class toGMP(const cln::cl_RA& n) {
 		std::stringstream ss1;
 		ss1 << carl::getDenom(n);
@@ -22,7 +22,7 @@ public:
 		return carl::quotient(num, denom);
 	}
 #endif
-#ifdef USE_Z3_NUMBERS
+#ifdef CARL_USE_Z3_NUMBERS
 	mpz toZ3MPZ(const cln::cl_I& n) {
 		mpz res;
 		std::stringstream ss;

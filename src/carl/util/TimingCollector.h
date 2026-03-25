@@ -43,7 +43,7 @@ inline std::ostream& operator<<(std::ostream& os, const TimingCollector& tc) {
 	return os;
 }
 
-#ifdef TIMING
+#ifdef CARL_TIMING
 #define CARL_TIME_START() carl::TimingCollector::getInstance().start()
 #define CARL_TIME_FINISH(name, start) carl::TimingCollector::getInstance().finish(name, start)
 #else

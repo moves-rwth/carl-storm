@@ -29,23 +29,23 @@ target_include_directories( lib_carl PUBLIC
 	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
 )
 target_link_libraries(lib_carl PUBLIC GMPXX_SHARED GMP_SHARED eigencarl Boost::headers ${CMAKE_DL_LIBS} pthread)
-if(USE_BLISS)
+if(CARL_USE_BLISS)
 	target_link_libraries(lib_carl PUBLIC BLISS_SHARED)
 endif()
-if(USE_CLN_NUMBERS)
+if(CARL_USE_CLN_NUMBERS)
 	target_link_libraries(lib_carl PUBLIC CLN_SHARED)
 endif()
-if(USE_COCOA)
+if(CARL_USE_COCOA)
 	target_link_libraries(lib_carl PUBLIC COCOA_STATIC)
 endif()
-if(USE_GINAC)
+if(CARL_USE_GINAC)
 	target_link_libraries(lib_carl PUBLIC GINAC_SHARED)
 endif()
-if(USE_MPFR_FLOAT)
+if(CARL_USE_MPFR_FLOAT)
 	target_link_libraries(lib_carl PUBLIC MPFR_SHARED)
 endif()
 
-if(BUILD_STATIC)
+if(CARL_BUILD_STATIC)
 	add_library(lib_carl_static STATIC ${carl_lib_sources})
 	add_dependencies(lib_carl_static carl_resources)
 	set_target_properties( lib_carl_static PROPERTIES
@@ -61,19 +61,19 @@ if(BUILD_STATIC)
         set_target_properties( lib_carl_static PROPERTIES LINK_SEARCH_START_STATIC TRUE )
 
 	target_link_libraries(lib_carl_static PUBLIC eigencarl GMPXX_STATIC GMP_STATIC Boost_STATIC ${CMAKE_DL_LIBS} pthread)
-	if(USE_BLISS)
+	if(CARL_USE_BLISS)
 		target_link_libraries(lib_carl_static PUBLIC BLISS_STATIC)
 	endif()
-	if(USE_CLN_NUMBERS)
+	if(CARL_USE_CLN_NUMBERS)
 		target_link_libraries(lib_carl_static PUBLIC CLN_STATIC)
 	endif()
-	if(USE_COCOA)
+	if(CARL_USE_COCOA)
 		target_link_libraries(lib_carl_static PUBLIC COCOA_STATIC Boost_system_STATIC)
 	endif()
-	if(USE_GINAC)
+	if(CARL_USE_GINAC)
 		target_link_libraries(lib_carl_static PUBLIC GINAC_STATIC)
 	endif()
-	if(USE_MPFR_FLOAT)
+	if(CARL_USE_MPFR_FLOAT)
 		target_link_libraries(lib_carl_static PUBLIC MPFR_STATIC)
 	endif()
 
@@ -98,7 +98,7 @@ install(
 		ARCHIVE DESTINATION ${CARL_LIB_INSTALL_DIR}
 )
 
-if(BUILD_STATIC)
+if(CARL_BUILD_STATIC)
 	install(
 			TARGETS lib_carl_static
 			RUNTIME DESTINATION ${CARL_BIN_INSTALL_DIR}

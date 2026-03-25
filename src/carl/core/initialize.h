@@ -14,7 +14,7 @@
 #include "config.h"
 #include "logging.h"
 
-#ifdef USE_COCOA
+#ifdef CARL_USE_COCOA
 #include <CoCoA/GlobalManager.H>
 #endif
 
@@ -35,7 +35,7 @@ namespace carl
         // initialize anything else here!
 		MonomialPool::getInstance();
 
-#ifdef USE_COCOA
+#ifdef CARL_USE_COCOA
         static CoCoA::GlobalManager CoCoAFoundations;
 #endif
 

@@ -92,8 +92,8 @@ TEST(Contraction, SimpleNewton)
     EXPECT_EQ(resultA.isEmpty(), true);
 }
 
-#ifndef THREAD_SAFE
-#ifdef USE_CLN_NUMBERS
+#ifndef CARL_THREAD_SAFE
+#ifdef CARL_USE_CLN_NUMBERS
 typedef cln::cl_RA RationalB;
 
 TEST(Contraction, WithPropagation)

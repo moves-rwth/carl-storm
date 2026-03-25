@@ -9,7 +9,7 @@
 #include "../carl/interval/rounding.h"
 #include "../carl/numbers/numbers.h"
 
-#ifdef USE_MPFR_FLOAT
+#ifdef CARL_USE_MPFR_FLOAT
 void toInt(mpz_t intRep, mpfr_t a) {
 	//std::cout << "Bits per limb " << mp_bits_per_limb << std::endl;
 	//std::cout << "Number limbs " << std::ceil(double(a->_mpfr_prec)/double(mp_bits_per_limb)) << std::endl;
@@ -209,7 +209,7 @@ unsigned distance(mpfr_t a, mpfr_t b) {
 
 int main (int argc, char** argv)
 {
-#ifdef USE_MPFR_FLOAT
+#ifdef CARL_USE_MPFR_FLOAT
 	//carl::FLOAT_T<mpfr_t> eps = std::numeric_limits<carl::FLOAT_T<mpfr_t>>::epsilon();
 	carl::FLOAT_T<mpfr_t> eps = carl::FLOAT_T<mpfr_t>::maxval();
 	char out[1000];
@@ -222,7 +222,7 @@ int main (int argc, char** argv)
 
 
 	/*
-#ifdef USE_MPFR_FLOAT
+#ifdef CARL_USE_MPFR_FLOAT
 	/*
 	mpfr_ptr numberA = new mpfr_t();
 	mpfr_init(numberA);

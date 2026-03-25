@@ -11,7 +11,7 @@
 
 using namespace carl;
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 
 TEST(DiophantineEquation, extended_gcd_integer) {
 	cln::cl_I s, t, a, b;

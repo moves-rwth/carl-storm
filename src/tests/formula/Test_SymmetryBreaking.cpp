@@ -31,7 +31,7 @@ TEST(Symmetry, BlissBase)
 	FormulaT fB(Constr(lhsB, carl::Relation::EQ));
 	FormulaT f(carl::FormulaType::AND, {fA, fB});
 
-#ifdef USE_BLISS
+#ifdef CARL_USE_BLISS
 	FormulaT symm(Constr(Rational(1)*x - Rational(1)*y, carl::Relation::LEQ));
 #else
 	FormulaT symm(carl::FormulaType::TRUE);

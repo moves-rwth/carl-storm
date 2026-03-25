@@ -7,7 +7,7 @@
 #include "gtest/gtest.h"
 #include "../../carl/numbers/numbers.h"
 
-#ifdef USE_MPFR_FLOAT
+#ifdef CARL_USE_MPFR_FLOAT
 TEST(mpfrFloatTest, Constructor)
 {
     // double constructor tests

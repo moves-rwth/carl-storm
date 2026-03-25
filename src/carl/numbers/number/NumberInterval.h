@@ -9,7 +9,7 @@
 namespace carl {
 
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 
 	template<>
 	class Number<Interval<cln::cl_I>> : public BaseNumber<Interval<cln::cl_I>,Number<Interval<cln::cl_I>>> {

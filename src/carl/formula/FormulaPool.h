@@ -46,7 +46,7 @@ namespace carl
             ///
             FastPointerMap<FormulaContent<Pol>,typename FastPointerMap<FormulaContent<Pol>,const FormulaContent<Pol>*>::iterator> mTseitinVarToFormula;
             
-            #ifdef THREAD_SAFE
+            #ifdef CARL_THREAD_SAFE
             #define FORMULA_POOL_LOCK_GUARD std::lock_guard<std::recursive_mutex> lock( mMutexPool );
             #define FORMULA_POOL_LOCK mMutexPool.lock();
             #define FORMULA_POOL_UNLOCK mMutexPool.unlock();

@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef USE_COCOA
+#ifdef CARL_USE_COCOA
 #include "../core/MonomialPool.h"
 #include "../core/Term.h"
 #include "../core/Variable.h"

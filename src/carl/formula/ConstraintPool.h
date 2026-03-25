@@ -39,7 +39,7 @@ namespace carl
             /// Pointer to the polynomial cache, if cache is needed of the polynomial type, otherwise, it is nullptr.
             std::shared_ptr<typename Pol::CACHE> mpPolynomialCache;
             
-            #ifdef THREAD_SAFE
+            #ifdef CARL_THREAD_SAFE
             #define CONSTRAINT_POOL_LOCK_GUARD std::lock_guard<std::recursive_mutex> lock1( mMutexPool );
             #define CONSTRAINT_POOL_LOCK mMutexPool.lock();
             #define CONSTRAINT_POOL_UNLOCK mMutexPool.unlock();

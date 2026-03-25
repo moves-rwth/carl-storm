@@ -4,7 +4,7 @@
 #include "carl/util/stringparser.h"
 #include "carl/interval/IntervalEvaluation.h"
 
-#ifdef USE_GINAC
+#ifdef CARL_USE_GINAC
 #include <cln/cln.h>
 typedef cln::cl_RA Rational;
 #else

@@ -13,7 +13,7 @@ template<typename T>
 class PrimeFactory
 {
 	static std::vector<T> mPrimes;
-#ifdef THREAD_SAFE
+#ifdef CARL_THREAD_SAFE
 	static std::mutex mPrimeMutex;
 #endif
 	std::size_t mNext = 0;
@@ -41,7 +41,7 @@ std::vector<T> PrimeFactory<T>::mPrimes = {
 	2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
 	43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
 };
-#ifdef THREAD_SAFE
+#ifdef CARL_THREAD_SAFE
 template<typename T>
 std::mutex PrimeFactory<T>::mPrimeMutex;
 #endif
@@ -63,7 +63,7 @@ namespace detail {
 		return res;
 	}
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 	inline cln::cl_I next_prime(const cln::cl_I& n, const PrimeFactory<cln::cl_I>&) {
 		return cln::nextprobprime(n + 1);
 	}
@@ -73,7 +73,7 @@ namespace detail {
 template<typename T>
 const T& PrimeFactory<T>::nextPrime() {
 	if (mNext == mPrimes.size()) {
-#ifdef THREAD_SAFE
+#ifdef CARL_THREAD_SAFE
 		std::lock_guard<std::mutex> guard(mPrimeMutex);
 #endif
 		mPrimes.emplace_back(detail::next_prime(mPrimes.back(), *this));

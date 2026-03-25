@@ -5,7 +5,7 @@
 #include "carl/core/MultivariatePolynomial.h"
 #include "carl/interval/Interval.h"
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 #include <cln/cln.h>
 typedef cln::cl_RA Rational;
 typedef cln::cl_I Integer;

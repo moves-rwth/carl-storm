@@ -352,7 +352,7 @@ namespace carl
             
             explicit Constraint( const ConstraintContent<Pol>* _content );
             
-            #ifdef THREAD_SAFE
+            #ifdef CARL_THREAD_SAFE
             #define VARINFOMAP_LOCK_GUARD std::lock_guard<std::mutex> lock1( mpContent->mVarInfoMapMutex );
             #define FACTORIZATION_LOCK_GUARD std::lock_guard<std::mutex> lock1( mpContent->mFactorizationMutex );
             #define FACTORIZATION_LOCK mpContent->mFactorizationMutex.lock();
