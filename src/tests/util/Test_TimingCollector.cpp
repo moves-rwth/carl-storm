@@ -1,6 +1,6 @@
 #include "../Common.h"
 
-#define TIMING
+#define CARL_TIMING
 #include <carl/util/TimingCollector.h>
 #include <thread>
 

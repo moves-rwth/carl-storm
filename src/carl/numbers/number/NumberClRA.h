@@ -5,7 +5,7 @@
 
 namespace carl {
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 
 	//TODO: where to put this?
 	//NOTE: this can only be uncommented once adaption_cln/operations.h is not used anymore (defined twice)

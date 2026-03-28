@@ -11,7 +11,7 @@
 
 #include "../../util/platform.h"
 CLANG_WARNING_DISABLE("-Wsign-conversion")
-#ifdef USE_MPFR_FLOAT
+#ifdef CARL_USE_MPFR_FLOAT
 #include <mpfr.h>
 #endif
 CLANG_WARNING_RESET
@@ -37,7 +37,7 @@ namespace carl {
 			return _rnd;
 		}
 	};
-#ifdef USE_MPFR_FLOAT
+#ifdef CARL_USE_MPFR_FLOAT
 	// mpfr specialization
 	template<>
 	struct convRnd<mpfr_ptr>

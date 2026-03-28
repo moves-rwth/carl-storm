@@ -6,7 +6,7 @@
 #include "../../carl/formula/FormulaPool.h"
 #include "../../carl/formula/SortManager.h"
 #include "../../carl/numbers/config.h"
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 #include <cln/cln.h>
 #endif
 
@@ -65,7 +65,7 @@ TEST(BVConstraint, Construction)
     BVConstraint simplifyMeToo = BVConstraint::create(BVCompareRelation::SGT, oxfff0, oxaa33);
     EXPECT_TRUE(simplifyMeToo == BVConstraint::create(true));
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
     // Test BVValue construction from CLN / GMP objects
     // (every 8-bit value)
     for(int i=-256;i<=256;++i) {

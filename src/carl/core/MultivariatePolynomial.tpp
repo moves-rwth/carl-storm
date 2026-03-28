@@ -1409,7 +1409,7 @@ bool operator==(const MultivariatePolynomial<C,O,P>& lhs, const MultivariatePoly
 	if (&lhs == &rhs) return true;
 	if (lhs.nrTerms() != rhs.nrTerms()) return false;
 	if (lhs.nrTerms() == 0) return true;
-#ifdef THREAD_SAFE
+#ifdef CARL_THREAD_SAFE
 	static std::mutex mutex;
 	std::lock_guard<std::mutex> lock(mutex);
 #endif

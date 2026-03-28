@@ -2,7 +2,7 @@
 
 #include "../config.h"
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 namespace carl {
 
     template<>

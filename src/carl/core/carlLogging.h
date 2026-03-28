@@ -16,7 +16,7 @@
 #include <map>
 #include <mutex>
 #include <sstream>
-#ifdef THREAD_SAFE
+#ifdef CARL_THREAD_SAFE
 #include <thread>
 #endif
 #include <utility>
@@ -272,7 +272,7 @@ public:
 		if (!printInformation) return;
 		os.fill(' ');
 		//os << "[" << std::right << std::setw(5) << timer << "] ";
-#ifdef THREAD_SAFE
+#ifdef CARL_THREAD_SAFE
 		os << std::this_thread::get_id() << " ";
 #endif
 		os << level << " ";

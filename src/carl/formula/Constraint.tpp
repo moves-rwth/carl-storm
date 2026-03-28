@@ -8,7 +8,7 @@
  */
 
 #include "Constraint.h"
-#ifdef USE_GINAC
+#ifdef CARL_USE_GINAC
 #include "../converter/OldGinacConverter.h"
 #endif
 #include "ConstraintPool.h"

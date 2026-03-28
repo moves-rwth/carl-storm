@@ -5,7 +5,7 @@
 
 #define CARL_BUILD_${CMAKE_BUILD_TYPE}
 #cmakedefine CARL_LOGGING
-#cmakedefine LOGGING_DISABLE_INEFFICIENT
-#cmakedefine THREAD_SAFE
-#cmakedefine USE_BLISS
-#cmakedefine USE_COCOA
+#cmakedefine CARL_LOGGING_DISABLE_INEFFICIENT
+#cmakedefine CARL_THREAD_SAFE
+#cmakedefine CARL_USE_BLISS
+#cmakedefine CARL_USE_COCOA

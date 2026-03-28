@@ -42,8 +42,8 @@ endfunction(print_resource_info)
 ###############
 ##### Process resource dependencies
 ###############
-if(USE_GINAC)
-	set(USE_CLN_NUMBERS ON)
+if(CARL_USE_GINAC)
+	set(CARL_USE_CLN_NUMBERS ON)
 endif()
 
 ###############
@@ -67,8 +67,8 @@ include(resources/eigen.cmake)
 print_resource_info("Eigen" eigencarl ${CARL_EIGEN_GIT_TAG})
 
 ##### bliss
-if(USE_BLISS)
-	if(NOT FORCE_SHIPPED_RESOURCES)
+if(CARL_USE_BLISS)
+	if(NOT CARL_FORCE_SHIPPED_RESOURCES)
 		load_library(carl BLISS 0.73)
 	endif()
 	if(NOT BLISS_FOUND)
@@ -83,7 +83,7 @@ endif()
 ##### CLN
 set(HAVE_CLN FALSE)
 export_option(HAVE_CLN)
-if(USE_CLN_NUMBERS)
+if(CARL_USE_CLN_NUMBERS)
 	if(APPLE_SILICON)
 		load_library(carl CLN 1.3.7)
 	else()
@@ -99,12 +99,12 @@ if(USE_CLN_NUMBERS)
 else()
 	message(STATUS "carl - CLN is disabled")
 endif()
-set(USE_CLN_NUMBERS ${HAVE_CLN})
+set(CARL_USE_CLN_NUMBERS ${HAVE_CLN})
 
 
 ##### CoCoALib
-if(USE_COCOA)
-	if(NOT FORCE_SHIPPED_RESOURCES)
+if(CARL_USE_COCOA)
+	if(NOT CARL_FORCE_SHIPPED_RESOURCES)
 		load_library(carl CoCoA 0.99564)
 	endif()
 	if(NOT COCOA_FOUND)
@@ -121,7 +121,7 @@ endif()
 ##### GiNaC
 set(HAVE_GINAC FALSE)
 export_option(HAVE_GINAC)
-if(USE_GINAC AND HAVE_CLN)
+if(CARL_USE_GINAC AND HAVE_CLN)
 	load_library(carl GINAC 1.8)
 	if(GINAC_FOUND)
 		print_resource_info("GiNaC" GINAC_SHARED ${GINAC_VERSION})
@@ -132,7 +132,7 @@ if(USE_GINAC AND HAVE_CLN)
 else()
 	message(STATUS "carl - GiNaC is disabled")
 endif()
-set(USE_GINAC ${HAVE_GINAC})
+set(CARL_USE_GINAC ${HAVE_GINAC})
 
 ##### Threads
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
@@ -152,7 +152,7 @@ if(PROJECT_IS_TOP_LEVEL)
 endif()
 
 ##### MPFR
-IF(USE_MPFR_FLOAT)
+IF(CARL_USE_MPFR_FLOAT)
 	load_library(carl MPFR 0.0 REQUIRED)
 endif()
 

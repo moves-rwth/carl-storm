@@ -40,7 +40,7 @@ namespace carl {
 //#include "NumberMpz.h"
 
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 #include "adaption_cln/include.h"
 #include "adaption_cln/hash.h"
 #include "adaption_cln/operations.h"
@@ -49,14 +49,14 @@ namespace carl {
 //#include "NumberClI.h"
 #endif
 
-#ifdef USE_MPFR_FLOAT
+#ifdef CARL_USE_MPFR_FLOAT
 #include <mpfr.h>
 #endif
 
 #include "adaption_float/FLOAT_T.h"
 #include "adaption_float/typetraits.h"
 
-#ifdef USE_Z3_NUMBERS
+#ifdef CARL_USE_Z3_NUMBERS
 #include "adaption_z3/include.h"
 #include "adaption_z3/hash.h"
 #include "adaption_z3/operations.h"

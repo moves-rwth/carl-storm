@@ -10,7 +10,7 @@
 #include "../carl/interval/Interval.h"
 #include "../carl/numbers/numbers.h"
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 typedef cln::cl_RA Rational;
 typedef cln::cl_I Integer;
 #else
@@ -43,7 +43,7 @@ int main (int argc, char** argv)
 	Rational magCln = clnInterval.magnitude();
 	
 	std::cout << "Magnitudes: " << mag << " MPQ: " << mpqInterval << " -> "<< magMpq << " CLN:" << clnInterval << " -> " << magCln << std::endl;
-#ifdef USE_MPFR_FLOAT
+#ifdef CARL_USE_MPFR_FLOAT
 	carl::Interval<carl::FLOAT_T<mpfr_t>> mpfrInterval(carl::FLOAT_T<mpfr_t>(2.0));
 	
 	result = doubleInterval.log();

@@ -2,7 +2,7 @@
 
 #include "config.h"
 
-#ifdef USE_GINAC
+#ifdef CARL_USE_GINAC
 #include "ginac/ginac.h"
 #undef deprecated
 #endif

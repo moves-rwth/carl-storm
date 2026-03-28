@@ -13,7 +13,7 @@
 
 namespace carl {
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 
 
 		//constructs a/b:

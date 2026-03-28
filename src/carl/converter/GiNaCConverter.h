@@ -7,7 +7,7 @@
 
 #include "carl/numbers/numbers.h"
 #include "ginacAdapter.h"
-#ifdef USE_GINAC
+#ifdef CARL_USE_GINAC
 
 namespace carl {
 

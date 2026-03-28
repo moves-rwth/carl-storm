@@ -10,7 +10,7 @@
 
 namespace carl {
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 		Number<mpq_class>::Number(const Number<cln::cl_RA>& n) : Number(n.toString()) {} 
 		Number<mpq_class>::Number(const Number<cln::cl_I>& n) : Number(n.toString()) {} 
 #endif

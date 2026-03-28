@@ -2,7 +2,7 @@
 
 #include "../config.h"
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 
 #include "../parser/parser.h"
 #include "operations.h"

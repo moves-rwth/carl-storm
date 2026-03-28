@@ -43,7 +43,7 @@ private:
 	TAMId mNextId;
 	mutable std::mutex mMutex;
     
-    #ifdef THREAD_SAFE
+    #ifdef CARL_THREAD_SAFE
     #define TAM_LOCK_GUARD std::lock_guard<std::mutex> lock( mMutex );
     #define TAM_LOCK mMutex.lock();
     #define TAM_UNLOCK mMutex.unlock();

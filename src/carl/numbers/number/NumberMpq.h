@@ -5,7 +5,7 @@
 
 namespace carl {
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 	template<>
 	class Number<cln::cl_I> ;
 
@@ -45,7 +45,7 @@ namespace carl {
 		explicit Number(const Number<mpz_class>& n);
 		explicit Number(const mpz_class& n);
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 		explicit Number(const Number<cln::cl_RA>& n);
 		explicit Number(const Number<cln::cl_I>& n);
 #endif

@@ -37,7 +37,7 @@ WORKDIR /opt/carl/build
 
 # Configure Carl-storm
 RUN cmake -DCMAKE_BUILD_TYPE=$build_type \
-          -DPORTABLE=ON \
+          -DCARL_PORTABLE=ON \
           $cmake_args ..
 
 # Build Carl library

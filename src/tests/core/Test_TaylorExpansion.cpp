@@ -5,7 +5,7 @@
 
 using namespace carl;
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 
 TEST(TaylorExpansion, ideal_adic_coefficient) {
 

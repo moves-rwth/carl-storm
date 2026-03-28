@@ -51,20 +51,20 @@ MultivariatePolynomial<C,O,P> MultivariateGCD<GCDCalculation, C, O, P>::calculat
 	// And we check for linearly appearing variables. Notice that ay + b is irreducible and thus,
 	// gcd(p, ay + b) is either ay + b or 1.
 	using TypeSelector = carl::function_selector::NaryTypeSelector;
-#if defined USE_GINAC
+#if defined CARL_USE_GINAC
 using types = carl::function_selector::wrap_types<mpz_class,mpq_class,cln::cl_I,cln::cl_RA>;
 #else
 using types = carl::function_selector::wrap_types<mpz_class,mpq_class>;
 #endif
 auto s = carl::createFunctionSelector<TypeSelector, types>(
-#if defined USE_COCOA
+#if defined CARL_USE_COCOA
 	[](const auto& n1, const auto& n2){ CoCoAAdaptor<Polynomial> c({n1, n2}); return c.gcd(n1,n2); },
 	[](const auto& n1, const auto& n2){ CoCoAAdaptor<Polynomial> c({n1, n2}); return c.gcd(n1,n2); }
 #else
 	[this](const auto& n1, const auto& n2){ return this->customCalculation(n1,n2); },
 	[this](const auto& n1, const auto& n2){ return this->customCalculation(n1,n2); }
 #endif
-#if defined USE_GINAC
+#if defined CARL_USE_GINAC
 	,
 	[](const auto& n1, const auto& n2){ return ginacGcd<Polynomial>( n1, n2 ); },
 	[](const auto& n1, const auto& n2){ return ginacGcd<Polynomial>( n1, n2 ); }
@@ -127,7 +127,7 @@ template<typename C, typename O, typename P>
 MultivariatePolynomial<C,O,P> gcd(const MultivariatePolynomial<C,O,P>& a, const MultivariatePolynomial<C,O,P>& b)
 {
 	MultivariateGCD<PrimitiveEuclidean, C, O, P> gcd_calc(a,b);
-    #ifdef USE_GINAC
+    #ifdef CARL_USE_GINAC
     assert( gcd_calc.checkCorrectnessWithGinac() );
     #endif 
 	return gcd_calc.calculate();

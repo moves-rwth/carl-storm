@@ -18,20 +18,20 @@ MultivariatePolynomial<C,O,P> coprimePart(const MultivariatePolynomial<C,O,P>& p
 
 	using types = carl::function_selector::wrap_types<
 		mpz_class,mpq_class
-#if defined USE_GINAC
+#if defined CARL_USE_GINAC
 		,cln::cl_I,cln::cl_RA
 #endif
 	>;
 
 	auto s = carl::createFunctionSelector<TypeSelector, types>(
-	#if defined USE_COCOA
+	#if defined CARL_USE_COCOA
 		[](const auto& p, const auto& q){ CoCoAAdaptor<MultivariatePolynomial<C,O,P>> c({p, q}); return c.makeCoprimeWith(p, q); },
 		[](const auto& p, const auto& q){ CoCoAAdaptor<MultivariatePolynomial<C,O,P>> c({p, q}); return c.makeCoprimeWith(p, q); }
 	#else
 		[](const auto& p, const auto& ){ return p; },
 		[](const auto& p, const auto& ){ return p; }
 	#endif
-	#if defined USE_GINAC
+	#if defined CARL_USE_GINAC
 		,
 		[](const auto& p, const auto& ){ return p; },
 		[](const auto& p, const auto& ){ return p; }

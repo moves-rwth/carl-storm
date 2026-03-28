@@ -4,7 +4,7 @@
 
 namespace carl {
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 	Number<mpz_class>::Number(const Number<cln::cl_I>& n) : Number(n.toString()) {}
 #endif
 

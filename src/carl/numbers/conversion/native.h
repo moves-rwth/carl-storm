@@ -52,7 +52,7 @@ namespace carl {
     	return FLOAT_T<double>(n);
     }
 
-    #ifdef USE_MPFR_FLOAT
+    #ifdef CARL_USE_MPFR_FLOAT
     template<>
     inline double convert<FLOAT_T<mpfr_t>, double>(const FLOAT_T<mpfr_t>& n) {
     	return carl::toDouble(n);
@@ -64,7 +64,7 @@ namespace carl {
     }
     #endif
 
-    #ifdef USE_CLN_NUMBERS
+    #ifdef CARL_USE_CLN_NUMBERS
     template<>
     inline double convert<cln::cl_RA, double>(const cln::cl_RA& n) {
     	return carl::toDouble(n);

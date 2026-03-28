@@ -59,20 +59,20 @@ Factors<MultivariatePolynomial<C,O,P>> factorization(const MultivariatePolynomia
 
 	using types = carl::function_selector::wrap_types<
 		mpz_class,mpq_class
-#if defined USE_GINAC
+#if defined CARL_USE_GINAC
 		,cln::cl_I,cln::cl_RA
 #endif
 	>;
 
 	auto s = carl::createFunctionSelector<TypeSelector, types>(
-	#if defined USE_COCOA
+	#if defined CARL_USE_COCOA
 		[includeConstants](const auto& p){ CoCoAAdaptor<MultivariatePolynomial<C,O,P>> c({p}); return c.factorize(p, includeConstants); },
 		[includeConstants](const auto& p){ CoCoAAdaptor<MultivariatePolynomial<C,O,P>> c({p}); return c.factorize(p, includeConstants); }
 	#else
 		[includeConstants](const auto& p){ return helper::trivialFactorization(p); },
 		[includeConstants](const auto& p){ return helper::trivialFactorization(p); }
 	#endif
-	#if defined USE_GINAC
+	#if defined CARL_USE_GINAC
 		,
 		[includeConstants](const auto& p){ return ginacFactorization(p); },
 		[includeConstants](const auto& p){ return ginacFactorization(p); }

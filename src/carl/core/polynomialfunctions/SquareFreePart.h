@@ -17,20 +17,20 @@ MultivariatePolynomial<C,O,P> squareFreePart(const MultivariatePolynomial<C,O,P>
 
 	using types = carl::function_selector::wrap_types<
 		mpz_class,mpq_class
-#if defined USE_GINAC
+#if defined CARL_USE_GINAC
 		,cln::cl_I,cln::cl_RA
 #endif
 	>;
 
 	auto s = carl::createFunctionSelector<TypeSelector, types>(
-	#if defined USE_COCOA
+	#if defined CARL_USE_COCOA
 		[](const auto& p){ CoCoAAdaptor<MultivariatePolynomial<C,O,P>> c({p}); return c.squareFreePart(p); },
 		[](const auto& p){ CoCoAAdaptor<MultivariatePolynomial<C,O,P>> c({p}); return c.squareFreePart(p); }
 	#else
 		[](const auto& p){ return p; },
 		[](const auto& p){ return p; }
 	#endif
-	#if defined USE_GINAC
+	#if defined CARL_USE_GINAC
 		,
 		[](const auto& p){ return p; },
 		[](const auto& p){ return p; }

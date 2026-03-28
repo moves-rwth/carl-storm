@@ -22,7 +22,7 @@ struct ConstructorPrinter {
 		os << "/";
 		os << "mpq_class(" << carl::getDenom(n) << ")";
 	}
-	#ifdef USE_CLN_NUMBERS
+	#ifdef CARL_USE_CLN_NUMBERS
 	void operator()(std::ostream& os, const cln::cl_RA& n) {
 		os << "cln::cl_RA(" << carl::getNum(n) << ")";
 		os << "/";

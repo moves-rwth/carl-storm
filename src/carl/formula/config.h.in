@@ -3,5 +3,5 @@
  */ 
 #pragma once
 
-#cmakedefine LOGGING_DISABLE_INEFFICIENT
+#cmakedefine CARL_LOGGING_DISABLE_INEFFICIENT
 #cmakedefine VARIABLE_PASS_BY_VALUE

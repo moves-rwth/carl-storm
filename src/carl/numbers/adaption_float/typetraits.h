@@ -19,7 +19,7 @@ namespace carl
     template<typename F>
     struct IntegralType<carl::FLOAT_T<F> >
     {
-        #ifdef USE_CLN_NUMBERS
+        #ifdef CARL_USE_CLN_NUMBERS
         using type = cln::cl_I;
         #else
         using type = mpz_class;
@@ -34,7 +34,7 @@ namespace carl
     struct is_float<carl::FLOAT_T<C>> : std::true_type
     {};
 
-    #ifdef USE_MPFR_FLOAT
+    #ifdef CARL_USE_MPFR_FLOAT
     template<>
     struct is_float<mpfr_t> : std::true_type
     {};

@@ -1006,7 +1006,7 @@ namespace carl
 			return carl::rationalize<mpq_class>(mValue);
 		}
 
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 		explicit operator cln::cl_RA() const {
 			return carl::rationalize<cln::cl_RA>(mValue);
 		}
@@ -1543,7 +1543,7 @@ namespace carl
 		return FLOAT_T<mpq_class>(carl::rationalize<mpq_class>(n));
 	}
 
-	#ifdef USE_CLN_NUMBERS
+	#ifdef CARL_USE_CLN_NUMBERS
 
 	template<>
 	inline FLOAT_T<cln::cl_RA> rationalize<FLOAT_T<cln::cl_RA>>(double n)

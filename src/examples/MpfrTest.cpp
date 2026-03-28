@@ -9,7 +9,7 @@
 
 #include "../carl/numbers/numbers.h"
 
-#ifdef USE_MPFR_FLOAT
+#ifdef CARL_USE_MPFR_FLOAT
 
 void compare() {
 	mpfr_t a;
@@ -124,7 +124,7 @@ int main (int argc, char** argv)
 	mpz_get_str(outStr, 10,b);
 	std::cout << std::string(outStr) << std::endl;
 	*/
-#ifdef USE_MPFR_FLOAT
+#ifdef CARL_USE_MPFR_FLOAT
 	compare();
 #endif
 	return 0;

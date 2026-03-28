@@ -14,14 +14,14 @@ using Rational = mpq_class;
 //using Integer = mpz_class;
 
 using IntegerTypes = testing::Types<
-	#ifdef USE_CLN_NUMBERS
+	#ifdef CARL_USE_CLN_NUMBERS
 	cln::cl_I,
 	#endif
 	mpz_class
 >;
 
 using RationalTypes = testing::Types<
-	#ifdef USE_CLN_NUMBERS
+	#ifdef CARL_USE_CLN_NUMBERS
 	cln::cl_RA,
 	#endif
 	mpq_class
@@ -30,7 +30,7 @@ using RationalTypes = testing::Types<
 using NumberTypes = testing::Types<
 	mpz_class,
 	mpq_class,
-	#ifdef USE_CLN_NUMBERS
+	#ifdef CARL_USE_CLN_NUMBERS
 	cln::cl_I,
 	cln::cl_RA,
 	#endif
@@ -40,10 +40,10 @@ using NumberTypes = testing::Types<
 using IntervalTypes = testing::Types<
 	carl::Interval<mpz_class>,
 	carl::Interval<mpq_class>,
-	#ifdef USE_MPFR_FLOAT
+	#ifdef CARL_USE_MPFR_FLOAT
 	carl::Interval<carl::FLOAT_T<mpfr_t> >,
 	#endif
-	#ifdef USE_CLN_NUMBERS
+	#ifdef CARL_USE_CLN_NUMBERS
 	carl::Interval<cln::cl_I>,
 	carl::Interval<cln::cl_RA>,
 	#endif

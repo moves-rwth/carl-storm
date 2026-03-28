@@ -20,13 +20,13 @@ class IDGenerator {
 private:
 	std::size_t mNext = 1;
 	std::priority_queue<std::size_t> mFree;
-#ifdef THREAD_SAFE
+#ifdef CARL_THREAD_SAFE
 	mutable std::mutex mMutex;
 #endif
 public:
 	IDGenerator() = default;
 	std::size_t get() {
-#ifdef THREAD_SAFE
+#ifdef CARL_THREAD_SAFE
 		std::lock_guard<std::mutex> lock(mMutex);
 #endif
 		std::size_t res = mNext;
@@ -40,7 +40,7 @@ public:
 
 	void free(std::size_t id) {
 		assert(id > 0);
-#ifdef THREAD_SAFE
+#ifdef CARL_THREAD_SAFE
 		std::lock_guard<std::mutex> lock(mMutex);
 #endif
 		if (id == mNext-1) {
@@ -55,13 +55,13 @@ public:
 		}
 	}
 	std::size_t nextID() const {
-#ifdef THREAD_SAFE
+#ifdef CARL_THREAD_SAFE
 		std::lock_guard<std::mutex> lock(mMutex);
 #endif
 		return mNext;
 	}
 	void clear() {
-#ifdef THREAD_SAFE
+#ifdef CARL_THREAD_SAFE
 		std::lock_guard<std::mutex> lock(mMutex);
 #endif
 		mNext = 1;

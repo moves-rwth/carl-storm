@@ -36,7 +36,7 @@ private:
 	
 	void write(const mpz_class& n) { *this << carl::toString(n, false); }
 	void write(const mpq_class& n) { *this << carl::toString(n, false); }
-#ifdef USE_CLN_NUMBERS
+#ifdef CARL_USE_CLN_NUMBERS
 	void write(const cln::cl_I& n) { *this << carl::toString(n, false); }
 	void write(const cln::cl_RA& n) { *this << carl::toString(n, false); }
 #endif
