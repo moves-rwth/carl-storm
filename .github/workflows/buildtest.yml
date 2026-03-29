@@ -39,11 +39,11 @@ jobs:
              packages: "clang",
              distro: "archlinux"
             }
-          - { name: "muslc",
-              build_type: "Debug",
-              cmake_args: "-DCARL_WARNING_AS_ERROR=ON",
-              packages: "",
-              distro: "alpine"
+          - {name: "musl",
+             build_type: "Debug",
+             cmake_args: "-DCARL_WARNING_AS_ERROR=ON",
+             packages: "",
+             distro: "alpine"
             }
     steps:
       - name: Git clone
@@ -102,24 +102,24 @@ jobs:
     strategy:
       matrix:
         config:
-          - {name: "XCode 15.4, ARM",
+          - {name: "MacOS 14, ARM",
              distro: "macos-14",
              xcode: "15.4",
              build_type: "Debug"
             }
-          - {name: "XCode Latest, ARM",
+          - {name: "MacOS 15, ARM",
              distro: "macos-15",
-             xcode: "latest-stable",
+             xcode: "16.4",
              build_type: "Debug"
             }
-          - {name: "XCode Latest, Intel",
-             distro: "macos-15-intel",
-             xcode: "latest-stable",
-             build_type: "Debug"
-            }
-          - {name: "XCode 26, ARM",
+          - {name: "MacOS 26, ARM",
              distro: "macos-26",
-             xcode: "26",
+             xcode: "latest-stable",
+             build_type: "Debug"
+            }
+          - {name: "MacOS 26, Intel",
+             distro: "macos-26-intel",
+             xcode: "latest-stable",
              build_type: "Debug"
             }
     runs-on: ${{ matrix.config.distro }}
