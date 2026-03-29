@@ -10,7 +10,7 @@
 
 #define BOOST_SPIRIT_USE_PHOENIX_V3
 #include <boost/spirit/include/qi.hpp>
-#include <boost/spirit/include/phoenix.hpp>
+#include <boost/phoenix.hpp>
 
 #include "../../formula/Formula.h"
 #include "../../core/MonomialPool.h"
