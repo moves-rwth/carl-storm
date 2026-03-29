@@ -9,8 +9,10 @@
 #include <vector>
 
 #define BOOST_SPIRIT_USE_PHOENIX_V3
+CLANG_WARNING_DISABLE("-Wdeprecated-declarations")
 #include <boost/spirit/include/qi.hpp>
 #include <boost/phoenix.hpp>
+CLANG_WARNING_RESET
 
 #include "../../formula/Formula.h"
 #include "../../core/MonomialPool.h"
