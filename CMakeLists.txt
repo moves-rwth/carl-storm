@@ -197,12 +197,15 @@ endif()
 message(STATUS "carl - Build type: ${CMAKE_BUILD_TYPE}")
 
 
-foreach(p LIB BIN INCLUDE CMAKE)
-  set(var CARL_${p}_INSTALL_DIR)
-  if(NOT IS_ABSOLUTE "${${var}}")
-    set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
-  endif()
-endforeach()
+if(PROJECT_IS_TOP_LEVEL)
+  foreach(p LIB BIN INCLUDE CMAKE)
+    set(var CARL_${p}_INSTALL_DIR)
+    if(NOT IS_ABSOLUTE "${${var}}")
+      set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
+    endif()
+  endforeach()
+endif()
+
 
 # path to put in the executables after building.
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin CACHE PATH "Directory for built executables")
