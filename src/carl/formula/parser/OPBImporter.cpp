@@ -6,12 +6,14 @@
 #include <vector>
 
 #define BOOST_SPIRIT_USE_PHOENIX_V3
+CLANG_WARNING_DISABLE("-Wdeprecated-declarations")
 #include <boost/fusion/adapted/std_tuple.hpp>
 #include <boost/fusion/include/std_pair.hpp>
-#include <boost/spirit/include/phoenix.hpp>
+#include <boost/phoenix.hpp>
 #include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/qi_parse.hpp>
 #include <boost/spirit/include/support_line_pos_iterator.hpp>
+CLANG_WARNING_RESET
 
 namespace carl {
 	namespace spirit = boost::spirit;

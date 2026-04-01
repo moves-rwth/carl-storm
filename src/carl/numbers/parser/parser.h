@@ -3,11 +3,13 @@
 #include <boost/optional.hpp>
 
 #define BOOST_SPIRIT_USE_PHOENIX_V3
+CLANG_WARNING_DISABLE("-Wdeprecated-declarations")
 #include <boost/phoenix/bind.hpp>
 #include <boost/phoenix/core.hpp>
 #include <boost/phoenix/operator.hpp>
 #include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/qi_parse.hpp>
+CLANG_WARNING_RESET
 
 #include "../typetraits.h"
 

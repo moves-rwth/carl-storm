@@ -3,8 +3,10 @@
 #include "../../util/SFINAE.h"
 
 #define BOOST_SPIRIT_USE_PHOENIX_V3
+CLANG_WARNING_DISABLE("-Wdeprecated-declarations")
 #include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/support_line_pos_iterator.hpp>
+CLANG_WARNING_RESET
 
 namespace carl {
 namespace parser {
