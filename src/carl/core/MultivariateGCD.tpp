@@ -10,7 +10,7 @@
 #include "MultivariateGCD.h"
 
 #include "UnivariatePolynomial.h"
-
+#include "PrimitiveEuclideanAlgorithm.h"
 #include "MultivariatePolynomial.h"
 #include "VariablesInformation.h"
 
