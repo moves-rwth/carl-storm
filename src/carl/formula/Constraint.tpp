@@ -20,13 +20,13 @@ namespace carl
     template<typename Pol, EnableIf<needs_cache<Pol>>>
     Pol makePolynomial( typename Pol::PolyType&& _poly )
     {
-        return Pol( std::move(_poly), constraintPool<Pol>().pPolynomialCache() );
+        return Pol( std::move(_poly), ConstraintPool<Pol>::getInstance().pPolynomialCache() );
     }
 
     template<typename Pol, EnableIf<needs_cache<Pol>>>
     Pol makePolynomial( carl::Variable::Arg _var )
     {
-        return Pol( std::move(typename Pol::PolyType(_var)), constraintPool<Pol>().pPolynomialCache() );
+        return Pol( std::move(typename Pol::PolyType(_var)), ConstraintPool<Pol>::getInstance().pPolynomialCache() );
     }
     
     template<typename Pol>
