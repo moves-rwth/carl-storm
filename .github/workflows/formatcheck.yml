@@ -16,3 +16,4 @@ jobs:
         source: './src'
         clangFormatVersion: 20
         style: file
+        extensions: 'h,cpp,tpp'
