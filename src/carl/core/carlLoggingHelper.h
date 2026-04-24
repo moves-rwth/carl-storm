@@ -15,24 +15,24 @@ namespace carl {
  * @return Bit string representing a.
  */
 template<typename T>
-std::string binary(const T& a, const bool& spacing = true)
-{
-	std::stringstream ss;
-	const std::uint8_t* begin = reinterpret_cast<const std::uint8_t*>(&a); // NOLINT
-	const std::uint8_t* end = begin + sizeof(T);
-	while (begin != end) {
-		--end;
-		ss << std::bitset<8>(std::uint8_t(*end));
-		if (spacing && (begin != end)) ss << " ";
-	}
-	return ss.str();
+std::string binary(const T& a, const bool& spacing = true) {
+    std::stringstream ss;
+    const std::uint8_t* begin = reinterpret_cast<const std::uint8_t*>(&a);  // NOLINT
+    const std::uint8_t* end = begin + sizeof(T);
+    while (begin != end) {
+        --end;
+        ss << std::bitset<8>(std::uint8_t(*end));
+        if (spacing && (begin != end))
+            ss << " ";
+    }
+    return ss.str();
 }
 
 /**
  * Return the basename of a given filename.
  */
 inline std::string basename(const std::string& filename) {
-	return filename.substr(std::max(filename.rfind('/') + 1, filename.rfind('\\') + 1));
+    return filename.substr(std::max(filename.rfind('/') + 1, filename.rfind('\\') + 1));
 }
 
-}
+}  // namespace carl
