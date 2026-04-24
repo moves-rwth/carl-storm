@@ -74,6 +74,29 @@ cln::cl_RA scaleByPowerOfTwo(const cln::cl_RA& a, int exp) {
     return a;
 }
 
+std::pair<cln::cl_RA, cln::cl_RA> sqrt_safe(const cln::cl_I& num, const cln::cl_I& den) {
+    // Compute square roots for numerator and denominator individually
+    cln::cl_I root_num;
+    cln::cl_I root_den;
+    bool num_perfect_square = cln::isqrt(num, &root_num);
+    bool den_perfect_square = cln::isqrt(den, &root_den);
+
+    cln::cl_I lower = root_num;
+    if (den_perfect_square)
+        lower /= root_den;
+    else
+        lower /= root_den + 1;
+
+    cln::cl_I upper;
+    if (num_perfect_square)
+        upper = root_num;
+    else
+        upper = root_num + 1;
+    upper /= root_den;
+
+    return std::make_pair(lower, upper);
+}
+
 std::pair<cln::cl_RA, cln::cl_RA> sqrt_safe(const cln::cl_RA& a) {
     assert(a >= 0);
     cln::cl_RA exact_root;
@@ -81,29 +104,36 @@ std::pair<cln::cl_RA, cln::cl_RA> sqrt_safe(const cln::cl_RA& a) {
         // root can be computed exactly.
         return std::make_pair(exact_root, exact_root);
     } else {
-        auto factor = int(cln::integer_length(cln::denominator(a))) - int(cln::integer_length(cln::numerator(a)));
-        if (cln::oddp(factor))
-            factor += 1;
-        cln::cl_RA n = scaleByPowerOfTwo(a, factor);
-        double dn = toDouble(n);
-        cln::cl_RA nra = cln::rationalize(dn);
-        boost::numeric::interval<double> i;
-        if (nra > n) {
-            i.assign(toDouble(2 * n - nra), dn);
-            assert(2 * n - nra <= n);
-        } else {
-            i.assign(dn, toDouble(2 * n - nra));
-            assert(n <= 2 * n - nra);
-        }
-        i = boost::numeric::sqrt(i);
-        i.assign(std::nexttoward(i.lower(), -std::numeric_limits<double>::infinity()), std::nexttoward(i.upper(), std::numeric_limits<double>::infinity()));
-        factor = factor / 2;
-        cln::cl_RA lower = scaleByPowerOfTwo(cln::rationalize(i.lower()), -factor);
-        cln::cl_RA upper = scaleByPowerOfTwo(cln::rationalize(i.upper()), -factor);
-        assert(lower * lower <= a);
-        assert(a <= upper * upper);
-        return std::make_pair(lower, upper);
+        return sqrt_safe(cln::numerator(a), cln::denominator(a));
     }
+}
+
+std::pair<cln::cl_RA, cln::cl_RA> sqrt_precision(const cln::cl_RA& a, const cln::cl_RA& prec) {
+    assert(a >= 0);
+    assert(prec > 0);
+    assert(prec < 1);
+
+    // Start with sqrt_safe
+    auto res = sqrt_safe(a);
+    if (res.second - res.first <= prec * res.second) {
+        // Precision was achieved
+        return res;
+    }
+
+    // Precision was not achieved
+    // -> Manually scale numerator and denominator
+    // see doc/sqrt_proof.md for details on the scaling factor.
+    cln::cl_I num = cln::numerator(a);
+    cln::cl_I den = cln::denominator(a);
+    assert(num >= 1);
+    assert(den >= 1);
+    // Scale with 2/precision^2 (1/numerator + 1/denominator)
+    cln::cl_RA scale = cln::cl_RA(2) * (cln::cl_RA(1) / num + cln::cl_RA(1) / den) / pow(prec, 2);
+    assert(ceil(scale) > 1);
+    // Compute sqrt once again but with scaled numbers
+    res = sqrt_safe(num * ceil(scale), den * ceil(scale));
+    assert(res.second - res.first <= prec * res.second);
+    return res;
 }
 
 std::pair<cln::cl_RA, cln::cl_RA> sqrt_fast(const cln::cl_RA& a) {
