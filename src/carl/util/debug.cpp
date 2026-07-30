@@ -35,8 +35,7 @@ void printStacktrace(bool interaction) {
     cmd << "gdb --pid=" << getpid() << " -ex bt";
     if (!interaction)
         cmd << " --batch --quiet";
-    int res = system(cmd.str().c_str());  // NOLINT
-    (void)res;                            // ignore.
+    (void)system(cmd.str().c_str());
 }
 
 std::string demangle(const char* name) {
