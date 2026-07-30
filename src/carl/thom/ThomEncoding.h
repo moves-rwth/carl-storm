@@ -210,15 +210,15 @@ class ThomEncoding {
             }
             std::shared_ptr<ThomEncoding<Number>> result_ptr = std::make_shared<ThomEncoding<Number>>(result);
             std::list<ThomEncoding<Number>> roots = realRootsThom(itEncoding->polynomial(), itEncoding->mainVar(), result_ptr);
-            bool succes = false;
+            [[maybe_unused]] bool success = false;
             for (const auto& r : roots) {
                 if (r.accumulateRelevantSigns().isSuffixOf(signCondition)) {
                     result = r;
-                    succes = true;
+                    success = true;
                     break;
                 }
             }
-            CARL_LOG_ASSERT("carl.thom", succes, "");
+            CARL_LOG_ASSERT("carl.thom", success, "");
         }
         CARL_LOG_TRACE("carl.thom", "result of concat: " << result);
         return result;

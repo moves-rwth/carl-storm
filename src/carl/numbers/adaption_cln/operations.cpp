@@ -137,7 +137,7 @@ cln::cl_RA rationalize<cln::cl_RA>(const std::string& n) {
 template<>
 cln::cl_I parse<cln::cl_I>(const std::string& n) {
     cln::cl_I res;
-    bool success = parser::parseDecimal(n, res);
+    [[maybe_unused]] bool success = parser::parseDecimal(n, res);
     assert(success);
     return res;
 }
@@ -150,7 +150,7 @@ bool try_parse<cln::cl_I>(const std::string& n, cln::cl_I& res) {
 template<>
 cln::cl_RA parse<cln::cl_RA>(const std::string& n) {
     cln::cl_RA res;
-    bool success = parser::parseRational(n, res);
+    [[maybe_unused]] bool success = parser::parseRational(n, res);
     assert(success);
     return res;
 }

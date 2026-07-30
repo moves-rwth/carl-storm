@@ -203,7 +203,7 @@ std::list<UnivariatePolynomial<Coeff>> subresultants(const UnivariatePolynomial<
                  * If it was successful, the resulting term is safely added to the list, yielding an optimized resultant.
                  */
                 UnivariatePolynomial<Coeff> reducedNewB = p.prem(-q);
-                bool r = reducedNewB.divideBy(subresLcoeff.pow(delta) * p.lcoeff(), q);
+                [[maybe_unused]] bool r = reducedNewB.divideBy(subresLcoeff.pow(delta) * p.lcoeff(), q);
                 assert(r);
                 break;
             }
@@ -223,7 +223,7 @@ std::list<UnivariatePolynomial<Coeff>> subresultants(const UnivariatePolynomial<
                 for (uint d = qDeg + 1; d < pDeg; d++) {
                     Coeff t = h[d - 1] * variable;
                     UnivariatePolynomial<Coeff> reducedNewB = t.toUnivariatePolynomial(variable).coefficients()[qDeg] * q;
-                    bool res = reducedNewB.divideBy(lcoeffQ, reducedNewB);
+                    [[maybe_unused]] bool res = reducedNewB.divideBy(lcoeffQ, reducedNewB);
                     assert(res || reducedNewB.isConstant());
                     h[d] = Coeff(t - reducedNewB);
                 }
@@ -233,7 +233,7 @@ std::list<UnivariatePolynomial<Coeff>> subresultants(const UnivariatePolynomial<
                     sum += h[d] * p.coefficients()[d];
                 }
                 UnivariatePolynomial<Coeff> normalizedSum(p.mainVar());
-                bool res = sum.divideBy(p.lcoeff(), normalizedSum);
+                [[maybe_unused]] bool res = sum.divideBy(p.lcoeff(), normalizedSum);
                 assert(res || sum.isConstant());
 
                 UnivariatePolynomial<Coeff> t(variable, {0, h.back()});
@@ -288,7 +288,7 @@ UnivariatePolynomial<Coeff> discriminant(const UnivariatePolynomial<Coeff>& p, S
     uint d = p.degree();
     Coeff sign = ((d * (d - 1) / 2) % 2 == 0) ? Coeff(1) : Coeff(-1);
     Coeff redCoeff = sign * p.lcoeff();
-    bool result = res.divideBy(redCoeff, res);
+    [[maybe_unused]] bool result = res.divideBy(redCoeff, res);
     assert(result);
     CARL_LOG_TRACE("carl.cad", "discriminant(" << p << ") = " << res);
     return res;
@@ -347,7 +347,7 @@ UnivariatePolynomial<Coeff> resultant_z3(const UnivariatePolynomial<Coeff>& p, c
     Coeff g(1);
     Coeff h(1);
     Coeff new_h;
-    bool div_res = false;
+    [[maybe_unused]] bool div_res = false;
 
     while (true) {
         // std::cout << "Loop " << A << ", " << B << std::endl;

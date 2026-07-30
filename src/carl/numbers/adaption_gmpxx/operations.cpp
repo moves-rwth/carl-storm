@@ -149,7 +149,7 @@ mpq_class rationalize<mpq_class>(const std::string& n) {
 template<>
 mpz_class parse<mpz_class>(const std::string& n) {
     mpz_class res;
-    bool success = parser::parseDecimal(n, res);
+    [[maybe_unused]] bool success = parser::parseDecimal(n, res);
     assert(success);
     return res;
 }
@@ -162,7 +162,7 @@ bool try_parse<mpz_class>(const std::string& n, mpz_class& res) {
 template<>
 mpq_class parse<mpq_class>(const std::string& n) {
     mpq_class res;
-    bool success = parser::parseRational(n, res);
+    [[maybe_unused]] bool success = parser::parseRational(n, res);
     assert(success);
     return res;
 }

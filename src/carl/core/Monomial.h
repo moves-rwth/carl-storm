@@ -537,9 +537,8 @@ class Monomial final {
      */
     static Monomial::Arg calcLcmAndDivideBy(const Monomial::Arg& lhs, const Monomial::Arg& rhs) {
         Monomial::Arg res;
-        bool works = lcm(lhs, rhs)->divide(rhs, res);
+        [[maybe_unused]] bool works = lcm(lhs, rhs)->divide(rhs, res);
         assert(works);
-        (void)works;
         return res;
     }
 
