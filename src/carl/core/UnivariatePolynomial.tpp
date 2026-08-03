@@ -1213,16 +1213,13 @@ template<typename Coeff>
 std::map<uint, UnivariatePolynomial<Coeff>> UnivariatePolynomial<Coeff>::squareFreeFactorization() const {
     CARL_LOG_TRACE("carl.core.upoly", "UnivSSF: " << *this);
     std::map<uint, UnivariatePolynomial<Coeff>> result;
-    CLANG_WARNING_DISABLE("-Wtautological-compare")
     assert(!isZero());  // TODO what if zero?
     // degree() >= characteristic<Coeff>::value throws a warning in clang...
-    if (characteristic<Coeff>::value != 0 && degree() >= characteristic<Coeff>::value)
-        CLANG_WARNING_RESET {
-            CARL_LOG_TRACE("carl.core.upoly", "UnivSSF: degree greater than characteristic!");
-            result.emplace(1, *this);
-            CARL_LOG_TRACE("carl.core.upoly", "UnivSSF: add the factor (" << *this << ")^1");
-        }
-    else {
+    if (characteristic<Coeff>::value != 0 && degree() >= characteristic<Coeff>::value) {
+        CARL_LOG_TRACE("carl.core.upoly", "UnivSSF: degree greater than characteristic!");
+        result.emplace(1, *this);
+        CARL_LOG_TRACE("carl.core.upoly", "UnivSSF: add the factor (" << *this << ")^1");
+    } else {
         assert(!isConstant());  // Othewise, the derivative is zero and the next assertion is thrown.
         UnivariatePolynomial<Coeff> b = this->derivative();
         CARL_LOG_TRACE("carl.core.upoly", "UnivSSF: b = " << b);
