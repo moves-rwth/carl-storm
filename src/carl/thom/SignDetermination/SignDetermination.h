@@ -11,8 +11,11 @@
 #include "../TarskiQuery/TarskiQueryManager.h"
 #include "SignCondition.h"
 
+CLANG_WARNING_DISABLE("-Walloca")
+CLANG_WARNING_DISABLE("-Wextra-semi-stmt")
 #include <Eigen/Core>
 #include <Eigen/LU>
+CLANG_WARNING_RESET
 #include <cmath>
 #include <iterator>
 #include <list>
