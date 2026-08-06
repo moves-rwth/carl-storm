@@ -79,7 +79,6 @@ class BaseNumber {
 
     bool operator<(const BaseNumber<T, N>& rhs) const {
         return this->mData < rhs.mData;
-        ;
     }
 
     bool operator<=(const BaseNumber<T, N>& rhs) const {

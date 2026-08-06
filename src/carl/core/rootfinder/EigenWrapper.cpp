@@ -1,7 +1,12 @@
 #include "EigenWrapper.h"
 
+#include "carl/util/platform.h"
+
+CLANG_WARNING_DISABLE("-Walloca")
+CLANG_WARNING_DISABLE("-Wextra-semi-stmt")
 #include <Eigen/Dense>
 #include <Eigen/Eigenvalues>
+CLANG_WARNING_RESET
 
 #include <vector>
 #include "../../numbers/numbers.h"

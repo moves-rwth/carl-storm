@@ -7,7 +7,13 @@
 
 #pragma once
 
+CLANG_WARNING_DISABLE("-Walloca")
+CLANG_WARNING_DISABLE("-Wextra-semi-stmt")
+CLANG_WARNING_DISABLE("-Wdeprecated-redundant-constexpr-static-def")
+CLANG_WARNING_DISABLE("-Wused-but-marked-unused")
+CLANG_WARNING_DISABLE("-Wzero-as-null-pointer-constant")
 #include <Eigen/Core>
+CLANG_WARNING_RESET
 #include <cmath>
 #include <vector>
 

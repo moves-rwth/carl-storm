@@ -2,7 +2,7 @@
 add_custom_target(all-tests)
 
 add_library(TestCommon STATIC Common.cpp)
-target_link_libraries(TestCommon lib_carl ${GTEST_LIBRARIES})
+target_link_libraries(TestCommon PUBLIC lib_carl ${GTEST_LIBRARIES} INTERFACE carl_storm_compiler_warnings)
 add_dependencies(TestCommon carl_resources lib_carl GTest::gtest_main)
 
 ################################

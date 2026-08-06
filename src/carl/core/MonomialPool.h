@@ -115,7 +115,7 @@ class __attribute__((visibility("default"))) MonomialPool : public Singleton<Mon
             return;
         if (m->id() == 0)
             return;
-        MONOMIAL_POOL_LOCK_GUARD;
+        MONOMIAL_POOL_LOCK_GUARD
         PoolEntry pe(m->mHash, m->mExponents);
         auto it = mPool.find(pe);
         if (it != mPool.end()) {

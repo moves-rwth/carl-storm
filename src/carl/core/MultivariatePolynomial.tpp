@@ -1001,7 +1001,7 @@ SubstitutionType MultivariatePolynomial<Coeff, Ordering, Policies>::evaluate(con
             result += mTerms[i].evaluate(substitutions);
         }
         return result;
-    };
+    }
 }
 
 template<typename Coeff, typename Ordering, typename Policies>

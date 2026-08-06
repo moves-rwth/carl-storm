@@ -342,16 +342,22 @@ class FormulaContent {
             }
 #endif
             case FormulaType::IMPLIES:
-            case FormulaType::AND:;
-            case FormulaType::OR:;
-            case FormulaType::XOR:;
-            case FormulaType::IFF:;
+                [[fallthrough]];
+            case FormulaType::AND:
+                [[fallthrough]];
+            case FormulaType::OR:
+                [[fallthrough]];
+            case FormulaType::XOR:
+                [[fallthrough]];
+            case FormulaType::IFF:
+                [[fallthrough]];
 #ifdef __VS
             case FormulaType::ITE: {
                 mpSubformulasVS->~vector();
                 break;
             }
-            case FormulaType::EXISTS:;
+            case FormulaType::EXISTS:
+                [[fallthrough]];
             case FormulaType::FORALL: {
                 mpQuantifierContentVS->~QuantifierContent();
                 break;
@@ -377,7 +383,8 @@ class FormulaContent {
                 mSubformulas.~vector();
                 break;
             }
-            case FormulaType::EXISTS:;
+            case FormulaType::EXISTS:
+                [[fallthrough]];
             case FormulaType::FORALL: {
                 mQuantifierContent.~QuantifierContent();
                 break;
