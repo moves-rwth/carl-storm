@@ -1,14 +1,18 @@
 Changelog
 ==============
 
+## Version 14.36 (2026/08)
+- Requires CMake version >= 3.25.
+- Fixed a number of compiler warnings.
+
 ## Version 14.35 (2026/05)
-- Repository moved to stormchecker/carl-storm
-- All CMake options start with `CARL_X`
-- Added CMake option `CARL_BUILD_TESTS` and removed `CARL_EXCLUDE_TESTS_FROM_ALL`
-- Removed unused code: addons, examples, CMakeOptions.cpp/h
-- Only set absolute installation path when top-level project
-- Fixed some compiler warnings
-- Enabled automatic code formatting
+- Repository moved to stormchecker/carl-storm.
+- All CMake options start with `CARL_X`.
+- Added CMake option `CARL_BUILD_TESTS` and removed `CARL_EXCLUDE_TESTS_FROM_ALL`.
+- Removed unused code: addons, examples, CMakeOptions.cpp/h.
+- Only set absolute installation path when top-level project.
+- Fixed some compiler warnings.
+- Enabled automatic code formatting.
 
 ## Version 14.34 (2026/02)
 - Introduce CMake argument `CARL_EIGEN_GIT_TAG` to set Eigen version.
