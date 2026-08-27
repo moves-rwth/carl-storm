@@ -434,6 +434,11 @@ cln::cl_RA sqrt(const cln::cl_RA& a);
 std::pair<cln::cl_RA, cln::cl_RA> sqrt_safe(const cln::cl_RA& a);
 
 /**
+ * Calculate the square root of fraction such that the resulting upper and lower bounds have at most prec difference.
+ */
+std::pair<cln::cl_RA, cln::cl_RA> sqrt_precision(const cln::cl_RA& a, const cln::cl_RA& prec);
+
+/**
  * Compute square root in a fast but less precise way.
  * Use cln::sqrt() to obtain an approximation. If the result is rational, i.e. the result is exact, use this result.
  * Otherwise use the nearest integers as bounds on the square root.

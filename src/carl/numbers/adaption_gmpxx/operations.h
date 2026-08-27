@@ -421,6 +421,11 @@ mpq_class sqrt(const mpq_class& a);
 std::pair<mpq_class, mpq_class> sqrt_safe(const mpq_class& a);
 
 /**
+ * Calculate the square root of fraction such that the resulting upper and lower bounds have at most prec difference.
+ */
+std::pair<mpq_class, mpq_class> sqrt_precision(const mpq_class& a, const mpq_class& prec);
+
+/**
  * Calculate the nth root of a fraction.
  * The precise result is contained in the resulting interval.
  */
